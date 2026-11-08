@@ -1,5 +1,6 @@
 // DROM · notificações push (GitHub Action). Uso: DROM_PIN=x node tools/notify.mjs maneira
 import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";
+if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN (Settings → Secrets and variables → Actions).");process.exit(1)}
 const require=createRequire(import.meta.url),app=process.argv[2],P=f=>path.join(app,f);
 const {dromDiff,dromStart}=require(path.resolve(app,"diff.js"));
 const D=JSON.parse(fs.readFileSync(P("d.json"))),salt=Buffer.from(D.salt,"base64");
