@@ -1,0 +1,27 @@
+name: notificações
+on:
+  push:
+    paths: ["maneira/d.json","maneira/subs.json"]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: notify
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Sao_Paulo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --prefix tools --no-audit --no-fund
+      - run: NODE_PATH=tools/node_modules node tools/notify.mjs maneira
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}
+      - run: |
+          git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
+          git add maneira/st.json maneira/subs.json
+          git diff --cached --quiet || (git commit -m "estado das notificações" && git pull --rebase && git push)
