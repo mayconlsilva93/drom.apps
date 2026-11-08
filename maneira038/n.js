@@ -19,14 +19,18 @@ function fd(ts){var d=new Date(ts);return String(d.getDate()).padStart(2,"0")+"/
 function pushOk(){return "serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window}
 function draw(){pn.innerHTML='<div class="nh"><b>Notificações</b><button class="nx" aria-label="Fechar">✕</button></div>'+
  (log.length?log.map(x=>'<div class="ni'+(x.r?"":" nu")+'"><b>'+esc(x.t)+"</b><span>"+esc(x.b)+"</span><em>"+fd(x.ts)+"</em></div>").join(""):'<p class="ne">Nenhuma notificação ainda.</p>')+
- '<div class="nf">'+(pushOk()?(Notification.permission==="granted"?'<button class="np">Código das notificações no celular</button>':'<button class="np">Ativar notificações no celular</button>'):'<p class="ne">Para receber notificações no celular, adicione este app à tela de início (Safari: Compartilhar → Adicionar à Tela de Início) e abra por lá.</p>')+
+ '<div class="nf">'+(pushOk()?(Notification.permission==="granted"&&ls.g("subok")?'<p class="ne">✓ Notificações ativadas neste aparelho.</p><button class="np">Ativar de novo</button>':'<button class="np">Ativar notificações no celular</button>'):'<p class="ne">Para receber notificações no celular, adicione este app à tela de início (Safari: Compartilhar → Adicionar à Tela de Início) e abra por lá.</p>')+
  (window.DROMUPD?'<p class="ne">Dados atualizados em '+window.DROMUPD+"</p>":"")+"</div>";
  pn.querySelector(".nx").onclick=()=>{pn.hidden=true};var np=pn.querySelector(".np");if(np)np.onclick=sub}
 function u8(b){var p="=".repeat((4-b.length%4)%4),r=atob((b+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(r,c=>c.charCodeAt(0))}
 async function sub(){var nf=pn.querySelector(".nf");try{
  if(await Notification.requestPermission()!=="granted"){nf.insertAdjacentHTML("beforeend",'<p class="ne">Permissão negada. Libere as notificações nas configurações do navegador.</p>');return}
  var reg=await navigator.serviceWorker.ready,s=await reg.pushManager.getSubscription()||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
- var code="DROM-MANEIRA:"+btoa(JSON.stringify(s));
+ var sj=JSON.stringify(s);
+ if(window.DROMDATA._tk&&window.DROMKEY){try{var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},window.DROMKEY,new TextEncoder().encode(sj))),b6=u=>btoa(String.fromCharCode.apply(null,u));
+  var r=await fetch("https://api.github.com/repos/mayconlsilva93/drom.apps/issues",{method:"POST",headers:{"Authorization":"Bearer "+window.DROMDATA._tk,"Accept":"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify({title:"sub "+location.pathname.split("/").filter(Boolean).pop(),body:JSON.stringify({iv:b6(iv),ct:b6(ct)})})});
+  if(r.ok){ls.s("subok",s.endpoint);nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em alguns minutos.</p>';return}}catch(e){}}
+ var code="DROM-MANEIRA:"+btoa(sj);
  nf.innerHTML='<p class="ne">Último passo: envie este código para a DROM (uma vez por aparelho).</p><textarea readonly class="nc">'+code+'</textarea><button class="np" id="nsh">'+(navigator.share?"Enviar código":"Copiar código")+"</button>";
  document.getElementById("nsh").onclick=async()=>{try{if(navigator.share)await navigator.share({text:code});else{await navigator.clipboard.writeText(code);document.getElementById("nsh").textContent="Copiado ✓"}}catch(e){}};
  }catch(e){nf.insertAdjacentHTML("beforeend",'<p class="ne">Não foi possível ativar: '+(e.message||e)+"</p>")}}
