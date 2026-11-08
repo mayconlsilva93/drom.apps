@@ -20,10 +20,20 @@ jobs:
           TITLE: ${{ github.event.issue.title }}
           BODY: ${{ github.event.issue.body }}
         run: |
+          exec > >(tee /tmp/log) 2>&1
+          set -x
           APP="${TITLE#sub }"; printf '%s' "$BODY" > /tmp/b.json
           node tools/addsub.mjs "$APP" /tmp/b.json
           git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
-          git add "$APP/subs.json"; git diff --cached --quiet || (git commit -m "novo aparelho ($APP)" && git pull --rebase && git push)
+          git add "$APP/subs.json"
+          git diff --cached --quiet || git commit -m "novo aparelho ($APP)"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: registrar erro
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tail -c 1500 /tmp/log | sed 's/^/    /' > /tmp/c.txt; gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} -F /tmp/c.txt || true
       - name: fechar aviso
         if: always()
         env:
