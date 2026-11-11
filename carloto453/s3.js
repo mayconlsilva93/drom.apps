@@ -1,3 +1,4 @@
+try{history.scrollRestoration="manual"}catch(e){}
 
 var NAME="Carloto",AD={"Life Club Floripa": "SC-401, 14525 - Vargem Pequena, Florianópolis - SC, 88050-000", "Coffeeshop Floripa": "R. Manoel Severino de Oliveira, 592 - Lagoa da Conceição, Florianópolis - SC, 88062-120", "Desgosto Bar": "Rua Padre Roma, 174 - Centro, Florianópolis - SC, 88010-090", "No Class": "R. Victor Meirelles, 184 - Centro, Florianópolis - SC, 88010-440", "Zouk": "R. Carlos Rischbieter, 950 - Boa Vista, Blumenau - SC, 89012-201", "Sina Bar": "R. Henrique Vera do Nascimento, 208 - Lagoa da Conceição, Florianópolis - SC, 88062-020", "Hotel Ilha Sul": "R. Vasco de Oliveira Gondin, 589 - Canasvieiras, Florianópolis - SC, 88054-110", "Angra Bar & Restaurante": "R. Gaspar Neves, 240 - Centro Histórico, São José - SC, 88103-250"},
 // [dia, evento, local, cidade, início, duração(min), equip., rider, hosp., produção, contratante, tel, obs, contrato S/N/P, nº proposta, cachê, custos (null = não lançados), comissão, recebido (null = a realizar, "" = aguardando, "pago" ou data), mês, comissão acertada (1/0/null)]
@@ -82,7 +83,7 @@ function draw(){
  else h=chart(15,"Faturamento")+chart(17,"Comissão");
  $("app").innerHTML=h}
 document.addEventListener("click",e=>{var t=e.target.closest("[data-t],[data-f],[data-d],[data-v],.hd");if(!t)return;
- if(t.dataset.t)tab=t.dataset.t;else if(t.dataset.f)flt=t.dataset.f;else if(t.dataset.v){view=t.dataset.v;selD=null}else if(t.dataset.d){var p=t.dataset.d.split("-");selD=[+p[0],+p[1]]}else{t.parentNode.classList.toggle("open");return}
+ if(t.dataset.t){tab=t.dataset.t;setTimeout(()=>scrollTo(0,0),0)}else if(t.dataset.f)flt=t.dataset.f;else if(t.dataset.v){view=t.dataset.v;selD=null}else if(t.dataset.d){var p=t.dataset.d.split("-");selD=[+p[0],+p[1]]}else{t.parentNode.classList.toggle("open");return}
  draw()});
 var DM=S.map(s=>s[19]).concat(BK.map(z=>z[0]),OT.map(o=>o[0])),LO=Math.min.apply(null,DM),HI=Math.max.apply(null,DM);
 var MQ=window.matchMedia("(max-width:600px)");function fms(){var v=$("ms").value;$("ms").innerHTML=MN.map((n,i)=>{var m=i+1,c=S.filter(s=>s[19]===m).length;return m>=LO&&m<=HI?'<option value="'+m+'">'+(MQ.matches?n.replace(/^(\S{3})\S*/,"$1"):n)+(c?" ("+c+")":"")+"</option>":""}).join("");if(v)$("ms").value=v}fms();MQ.addEventListener&&MQ.addEventListener("change",fms);
