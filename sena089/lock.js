@@ -1,0 +1,27 @@
+/* DROM · PIN semanal + dados criptografados (AES-GCM, chave PBKDF2 do PIN) */
+(function(){
+var WEEK=7*864e5,lk=document.getElementById("lk"),inp=document.getElementById("pin"),msg=document.getElementById("lkm"),D=null;
+var b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+function db(){return new Promise((ok,er)=>{var r=indexedDB.open("drom",1);r.onupgradeneeded=()=>r.result.createObjectStore("k");r.onsuccess=()=>ok(r.result);r.onerror=()=>er(r.error)})}
+async function kget(){try{var d=await db();return await new Promise(ok=>{var q=d.transaction("k").objectStore("k").get("sena");q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function kput(v){try{var d=await db();d.transaction("k","readwrite").objectStore("k").put(v,"sena")}catch(e){}}
+async function kdel(){try{var d=await db();d.transaction("k","readwrite").objectStore("k").delete("sena")}catch(e){}}
+async function derive(pin,salt){var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveKey"]);
+ return crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(salt),iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["decrypt","encrypt"])}
+async function dec(key){var t=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(D.iv)},key,b64(D.ct));return JSON.parse(new TextDecoder().decode(t))}
+async function load(){var r=await fetch("d.json",{cache:"no-store"});if(!r.ok)throw new Error("d.json");D=await r.json()}
+function go(data){window.DROMDATA=data;window.DROMUPD=D.up||"";lk.remove();document.body.classList.remove("locked");
+ ["s2.js","s3.js","s4.js","diff.js","n.js"].reduce((p,f)=>p.then(()=>new Promise(ok=>{var s=document.createElement("script");s.src=f;s.onload=s.onerror=ok;document.body.appendChild(s)})),Promise.resolve())}
+async function start(){
+ try{await load()}catch(e){msg.textContent="Sem conexão. Tente de novo.";return}
+ var st=await kget();
+ if(st&&st.v===2&&st.salt===D.salt&&Date.now()-st.ts<WEEK){try{var dd=await dec(st.key);window.DROMKEY=st.key;go(dd);return}catch(e){}}
+ if(st)await kdel();
+ lk.hidden=false;inp.focus();
+}
+document.getElementById("lkf").onsubmit=async function(e){e.preventDefault();var pin=inp.value.trim();if(!pin)return;msg.textContent="Verificando…";
+ try{var key=await derive(pin,D.salt),data=await dec(key);await kput({key:key,salt:D.salt,ts:Date.now(),v:2});window.DROMKEY=key;go(data)}
+ catch(er){msg.textContent="PIN incorreto.";inp.value="";inp.focus()}};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+start();
+})();

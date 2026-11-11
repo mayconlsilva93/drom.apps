@@ -1,7 +1,7 @@
 name: notificações
 on:
   push:
-    paths: ["maneira038/d.json","maneira038/subs.json"]
+    paths: ["*/d.json","*/subs.json"]
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
@@ -18,10 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm install --prefix tools --no-audit --no-fund
-      - run: NODE_PATH=tools/node_modules node tools/notify.mjs maneira038
+      - run: for a in */d.json; do NODE_PATH=tools/node_modules node tools/notify.mjs "${a%/d.json}" || true; done
         env:
           DROM_PIN: ${{ secrets.DROM_PIN }}
       - run: |
           git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
-          git add maneira038/st.json maneira038/subs.json
+          for f in */st.json */subs.json; do [ -f "$f" ] && git add "$f"; done
           git diff --cached --quiet || (git commit -m "estado das notificações" && git pull --rebase && git push)

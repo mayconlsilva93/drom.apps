@@ -21,7 +21,7 @@ jobs:
       - run: |
           M="${{ github.event.inputs.modo }}"
           if [ -z "$M" ]; then if [ "${{ github.event.schedule }}" = "50 23 * * 3" ]; then M=semana; else M=hoje; fi; fi
-          NODE_PATH=tools/node_modules node tools/agenda.mjs maneira038 "$M"
+          for a in */d.json; do NODE_PATH=tools/node_modules node tools/agenda.mjs "${a%/d.json}" "$M" & done; wait
         env:
           DROM_PIN: ${{ secrets.DROM_PIN }}
           FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}

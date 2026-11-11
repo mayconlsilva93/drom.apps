@@ -1,11 +1,11 @@
 /* DROM · diferenças entre duas versões da agenda (usado no app e na Action de notificações) */
-/* formato padrão: "Sex 13/11 00:00 ● Evento (Local) ● Cidade/UF" */
+/* formato padrão: "Sex 13/11 00:00 • Evento (Local) • Cidade/UF" */
 var DW=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],DP=n=>String(n).padStart(2,"0");
 function dromDia(s,B){var d=new Date(B,s[19]-1,s[0]);return DW[d.getDay()]+" "+DP(d.getDate())+"/"+DP(d.getMonth()+1)}
 function dromNome(s){return s[1]?(s[2]&&s[2]!==s[1]?s[1]+" ("+s[2]+")":s[1]):(s[2]||"")}
 function dromIni(s){var m=/^(\d\d):(\d\d)/.exec(s[4]||"");return m?m[0]:""}
 function dromFaixa(s){var i=dromIni(s);if(!i)return"horário a definir";if(!s[5])return i;var t=(+i.slice(0,2))*60+(+i.slice(3))+s[5];t%=1440;return i+"-"+DP(Math.floor(t/60))+":"+DP(t%60)}
-function dromLn(s,B,o){o=o||{};var a=o.faixa?dromFaixa(s):(o.dia===false?"":dromDia(s,B)+(o.hora&&dromIni(s)?" "+dromIni(s):""));return[a,dromNome(s),s[3]].filter(Boolean).join(" ● ")}
+function dromLn(s,B,o){o=o||{};var a=o.faixa?dromFaixa(s):(o.dia===false?"":dromDia(s,B)+(o.hora&&dromIni(s)?" "+dromIni(s):""));return[a,dromNome(s),s[3]].filter(Boolean).join(" • ")}
 function dromBRL(v){return"R$ "+Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".")}
 function dromDiff(A,Bn,B){
   var M=a=>{var m={};(a||[]).forEach(s=>{m[s[14]]=s});return m};
