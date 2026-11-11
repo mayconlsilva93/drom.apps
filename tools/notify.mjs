@@ -1,5 +1,5 @@
 // DROM · notificações push (GitHub Action). Uso: DROM_PIN=x node tools/notify.mjs maneira
-import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";
+import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";import {pull} from "./subpull.mjs";
 if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN (Settings → Secrets and variables → Actions).");process.exit(1)}
 const require=createRequire(import.meta.url),app=process.argv[2],P=f=>path.join(app,f);
 const {dromDiff,dromStart}=require(path.resolve(app,"diff.js"));
@@ -9,6 +9,7 @@ const dec=(iv,ct)=>{ct=Buffer.from(ct,"base64");const d=crypto.createDecipheriv(
 const get=f=>fs.existsSync(P(f))?(x=>dec(x.iv,x.ct))(JSON.parse(fs.readFileSync(P(f)))):null;
 const put=(f,o)=>{const iv=crypto.randomBytes(12),c=crypto.createCipheriv("aes-256-gcm",key,iv),ct=Buffer.concat([c.update(JSON.stringify(o)),c.final(),c.getAuthTag()]);fs.writeFileSync(P(f),JSON.stringify({iv:iv.toString("base64"),ct:ct.toString("base64")}))};
 const B=2023,S=dec(D.iv,D.ct).S,st=get("st.json")||{},subs=get("subs.json")||[],vp=get("vp.json"),now=Date.now(),msgs=[];
+const n0=subs.length;await pull(app,key,subs);if(subs.length!==n0)put("subs.json",subs);
 if(st.S)dromDiff(st.S,S,B).forEach(x=>msgs.push({t:x.t,b:x.b}));
 st.rem=st.rem||{};
 const p2=n=>String(n).padStart(2,"0");
