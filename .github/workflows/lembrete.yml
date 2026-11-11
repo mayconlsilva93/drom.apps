@@ -1,0 +1,20 @@
+name: lembrete 1 hora antes
+on:
+  schedule:
+    - cron: "50 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency: lembrete
+jobs:
+  lembrete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --prefix tools --no-audit --no-fund
+      - run: NODE_PATH=tools/node_modules node tools/lembrete.mjs maneira038
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}

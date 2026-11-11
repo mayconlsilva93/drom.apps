@@ -14,7 +14,7 @@ st.rem=st.rem||{};
 const p2=n=>String(n).padStart(2,"0");
 for(const s of S){const t=dromStart(s,B);if(!t)continue;const h=(t-now)/36e5,k=s[14];
   if(h>0&&h<=24&&!st.rem[k+"d"]){st.rem[k+"d"]=1;const d=new Date(t);msgs.push({t:"Show amanhã/hoje",b:(s[1]||s[2])+" — "+p2(d.getDate())+"/"+p2(d.getMonth()+1)+" às "+s[4]+", "+s[2]+" ("+s[3]+")"})}
-  if(h>0&&h<=3&&!st.rem[k+"h"]){st.rem[k+"h"]=1;msgs.push({t:"Seu show começa em breve",b:(s[1]||s[2])+" às "+s[4]+" — "+s[2]})}}
+}
 const first=!st.S;st.S=S;
 for(const k of Object.keys(st.rem))if(!S.some(s=>k.startsWith(s[14])))delete st.rem[k];
 put("st.json",st);

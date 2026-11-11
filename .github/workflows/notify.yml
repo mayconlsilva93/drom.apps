@@ -3,7 +3,7 @@ on:
   push:
     paths: ["maneira038/d.json","maneira038/subs.json"]
   schedule:
-    - cron: "17 */3 * * *"
+    - cron: "17 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
