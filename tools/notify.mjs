@@ -14,7 +14,7 @@ if(st.S)dromDiff(st.S,S,B).forEach(x=>msgs.push({t:x.t,b:x.b}));
 st.rem=st.rem||{};
 const p2=n=>String(n).padStart(2,"0");
 for(const s of S){const t=dromStart(s,B);if(!t)continue;const h=(t-now)/36e5,k=s[14];
-  if(h>0&&h<=24&&!st.rem[k+"d"]){st.rem[k+"d"]=1;const d=new Date(t);msgs.push({t:"Show amanhã/hoje",b:(s[1]||s[2])+" — "+p2(d.getDate())+"/"+p2(d.getMonth()+1)+" às "+s[4]+", "+s[2]+" ("+s[3]+")"})}
+  /* lembrete de 24 h no celular substituído por "Hoje tem show!" (agenda.mjs, 9h) */
 }
 const first=!st.S;st.S=S;
 for(const k of Object.keys(st.rem))if(!S.some(s=>k.startsWith(s[14])))delete st.rem[k];
@@ -24,6 +24,6 @@ if(first||!msgs.length||!subs.length||!vp)process.exit(0);
 webpush.setVapidDetails("https://instagram.com/dromentretenimento",vp.publicKey,vp.privateKey);
 let alive=[];
 for(const s of subs){let ok=true;
-  for(const m of msgs.slice(0,8)){try{await webpush.sendNotification(s,JSON.stringify(m),{TTL:86400})}catch(e){if(e.statusCode===404||e.statusCode===410){ok=false;break}console.log("erro",e.statusCode||e.message)}}
+  for(const m of msgs.slice(0,10)){try{await webpush.sendNotification(s,JSON.stringify(m),{TTL:86400})}catch(e){if(e.statusCode===404||e.statusCode===410){ok=false;break}console.log("erro",e.statusCode||e.message)}}
   if(ok)alive.push(s)}
 if(alive.length!==subs.length)put("subs.json",alive);

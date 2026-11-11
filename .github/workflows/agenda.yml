@@ -1,0 +1,27 @@
+name: avisos de agenda
+on:
+  schedule:
+    - cron: "50 11 * * *"   # 8:50 BRT → espera e envia "Hoje tem show!" às 9h
+    - cron: "50 23 * * 3"   # quarta 20:50 BRT → espera e envia "Shows da semana" às 21h
+  workflow_dispatch:
+    inputs:
+      modo: {description: "hoje ou semana", required: true, default: "hoje"}
+permissions:
+  contents: read
+concurrency: agenda
+jobs:
+  agenda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --prefix tools --no-audit --no-fund
+      - run: |
+          M="${{ github.event.inputs.modo }}"
+          if [ -z "$M" ]; then if [ "${{ github.event.schedule }}" = "50 23 * * 3" ]; then M=semana; else M=hoje; fi; fi
+          NODE_PATH=tools/node_modules node tools/agenda.mjs maneira038 "$M"
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}

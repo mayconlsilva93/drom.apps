@@ -7,8 +7,8 @@ if(prev)dromDiff(prev,S,B).forEach(x=>log.unshift({t:x.t,b:x.b,ts:now,r:0}));
 ls.s("snap",S);
 /* lembrete: show começando nas próximas 24 h (uma vez por show) */
 var rm=ls.g("rem")||{};S.forEach(s=>{var t=dromStart(s,B);if(t&&t>now&&t-now<864e5&&!rm[s[14]]){rm[s[14]]=1;var d=new Date(t);
- log.unshift({t:"Lembrete de show",b:(s[1]||s[2])+" — "+String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+" às "+s[4]+", "+s[2],ts:now,r:0})}});
-ls.s("rem",rm);log=log.slice(0,60);ls.s("log",log);
+ log.unshift({t:"Em breve",b:(s[1]||s[2])+" — "+String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+" às "+s[4]+", "+s[2],ts:now,r:0})}});
+ls.s("rem",rm);log=log.slice(0,50);ls.s("log",log);
 var top=document.querySelector(".top"),bell=document.createElement("button");bell.className="bell";bell.title="Notificações";
 bell.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><i></i>';
 top.insertBefore(bell,document.getElementById("eye"));
@@ -35,7 +35,8 @@ async function sub(){var nf=pn.querySelector(".nf");try{
  var K=window.DROMKEY;if(!K)throw new Error("saia do app e entre de novo com o PIN");
  var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},K,new TextEncoder().encode(JSON.stringify(s)))),b6=u=>btoa(String.fromCharCode.apply(null,u));
  await fetch("https://script.google.com/macros/s/AKfycbzk5iksIZVvdK27taLTcpQbdPebxGjP7ilwNxiQDYwUuTSaMz80Hifmgr-5aazWhI0R/exec",{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({app:location.pathname.split("/").filter(Boolean).pop(),iv:b6(iv),ct:b6(ct)})});
- ls.s("subok",s.endpoint);nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em até 1 hora.</p>';
+ ls.s("subok",s.endpoint);try{var W=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],P2=n=>String(n).padStart(2,"0"),nx=S.map(x=>[dromStart(x,B)||new Date(B,x[19]-1,x[0],23,59).getTime(),x]).filter(y=>y[0]>Date.now()).sort((p,q)=>p[0]-q[0]).slice(0,3).map(y=>{var x=y[1],d=new Date(B,x[19]-1,x[0]);return W[d.getDay()]+" "+P2(d.getDate())+"/"+P2(d.getMonth()+1)+" · "+(x[4]||"a definir")+" · "+(x[1]||x[2])});
+ setTimeout(()=>reg.showNotification("Notificações ativadas!",{body:nx.length?"Próximos shows:\n"+nx.join("\n"):"Nenhum show na agenda por enquanto.",icon:"icon-192.png",badge:"badge.png"}),1500)}catch(e){}nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em até 1 hora.</p>';
  }catch(e){nf.insertAdjacentHTML("beforeend",'<p class="ne">Não foi possível ativar: '+(e.message||e)+"</p>")}}
 var NV=10;function cls(){pn.hidden=true;log.forEach(x=>delete x.h);ls.s("log",log)}bell.onclick=()=>{if(pn.hidden){NV=10;log.forEach(x=>{x.h=!x.r;x.r=1});ls.s("log",log);draw();pn.hidden=false;badge()}else cls()};
 var nv=document.querySelector("nav");if(nv)nv.addEventListener("click",()=>{if(!pn.hidden)cls()});

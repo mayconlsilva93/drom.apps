@@ -15,6 +15,6 @@ console.log(due.length+" lembrete(s) entre "+new Date(slot).toISOString()+" e "+
 if(!due.length||!subs.length||!vp)process.exit(0);
 webpush.setVapidDetails("https://instagram.com/dromentretenimento",vp.publicKey,vp.privateKey);
 for(const {s,t} of due){const w=t-H-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));
-  const m={t:"Falta 1 hora para o seu show",b:(s[1]||s[2])+" às "+s[4]+" — "+s[2]+" ("+s[3]+")"};
+  const m={t:"Falta 1 hora!",b:(s[1]||s[2])+" às "+s[4]+" — "+s[2]+" ("+s[3]+")"};
   for(const sb of subs){try{await webpush.sendNotification(sb,JSON.stringify(m),{TTL:3600,urgency:"high"})}catch(e){console.log("erro",e.statusCode||e.message)}}
   console.log("enviado",new Date().toISOString())}
