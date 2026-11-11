@@ -18,9 +18,6 @@ if os.path.exists(out):
     except Exception: pass
 salt=salt or os.urandom(16)
 key=PBKDF2HMAC(hashes.SHA256(),32,salt,200000).derive(pin)
-tk=os.path.join(app,'tk.json')
-if os.path.exists(tk):
-    d=json.load(open(tk));obj=json.loads(data);obj['_tk']=json.loads(AESGCM(key).decrypt(base64.b64decode(d['iv']),base64.b64decode(d['ct']),None))['t'];data=json.dumps(obj,ensure_ascii=False,separators=(',',':')).encode()
 iv=os.urandom(12)
 up=(datetime.datetime.now(datetime.timezone.utc)-datetime.timedelta(hours=3)).strftime('%d/%m/%Y %H:%M')
 json.dump({'salt':b(salt),'iv':b(iv),'ct':b(AESGCM(key).encrypt(iv,data,None)),'up':up},open(out,'w'))
