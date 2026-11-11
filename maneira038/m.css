@@ -19,3 +19,13 @@ body.locked main,body.locked nav{display:none}
 .npn .np{font:inherit;font-weight:600;padding:11px;border-radius:12px;border:1px solid var(--ac);background:var(--cd);color:var(--ac);cursor:pointer}
 .npn .nc{width:100%;height:90px;font:12px monospace;border-radius:10px;border:1px solid var(--bd);background:var(--cd);color:var(--tx)}
 .ntoast{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;background:var(--tx);color:var(--bg);padding:9px 14px;border-radius:20px;font-size:14px;z-index:70}
+
+/*PINSEC*/#pin{-webkit-text-security:disc;text-security:disc}
+/*LO*/.lom{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:120;display:flex;align-items:center;justify-content:center;padding:24px}
+.lom>div{background:var(--bg);border-radius:16px;padding:20px;max-width:320px;width:100%;text-align:center}
+.lom b{font-size:18px}.lom p{color:var(--mu);font-size:14px;margin:8px 0 16px}
+.lob{display:flex;gap:10px}.lob button{flex:1;font:inherit;font-weight:600;padding:11px;border-radius:12px;cursor:pointer;border:1px solid var(--bd);background:var(--cd);color:var(--tx)}
+.lob .loy{background:var(--rd);border-color:var(--rd);color:#fff}
+.npn .ni.nu{background:#EEF0FF;border-width:2px}.npn .ni.nu b::before{content:"● ";color:var(--ac)}
+/*NPF*/nav{z-index:45}.brand{z-index:46!important}.npn{z-index:40}
+/*ICN*/.top .bell{margin-right:-8px}.top #eye{margin-left:0}
