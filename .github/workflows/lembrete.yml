@@ -5,11 +5,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-concurrency: lembrete
 jobs:
   lembrete:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
