@@ -44,8 +44,8 @@ function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
  CFG.apps.forEach(a=>{if(!g||(a.old&&!so)){if(a.old){so=1;L.insertAdjacentHTML("beforeend",'<div class="sh">Ex-artistas</div>')}else L.insertAdjacentHTML("beforeend",'<div class="sh">Casting atual</div>');g=document.createElement("div");g.className="hg";L.appendChild(g)}
   var d=DATA[a.f];if(d&&d.up)ups.push(d.up);var nn=(LOG||[]).filter(x=>!x.r&&x.f===a.f).length;
   var el=document.createElement("div");el.className="hi"+(a.old?" gy":"");
-  el.innerHTML='<'+(a.url?'a href="'+a.url+'" target="_blank" rel="noopener"':'button type="button"')+' class="hph" title="Abrir app"><img alt="'+nm(a)+'" src="'+a.img+'">'+(nn?'<i class="nb">'+nn+'</i>':"")+'</'+(a.url?"a":"button")+'><button type="button" class="hnm">'+nm(a)+'</button>';
-  if(!a.url)el.querySelector(".hph").onclick=()=>open(a);el.querySelector(".hnm").onclick=()=>info(a);g.appendChild(el)});
+  el.innerHTML='<a href="'+(a.url||a.f+"/")+'" target="_blank" rel="noopener" class="hph" title="Abrir app"><img alt="'+nm(a)+'" src="'+a.img+'">'+(nn?'<i class="nb">'+nn+'</i>':"")+'</a><button type="button" class="hnm">'+nm(a)+'</button>';
+  if(!a.url)el.querySelector(".hph").onclick=e=>{if(e.button||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();open(a)};el.querySelector(".hnm").onclick=()=>info(a);g.appendChild(el)});
  ups.sort((x,y)=>{var p=s=>s.replace(/(\d\d)\/(\d\d)\/(\d{4}) (.*)/,"$3$2$1 $4");return p(y)<p(x)?-1:1});
  $("upd").textContent=ups.length?"Dados atualizados em "+ups[0]:""}
 function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
@@ -76,8 +76,8 @@ if($("lo"))$("lo").onclick=()=>{var m=document.createElement("div");m.className=
 var LOG=null,NV=10,pn=$("npn");
 function notif(){var now=Date.now(),snap=ls.g("snap")||{},rm=ls.g("rem")||{};LOG=ls.g("log")||[];
  CFG.apps.forEach(a=>{var d=DATA[a.f];if(!d||d.err)return;var S=d.S;
-  if(snap[a.f])dromDiff(snap[a.f],S,B).forEach(x=>LOG.unshift({f:a.f,t:a.n+": "+x.t,b:x.b,ts:now,r:0}));snap[a.f]=S;
-  S.forEach(s=>{var t=dromStart(s,B),k=a.f+s[14];if(t&&t>now&&t-now<864e5&&!rm[k]){rm[k]=1;LOG.unshift({f:a.f,t:a.n+": Em breve",b:dromLn(s,B),ts:now,r:0})}})});
+  if(snap[a.f])dromDiff(snap[a.f],S,B).forEach(x=>LOG.unshift({f:a.f,t:"["+nm(a)+"] "+x.t,b:x.b,ts:now,r:0}));snap[a.f]=S;
+  S.forEach(s=>{var t=dromStart(s,B),k=a.f+s[14];if(t&&t>now&&t-now<864e5&&!rm[k]){rm[k]=1;LOG.unshift({f:a.f,t:"["+nm(a)+"] Em breve",b:dromLn(s,B),ts:now,r:0})}})});
  LOG=LOG.slice(0,50);ls.s("snap",snap);ls.s("rem",rm);ls.s("log",LOG);badge();
  var q=LOG.filter(x=>!x.r&&x.ts===now).length;if(q){var t=document.createElement("div");t.className="ntoast";t.textContent=(q===1?"1 novidade":q+" novidades")+" — toque no sino";document.body.appendChild(t);setTimeout(()=>t.remove(),5000)}}
 function badge(){var n=(LOG||[]).filter(x=>!x.r).length,b=$("bell");b.querySelector("i").textContent=n?n>9?"9+":n:"";b.classList.toggle("on",n>0)}

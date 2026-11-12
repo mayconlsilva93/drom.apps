@@ -4,16 +4,25 @@ on:
     - cron: "20 * * * *"
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: lembrete
+  cancel-in-progress: false
 jobs:
   lembrete:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm install --prefix tools --no-audit --no-fund
+      - run: |
+          for a in */d.json; do PLAN=1 NODE_PATH=tools/node_modules node tools/lembrete.mjs "${a%/d.json}"; done
+          git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
+          git add */lem.json; git diff --cached --quiet || (git commit -qm "janela dos lembretes" && (git push -q || (git pull -q --rebase && git push -q))) || true
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}
       - run: for a in */d.json; do NODE_PATH=tools/node_modules node tools/lembrete.mjs "${a%/d.json}" & done; wait
         env:
           DROM_PIN: ${{ secrets.DROM_PIN }}

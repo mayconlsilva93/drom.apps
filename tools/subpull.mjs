@@ -13,5 +13,5 @@ let HUBS=null;
 export async function hubSubs(key){if(HUBS)return HUBS;HUBS=[];await pull("hub",key,HUBS);return HUBS}
 export async function hubSend(webpush,app,key,m,opt){const subs=await hubSubs(key);if(!subs.length)return;
   let nm=app;try{nm=JSON.parse(fs.readFileSync(path.resolve("tools/names.json"),"utf8"))[app]||app}catch(e){}
-  const x=Object.assign({},m,{t:nm+": "+m.t});if(m.tag)x.tag="h-"+m.tag;if(m.close)x.close="h-"+m.close;
+  const x=Object.assign({},m,{t:"["+String(nm).replace(/^DJ /,"")+"] "+m.t});if(m.tag)x.tag="h-"+m.tag;if(m.close)x.close="h-"+m.close;
   for(const s of subs){try{await webpush.sendNotification(s,JSON.stringify(x),opt||{TTL:86400})}catch(e){console.log("hub erro",e.statusCode||e.message)}}}

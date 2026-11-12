@@ -8,8 +8,12 @@ const D=JSON.parse(fs.readFileSync(P("d.json"))),key=crypto.pbkdf2Sync(process.e
 const dec=(iv,ct)=>{ct=Buffer.from(ct,"base64");const d=crypto.createDecipheriv("aes-256-gcm",key,Buffer.from(iv,"base64"));d.setAuthTag(ct.subarray(-16));return JSON.parse(Buffer.concat([d.update(ct.subarray(0,-16)),d.final()]).toString())};
 const get=f=>fs.existsSync(P(f))?(x=>dec(x.iv,x.ct))(JSON.parse(fs.readFileSync(P(f)))):null;
 const S=dec(D.iv,D.ct).S,subs=get("subs.json")||[],vp=get("vp.json"),H=36e5;
+/* Programação antecipada: cada rodada cobre do fim da anterior (lem.json) até agora + 3 h, espera e envia na hora exata.
+   O GitHub atrasa/pula o cron; com 3 h de folga não há buraco. Aviso que passou da hora há até 30 min sai na hora (atrasado), mais que isso é descartado. */
+const LF=P("lem.json"),now=Date.now();let L={};try{L=JSON.parse(fs.readFileSync(LF))}catch(e){}
+if(process.env.PLAN){const s0=Math.max(L.e||now,now-30*60e3),e0=Math.max(now+3*H,L.e||0);fs.writeFileSync(LF,JSON.stringify({s:s0,e:e0}));console.log(app,"janela",new Date(s0).toISOString(),"→",new Date(e0).toISOString());process.exit(0)}
+const slot=L.s||now,end=L.e||now+H;
 await pull(app,key,subs);
-const now=Date.now(),slot=Math.floor(now/H)*H+H,end=slot+H; // próxima hora cheia (cron :20; tolera atraso do GitHub até :59)
 const due=S.map(s=>({s,t:dromStart(s,2023)})).filter(x=>x.t&&x.t-H>=slot&&x.t-H<end).sort((a,b)=>a.t-b.t);
 console.log(due.length+" lembrete(s) entre "+new Date(slot).toISOString()+" e "+new Date(end).toISOString()+", "+subs.length+" inscrição(ões)");
 const hs=await hubSubs(key);
