@@ -112,20 +112,22 @@ function hcard(x){var s=x[0],a=x[1],c='<div class="cd hcd"><div class="hd"><div 
  return'<div class="hrw"><img class="hav" alt="'+nm(a)+'" title="'+nm(a)+'" src="'+a.img+'">'+c+"</div>"}
 setInterval(function(){if(TAB==="h")return;var n=Date.now(),rd=0;document.querySelectorAll(".hag.soon .agl[data-st]").forEach(x=>{var a=+x.dataset.st;if(a<=n)rd=1;else x.textContent=fal(a-n)});document.querySelectorAll(".hag.now .agl[data-en]").forEach(x=>{if(+x.dataset.en<=n)rd=1});if(rd)hview()},30000);
 var curM=()=>{var n=new Date(Date.now()-216e5);return(n.getFullYear()-B)*12+n.getMonth()+1},mLab=m=>MNS[(m-1)%12]+" "+(B+Math.floor((m-1)/12)),YF=m=>B+Math.floor((m-1)/12);
-function hsel(){var L=ALL().map(x=>x[0][19]),c=curM(),lo=Math.min(c,...L),hi=Math.max(c,...L),o="";
- if(HV==="m"){for(var m=lo;m<=hi;m++)o+='<option value="'+m+'">'+MNS[(m-1)%12].slice(0,3)+" "+YF(m)+"</option>";$("hms").innerHTML=o;$("hms").value=HM}
- else{for(var y=YF(lo);y<=YF(hi);y++)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o;$("hms").value=HY}
+var HMQ=window.matchMedia("(max-width:600px)");
+function hsel(){var A=ALL(),L=A.map(x=>x[0][19]),lo=Math.min(...L),hi=Math.max(...L),o="";
+ if(HV==="m"){for(var m=lo;m<=hi;m++){var c=A.filter(x=>x[0][19]===m).length,n=MNS[(m-1)%12]+" "+YF(m);o+='<option value="'+m+'">'+(HMQ.matches?n.replace(/^(\S{3})\S*/,"$1"):n)+(c?" ("+c+")":"")+"</option>"}$("hms").innerHTML=o;$("hms").value=HM}
+ else{for(var y=YF(lo);y<=YF(hi);y++)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o+'<option value="0">Todos</option>';$("hms").value=HY}
  document.querySelectorAll("#hbar .seg button").forEach(b=>b.classList.toggle("on",b.dataset.v===HV));document.querySelectorAll("#hpl button").forEach(b=>b.classList.toggle("on",b.dataset.f===HF))}
+HMQ.addEventListener&&HMQ.addEventListener("change",()=>{if(TAB!=="h")hsel()});
 function tab(t){if(t==="p"||t==="b")return;TAB=t;document.querySelectorAll("#hnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));$("list").hidden=t!=="h";$("hv").hidden=t==="h";$("hbar").hidden=t==="h";$("hpl").hidden=t!=="a";
  if(HM===null){HM=curM();HY=YF(HM)}if(t!=="h"){hsel();hview()}window.scrollTo(0,0)}
 function grid(m,X,td){var y=YF(m),mo=(m-1)%12,F1=new Date(y,mo,1).getDay(),N=new Date(y,mo+1,0).getDate(),h="<h3>"+mLab(m)+'</h3><div class="cal hcal">'+["D","S","T","Q","Q","S","S"].map(x=>"<b>"+x+"</b>").join("")+"<span></span>".repeat(F1);
  for(var d=1;d<=N;d++){var c=X.filter(x=>x[0][19]===m&&x[0][0]===d).length;h+='<button type="button" data-m="'+m+'" data-d="'+d+'" class="'+(c?"hsd ":"")+(HSD&&HSD[0]===m&&HSD[1]===d?"on ":"")+(m===td[0]&&d===td[1]?"td":"")+'">'+d+(c?"<small>"+c+(c===1?" show":" shows")+"</small>":"")+"</button>"}
  h+="</div>";if(HSD&&HSD[0]===m){var sd=X.filter(x=>x[0][19]===m&&x[0][0]===HSD[1]);h+="<h3>"+WD[new Date(y,mo,HSD[1]).getDay()]+" "+p2(HSD[1])+"/"+p2(mo+1)+"</h3>"+(sd.length?sd.map(hcard).join(""):'<p class="mu">Sem shows neste dia.</p>')}return h}
-function hview(){var A=ALL(),X=(HV==="m"?A.filter(x=>x[0][19]===HM):A.filter(x=>YF(x[0][19])===HY)).sort((p,q)=>ini(p[0])-ini(q[0])),h="",n=Date.now();
+function hview(){var A=ALL(),X=(HV==="m"?A.filter(x=>x[0][19]===HM):A.filter(x=>HY===0||YF(x[0][19])===HY)).sort((p,q)=>ini(p[0])-ini(q[0])),h="",n=Date.now();
  if(TAB==="a"){var l=X.filter(x=>HF==="T"||(HF==="R")===(fim(x[0])<=n)),cm=0;
   l.forEach(x=>{if(x[0][19]!==cm){cm=x[0][19];var q=l.filter(z=>z[0][19]===cm).length;h+="<h3>"+mLab(cm)+" · "+q+(q===1?" show":" shows")+"</h3>"}h+=hcard(x)});if(!l.length)h='<p class="mu">Sem shows confirmados nesse período.</p>'}
  else{var nn=new Date(Date.now()-216e5),td=[(nn.getFullYear()-B)*12+nn.getMonth()+1,nn.getDate()];if(!HSD&&HV==="m"&&HM===td[0])HSD=td.slice();
-  h=HV==="m"?grid(HM,X,td):[...Array(12).keys()].map(i=>grid((HY-B)*12+i+1,X,td)).join("")}
+  h=HV==="m"?grid(HM,X,td):HY===0?'<p class="mu">Escolha um ano específico para ver o calendário.</p>':[...Array(12).keys()].map(i=>grid((HY-B)*12+i+1,X,td)).join("")}
  $("hvb").innerHTML=h;if(TAB==="c")$("hvb").querySelectorAll(".hcal button").forEach(b=>b.onclick=()=>{HSD=[+b.dataset.m,+b.dataset.d];hview()})}
 document.querySelectorAll("#hnav button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
 document.querySelectorAll("#hbar .seg button").forEach(b=>b.onclick=()=>{HV=b.dataset.v;if(HV==="y")HY=YF(HM);HSD=null;hsel();hview()});
