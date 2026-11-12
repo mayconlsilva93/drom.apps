@@ -54,3 +54,5 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 #hnav{grid-template-columns:repeat(5,1fr)!important}
 
 /*NB0*/.npn .ni b::before,.npn .ni.nu b::before,.npn .ni.nu>b::before{content:none!important}
+
+/*HNAV2*/html,body{scrollbar-gutter:auto!important}.brand{padding:7.3px 0!important;left:0!important;right:0!important;width:auto!important}#hnav{left:0!important;right:0!important}.ntoast{bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
