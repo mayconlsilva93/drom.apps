@@ -1,5 +1,8 @@
+---
 name: dados dos apps
 on:
+  repository_dispatch:
+    types: [relay]
   schedule:
     - cron: "7,37 * * * *"
   workflow_dispatch:
@@ -9,6 +12,7 @@ concurrency: relay
 jobs:
   relay:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - run: |
