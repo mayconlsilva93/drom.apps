@@ -71,3 +71,9 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 /*HBAR*/#hbar .hctl{margin:8px 0 6px}#hbar .pl{margin:4px 0 8px}.hag{flex:1;min-width:0;margin:0!important}.hrw .hag>.cd{margin:0}
 .hctl #hpv,.hctl #hnx{flex:none}.hctl select{flex:1 1 auto;min-width:0}
 /*HCS*/.hcal button.td{border:1px solid var(--bd)!important;outline:2px solid var(--wr);outline-offset:0}.hcal button.on{background:var(--ac)!important;color:var(--acx)!important;font-weight:400}.hcal button.on small{color:var(--acx)!important}
+
+/*TOPU*/.hbt{min-height:56px!important;padding:0!important;margin:0!important}.hbn{gap:4px!important}
+.hbn .bell,.hsl .bell{width:42px!important;height:42px!important;margin:0!important}.hbn .eye{width:40px!important;height:40px!important;margin:0!important}
+.hlg{height:22px!important;transform:translate(-50%,-50%)!important}
+#hbar .hctl{margin:10px 0 9px!important}.hctl .nv{font-size:0!important;padding:0!important;color:inherit!important;margin:0 -4px!important}.hctl{gap:6px!important}
+.hbn{align-items:center}
