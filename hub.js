@@ -130,6 +130,9 @@ function hview(){var A=ALL(),X=(HV==="m"?A.filter(x=>x[0][19]===HM):A.filter(x=>
   h=HV==="m"?grid(HM,X,td):HY===0?'<p class="mu">Escolha um ano específico para ver o calendário.</p>':[...Array(12).keys()].map(i=>grid((HY-B)*12+i+1,X,td)).join("")}
  $("hvb").innerHTML=h;if(TAB==="c")$("hvb").querySelectorAll(".hcal button").forEach(b=>b.onclick=()=>{HSD=[+b.dataset.m,+b.dataset.d];hview()})}
 document.querySelectorAll("#hnav button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
+(function(){var b=document.querySelector('#hnav button[data-t="b"]');if(!b)return;var u=()=>window.HUBCFG?"https://claude.ai/artifact/7XmTAPhYmz3Ezh434tke4Y":"booker/";
+ b.addEventListener("mousedown",e=>{if(e.button===1)e.preventDefault()});b.addEventListener("auxclick",e=>{if(e.button===1){e.preventDefault();window.open(u(),"_blank","noopener")}});
+ b.addEventListener("click",e=>{if(e.ctrlKey||e.metaKey||e.shiftKey){e.preventDefault();e.stopImmediatePropagation();window.open(u(),"_blank","noopener")}},true)})();
 document.querySelectorAll("#hbar .seg button").forEach(b=>b.onclick=()=>{HV=b.dataset.v;if(HV==="y")HY=YF(HM);HSD=null;hsel();hview()});
 document.querySelectorAll("#hpl button").forEach(b=>b.onclick=()=>{HF=b.dataset.f;hsel();hview()});
 $("hms").onchange=()=>{if(HV==="m")HM=+$("hms").value;else HY=+$("hms").value;HSD=null;hview()};
