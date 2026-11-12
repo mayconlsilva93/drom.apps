@@ -23,14 +23,14 @@ $("lkf").onsubmit=async e=>{e.preventDefault();var us=$("usr").value.trim().toLo
  try{var key=await derive(pin,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";$("usr").value="";await go(c)}
  catch(er){$("lkm").textContent="Login ou senha incorretos.";$("pin").value="";$("pin").focus()}};
 async function goArt(){CFG=window.HUBCFG;document.body.classList.remove("locked");var A=(window.DROMDATA||{}).A||{};
- CFG.apps.forEach(a=>{DATA[a.f]={S:A[a.k]||[],up:""}});icons();notif();draw();if(TAB!=="h")hview()}
+ var RR=(window.DROMDATA||{}).R||{};CFG.apps.forEach(a=>{DATA[a.f]={S:A[a.k]||[],R:RR[a.k],up:""}});icons();notif();draw();if(TAB!=="h")hview()}
 /* ---------- depois de entrar ---------- */
 async function go(c){CFG=c;$("lk").remove();document.body.classList.remove("locked");
  AK=await crypto.subtle.importKey("raw",b64(c.ak),"AES-GCM",false,["decrypt","encrypt"]);
  /* libera os apps dos artistas neste aparelho (mesma chave do PIN deles), para abrirem aqui dentro sem pedir PIN */
  for(var a of c.apps)await kput(a.idb,{key:AK,salt:c.as,ts:Date.now(),v:2});
  draw();icons();
- await Promise.all(c.apps.map(async a=>{try{var r=await fetch(a.f+"/d.json",{cache:"no-store"}),d=await r.json();DATA[a.f]={S:(await dec(AK,d.iv,d.ct)).S||[],up:d.up||""}}catch(e){DATA[a.f]={S:[],up:"",err:1}}}));
+ await Promise.all(c.apps.map(async a=>{try{var r=await fetch(a.f+"/d.json",{cache:"no-store"}),d=await r.json();var dd=await dec(AK,d.iv,d.ct);DATA[a.f]={S:dd.S||[],OT:dd.OT||[],BK:dd.BK||[],up:d.up||""}}catch(e){DATA[a.f]={S:[],up:"",err:1}}}));
  notif();draw();if(TAB!=="h")hview()}
 var HIDE=ls.g("hide")||false,fm=v=>Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
 var nm=a=>a.n.replace(/^DJ /,"");
@@ -113,7 +113,7 @@ function hcard(x){var s=x[0],a=x[1],c='<div class="cd hcd"><div class="hd"><div 
 setInterval(function(){if(TAB==="h")return;var n=Date.now(),rd=0;document.querySelectorAll(".hag.soon .agl[data-st]").forEach(x=>{var a=+x.dataset.st;if(a<=n)rd=1;else x.textContent=fal(a-n)});document.querySelectorAll(".hag.now .agl[data-en]").forEach(x=>{if(+x.dataset.en<=n)rd=1});if(rd)hview()},30000);
 var curM=()=>{var n=new Date(Date.now()-216e5);return(n.getFullYear()-B)*12+n.getMonth()+1},mLab=m=>MNS[(m-1)%12]+" "+(B+Math.floor((m-1)/12)),YF=m=>B+Math.floor((m-1)/12);
 var HMQ=window.matchMedia("(max-width:600px)");
-function hsel(){var A=ALL(),L=A.map(x=>x[0][19]),lo=Math.min(...L),hi=Math.max(...L),o="";
+function hsel(){var A=ALL(),L=[];CFG.apps.forEach(a=>{var d=DATA[a.f];if(!d)return;if(d.R)L.push(d.R[0],d.R[1]);else{d.S.forEach(s=>L.push(s[19]));(d.OT||[]).forEach(o=>L.push(o[0]));(d.BK||[]).forEach(z=>L.push(z[0]))}});var lo=Math.min(...L),hi=Math.max(...L),o="";
  if(HV==="m"){for(var m=lo;m<=hi;m++){var c=A.filter(x=>x[0][19]===m).length,n=MNS[(m-1)%12]+" "+YF(m);o+='<option value="'+m+'">'+(HMQ.matches?n.replace(/^(\S{3})\S*/,"$1"):n)+(c?" ("+c+")":"")+"</option>"}$("hms").innerHTML=o;$("hms").value=HM}
  else{for(var y=YF(lo);y<=YF(hi);y++)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o+'<option value="0">Todos</option>';$("hms").value=HY}
  document.querySelectorAll("#hbar .seg button").forEach(b=>b.classList.toggle("on",b.dataset.v===HV));document.querySelectorAll("#hpl button").forEach(b=>b.classList.toggle("on",b.dataset.f===HF))}
