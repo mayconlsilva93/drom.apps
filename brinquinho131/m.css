@@ -29,3 +29,5 @@ body.locked main,body.locked nav{display:none}
 .npn .ni.nu{background:#EEF0FF;border-width:2px}.npn .ni.nu b::before{content:"● ";color:var(--ac)}
 /*NPF*/nav{z-index:45}.brand{z-index:46!important}.npn{z-index:40}
 /*ICN*/.top .bell{margin-right:-8px}.top #eye{margin-left:0}
+
+/*LK2*/#lkf input,#lkf button{box-sizing:border-box;width:100%}#lkf .llg{height:20px}#lkm:empty{display:none}#lkm{margin:-4px 0 0}#lkf small{margin-top:-4px}

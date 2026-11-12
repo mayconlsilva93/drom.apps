@@ -37,4 +37,7 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 @media (max-width:420px){.hlg{height:19px}.hbn .bell,.hbn .eye{width:34px;height:34px}.hbn{gap:4px}}
 /*HB5*/.hsl{flex:none;position:relative;z-index:1}.hsl .bell{margin:0!important}@media (max-width:420px){.hsl .bell{width:34px;height:34px}}.hlg{height:22px}@media (max-width:420px){.hlg{height:20px}}
 
-/*LG*/#lkf #usr{font-size:18px;letter-spacing:0;-webkit-text-security:none}#lkf #pin{font-size:18px;letter-spacing:.1em}.hsm{color:var(--mu);font-size:12px}
+/*LG*/#lkf #usr{font-size:18px;letter-spacing:0;-webkit-text-security:none}#lkf #pin{font-size:18px;letter-spacing:0}.hsm{color:var(--mu);font-size:12px}
+
+/*LK2*/#lkf input,#lkf button{box-sizing:border-box;width:100%}#lkf .lav{margin-bottom:10px}#lkm:empty{display:none}#lkm{margin:-4px 0 0}#lkf small{margin-top:-4px}
+#lkf #usr{text-transform:lowercase}
