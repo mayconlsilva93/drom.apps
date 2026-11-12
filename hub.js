@@ -102,3 +102,5 @@ async function sub(){var nf=pn.querySelector(".nf");try{
 if(!window.HUBCFG&&"serviceWorker" in navigator)navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{});
 start();
 })();
+
+/*KB*/(function(){var v=window.visualViewport;function fit(){var l=document.getElementById("lk");if(!l||!v)return;l.style.position="fixed";l.style.top=v.offsetTop+"px";l.style.height=v.height+"px";l.style.bottom="auto";l.style.inset="auto 0 auto 0";l.style.top=v.offsetTop+"px"}if(v){v.addEventListener("resize",fit);v.addEventListener("scroll",fit);fit()}document.addEventListener("focusin",function(e){if(e.target&&e.target.closest&&e.target.closest("#lk"))setTimeout(function(){fit();window.scrollTo(0,0)},60)})})();
