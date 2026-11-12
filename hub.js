@@ -47,7 +47,7 @@ function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
   el.innerHTML='<a href="'+(a.url||a.f+"/")+'" target="_blank" rel="noopener" class="hph" title="Abrir app"><img alt="'+nm(a)+'" src="'+a.img+'">'+(nn?'<i class="nb">'+nn+'</i>':"")+'</a><button type="button" class="hnm">'+nm(a)+'</button>';
   if(!a.url)el.querySelector(".hph").onclick=e=>{if(e.button||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();open(a)};el.querySelector(".hnm").onclick=()=>info(a);g.appendChild(el)});
  ups.sort((x,y)=>{var p=s=>s.replace(/(\d\d)\/(\d\d)\/(\d{4}) (.*)/,"$3$2$1 $4");return p(y)<p(x)?-1:1});
- $("upd").textContent=ups.length?"Dados atualizados em "+ups[0]:""}
+ $("upd").textContent=ups.length?"Dados atualizados em "+ups[0]:window.DROMUPD?"Dados atualizados em "+window.DROMUPD:""}
 function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
  m.innerHTML='<div class="hif"><img alt="" src="'+a.img+'"><b>'+nm(a)+'</b>'+(a.old?'<small>ex-artista</small>':"")+(s?'<dl>'+
   '<dt>'+(a.old?"Shows no histórico":"Shows em 2026")+'</dt><dd>'+s.n+(a.old||!s.ar?"":'<br><small class="hsm">realizados '+s.rz+' · a realizar '+s.ar+'</small>')+'</dd>'+
