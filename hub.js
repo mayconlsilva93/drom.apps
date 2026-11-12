@@ -50,7 +50,7 @@ function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
  $("upd").textContent=ups.length?"Dados atualizados em "+ups[0]:""}
 function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
  m.innerHTML='<div class="hif"><img alt="" src="'+a.img+'"><b>'+nm(a)+'</b>'+(a.old?'<small>ex-artista</small>':"")+(s?'<dl>'+
-  '<dt>'+(a.old?"Shows no histórico":"Shows em 2026")+'</dt><dd>'+s.n+(a.old?"":" ("+s.rz+" realizados · "+s.ar+" a realizar)")+'</dd>'+
+  '<dt>'+(a.old?"Shows no histórico":"Shows em 2026")+'</dt><dd>'+s.n+(a.old||!s.ar?"":'<br><small class="hsm">realizados '+s.rz+' · a realizar '+s.ar+'</small>')+'</dd>'+
   '<dt>'+(a.old?"Cachês no histórico":"Cachês em 2026")+'</dt><dd>'+R(s.v)+(a.old||!s.va?"":'<br><small class="hsm">realizados '+R(s.vr)+' · a realizar '+R(s.va)+'</small>')+'</dd>'+
   (a.old?"":'<dt>Próximos shows (7 dias)</dt><dd>'+(s.nx.length?s.nx.map(x=>dromLn(x,B,{hora:1})).join("<br>"):"nenhum nos próximos 7 dias")+'</dd>')+
   '</dl>':'<p>carregando…</p>')+'<div class="lob"><button class="loc">Fechar</button>'+(a.url?'<a class="loy hop" href="'+a.url+'" target="_blank" rel="noopener">Abrir app</a>':'<button class="loy hop">Abrir app</button>')+'</div></div>';
