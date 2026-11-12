@@ -37,3 +37,5 @@ body.locked main,body.locked nav{display:none}
 /*LK4*/#lkf{align-items:stretch!important;gap:8px!important}#lkf .lav{align-self:center;margin:0 0 -2px!important}#lkf input,#lkf button{-webkit-appearance:none;appearance:none;display:block;margin:0!important;width:100%!important;max-width:none!important;min-width:0;box-sizing:border-box!important;height:50px;padding:0 12px!important;font-size:18px!important;border:1px solid var(--bd)!important;border-radius:12px!important}#lkf button{border-color:var(--ac)!important}#lkf small{margin:-4px 0 0!important;text-align:center}#lkm:empty{display:none}
 
 /*LK5*/#lkf input{text-align:center!important;letter-spacing:0!important;text-indent:0!important;padding:0!important;line-height:normal!important}#lkf input::placeholder{text-align:center;letter-spacing:0!important;font-size:18px;line-height:normal}#lkf input::-webkit-input-placeholder{text-align:center;letter-spacing:0}
+
+/*NB0*/.npn .ni b::before,.npn .ni.nu b::before,.npn .ni.nu>b::before{content:none!important}

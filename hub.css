@@ -52,3 +52,5 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 
 /*HNAV*/.brand{bottom:calc(58px + env(safe-area-inset-bottom,0px))!important;padding-bottom:5px!important}main{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}body.locked #hnav{display:none}#fr~#hnav,#hnav{z-index:45}
 #hnav{grid-template-columns:repeat(5,1fr)!important}
+
+/*NB0*/.npn .ni b::before,.npn .ni.nu b::before,.npn .ni.nu>b::before{content:none!important}
