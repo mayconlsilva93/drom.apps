@@ -1,0 +1,1 @@
+(function(){window.dromHome=function(){try{window.scrollTo(0,0)}catch(e){}try{location.reload()}catch(e){try{location.href=location.href}catch(e2){if(typeof setTab=="function")setTab("d")}}}})();
