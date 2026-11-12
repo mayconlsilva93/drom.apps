@@ -67,3 +67,6 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 .hcal button,.hcal button.sh{aspect-ratio:1/1!important;width:100%!important;height:auto!important;padding:0!important;border:1px solid var(--bd)!important;box-sizing:border-box}.hcal button.td{border:2px solid var(--ac)!important}
 .hcal button.hsd{background:var(--acs)}.hcal button.on{background:var(--ac)!important;color:var(--acx)!important}
 .hrw{display:flex;gap:8px;align-items:center;margin-bottom:8px}.hrw .hcd{flex:1;min-width:0;margin:0}.hrw .hav{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;background:#fff;border:1px solid var(--bd)}
+
+/*HBAR*/#hbar .hctl{margin:8px 0 6px}#hbar .pl{margin:4px 0 8px}.hag{flex:1;min-width:0;margin:0!important}.hrw .hag>.cd{margin:0}
+.hctl #hpv,.hctl #hnx{flex:none}.hctl select{flex:1 1 auto;min-width:0}
