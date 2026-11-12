@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>DROM Painel</title>
+<meta name="theme-color" content="#FFF602">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DROM Painel">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="s2.css">
+<link rel="stylesheet" href="lk.css">
+</head>
+<body class="locked">
+<div id="lk" hidden><form id="lkf" autocomplete="off"><img class="lav" alt="" src="icon-round-192.png"><input id="usr" type="text" placeholder="login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="xdu" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"><input id="pin" placeholder="senha" type="text" maxlength="40" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="xdrom" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"><button type="submit">Entrar</button><p id="lkm"></p><small>Login e senha são solicitados uma vez por semana.</small></form></div>
+<div id="pnw">
+<main>
+<div class="hd2"><span class="hlm" role="button" tabindex="0" onclick="dromHome()" onkeydown="if(event.key=='Enter')dromHome()" title="Início" style="display:contents;cursor:pointer"><img class="hlogo" alt="DROM" src="ima2c04135ba.png"></span><button id="eye" class="eye" title="Ocultar valores em R$"></button></div>
+<div class="atl"><div class="at"><a href="../amaro095/" target="_top" aria-label="App do DJ Amaro"><img alt="Amaro" src="imba1bcebcc8.jpg"></a><span>Amaro</span></div><div class="at"><a href="../caduvieira089/" target="_top" aria-label="App do DJ Cadu Vieira"><img alt="Cadu Vieira" src="imca1c3fc73e.jpg"></a><span>Cadu Vieira</span></div><div class="at"><a href="../carloto453/" target="_top" aria-label="App do DJ Carloto"><img alt="Carloto" src="ime3cc115eb4.jpg"></a><span>Carloto</span></div><div class="at"><a href="../cenoura173/" target="_top" aria-label="App do DJ Cenoura"><img alt="Cenoura" src="im7af2f6301e.jpg"></a><span>Cenoura</span></div><div class="at"><a href="../josu185/" target="_top" aria-label="App do DJ Josu"><img alt="Josu" src="im4cb72993ad.jpg"></a><span>Josu</span></div><div class="at"><a href="../maneira038/" target="_top" aria-label="App do DJ Maneira"><img alt="Maneira" src="im01f36c2bfc.jpg"></a><span>Maneira</span></div><div class="at"><a href="../ramonstro003/" target="_top" aria-label="App do DJ Ramonstro"><img alt="Ramonstro" src="im69da068d6b.jpg"></a><span>Ramonstro</span></div><div class="at"><a href="../sena089/" target="_top" aria-label="App do DJ Sena"><img alt="Sena" src="imae9822a911.jpg"></a><span>Sena</span></div><div class="at gy"><a href="../brinquinho131/" target="_top" aria-label="App do DJ Brinquinho"><img alt="Brinquinho" src="im7a9f8296e4.png"></a><span>Brinquinho</span></div><div class="at gy"><a href="../liquinho000/" target="_top" aria-label="App do DJ Liquinho"><img alt="Liquinho" src="im7a9f8296e4.png"></a><span>Liquinho</span></div></div>
+<div class="tabs"><button data-tab="a">Anual</button><button data-tab="m">Mensal</button><button data-tab="r">Gráficos</button><button data-tab="g">Agenda</button><button data-tab="c">Contatos</button></div>
+<div id="ta">
+<div class="fb"><select id="yy"></select><select id="ya"></select><select id="yc"></select><select id="yh"></select><select id="ys"></select><button id="yr">Limpar filtro</button></div>
+<div class="g" id="ykp"></div>
+<h2>Últimas propostas e shows fechados</h2><div class="ucx"><div class="p"><div class="dht uh2">Shows fechados</div><div id="yuf"></div></div><div class="p"><div class="dhs uh2"><b>Propostas</b></div><div id="yup"></div></div></div>
+<h2>Detalhamento por mês</h2><div class="p" id="ymes"></div>
+<h2>Detalhamento por artista</h2><div class="p wx" id="yart"></div>
+<h2>Matriz mensal</h2><div class="p wx"><span class="sg eq" id="yvb"><button type="button" data-v="c">Faturamento</button><button type="button" data-v="n">Nº de shows</button><button type="button" data-v="p">% dos shows mensais</button><button type="button" data-v="m">Comissão</button></span><select id="yv" hidden><option value="c">Cachê bruto</option><option value="n">Nº de shows</option><option value="m">Comissão</option><option value="p">% dos shows do mês</option></select><div id="yhm"></div></div>
+<h2>Agenda</h2><div class="p w"><div id="yag"></div></div>
+<h2>Cidades</h2><div class="p"><select id="ycs"><option value="n">Ordenar por nº de shows</option><option value="v">Ordenar por cachê</option><option value="m">Ordenar por comissão</option><option value="d">Ordenar por distância de Florianópolis</option></select><div id="ymap"></div><div id="ycid"></div></div>
+<h2>Casas e locais</h2><div class="p"><select id="yls"><option value="n">Ordenar por nº de shows</option><option value="v">Ordenar por cachê</option><option value="m">Ordenar por comissão</option></select><div id="yloc"></div></div>
+<h2>Categorias</h2><div class="p" id="ycat"></div>
+<style>.uf{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.uf+.uf{grid-template-columns:repeat(7,1fr);margin-top:8px}.ub{position:relative;border:1px solid #8885;border-radius:8px;padding:8px 4px;text-align:center;outline:0}.ub b{display:block;font-size:1.6em}.uf+.uf .ub{font-size:.78em;padding:5px 2px}.uf+.uf .ub b{font-size:1.6em}.ub .tt{display:none;position:absolute;z-index:30;left:0;top:100%;margin-top:4px;width:max-content;max-width:min(420px,85vw);background:var(--cd,#fff);border:1px solid #8887;border-radius:6px;padding:6px 8px;text-align:left;font-size:12px;line-height:1.45;box-shadow:0 4px 14px #0004}.ub:hover .tt,.ub:focus .tt{display:block}.uf .ub:nth-child(3) .tt,.uf+.uf .ub:nth-child(n+4) .tt{left:auto;right:0}</style><h2>Pontos de atenção</h2><div class="p" id="yal"></div>
+</div>
+<div id="tm" style="display:none">
+<div class="fb"><select id="fm"></select><select id="fa"></select><select id="fc"></select><select id="fh"></select><select id="fw"></select><select id="fd"></select><select id="fs"></select><button id="rs">Limpar filtros</button></div><div class="g" id="kp"></div>
+<h2>Detalhamento por semana</h2><div class="p" id="sem"></div><h2>Detalhamento por dia</h2><div class="p" id="dia"></div>
+<h2>Detalhamento por artista</h2><div class="p wx" id="art"></div>
+<h2>Disponibilidade e Horários</h2><div class="p w" id="dh"><div class="dhb"><span class="sg" id="dhv"><button type="button" data-v="a">Por artista</button><button type="button" data-v="d">Por dia</button></span><span class="sg" id="dhm"><button type="button" data-v="fs">Sextas, sábados e vésp. de feriados</button><button type="button" data-v="all">Todos os dias</button></span><span id="dhd"></span></div><select id="lvv" hidden style="display:none"><option value="a">Disponibilidade por artista</option><option value="d">Disponibilidade por dia</option></select><select id="lvd" hidden style="display:none"></select><select id="lvm" hidden style="display:none"><option value="fs">Datas livres: sextas e sábados</option><option value="all">Datas livres: todos os dias</option></select><select id="gd" hidden style="display:none"></select><div id="grid" class="wx"></div><div id="tlw" hidden><h3 class="dht">Grade de horários</h3><div id="tl"></div></div><div id="liv" class="wx" style="margin-top:12px"></div></div>
+<h2>Agenda</h2><div class="p w"><div id="ag"></div></div>
+<h2>Cidades</h2><div class="p"><select id="cs"><option value="n">Ordenar por nº de shows</option><option value="v">Ordenar por cachê</option><option value="m">Ordenar por comissão</option><option value="d">Ordenar por distância de Florianópolis</option></select><div id="map"></div><div id="cid"></div></div>
+<h2>Casas e locais</h2><div class="p"><select id="ls"><option value="n">Ordenar por nº de shows</option><option value="v">Ordenar por cachê</option><option value="m">Ordenar por comissão</option></select><div id="loc"></div></div>
+<h2>Categorias</h2><div class="p" id="cat"></div>
+<h2>Cachês pendentes</h2><div class="p wx" id="pen"></div>
+<h2>Pontos de atenção</h2><div class="p" id="al"></div>
+</div>
+<!--AG--><div id="tg" style="display:none"><div class="fb"><select id="gy"></select><select id="gm"></select><select id="gs"><option value="T">Todos</option><option value="P">Próximos</option><option value="R">Realizados</option></select></div><div id="gout"></div></div><!--/AG-->
+<!--RA--><div id="tr" style="display:none">
+<div class="fb"><select id="ra"></select><select id="rm"></select><select id="rc"><option value="R">Somente realizados</option><option value="A" selected>Realizados + Confirmados</option><option value="P">Realizados + Projetado</option></select><button id="rx">Limpar seleção</button></div>
+<div id="rbn"></div>
+<div class="rg" id="rgrid"></div>
+<h2>Dados em tabela</h2><div class="p w rdt" id="rtab"></div>
+<h2>Lucro</h2><div class="rg lg2"><div class="p rc" id="lch"></div><div class="p rc wx" id="ltb"></div></div>
+<div id="rt" role="tooltip"></div>
+</div>
+<!--/RA-->
+<div id="tc" style="display:none">
+<div class="fb"><input id="cq" type="search" placeholder="Buscar nome ou telefone"><select id="cc"></select><select id="ct"></select><select id="ca"></select><select id="cl"></select><select id="cn"></select><select id="cm2"></select><button id="rcl">Limpar filtros</button></div>
+<div class="g" id="ckp"></div>
+<h2>Contratantes</h2><div class="p wx" id="clist"></div>
+</div>
+<div class="brand"><a href="https://instagram.com/dromentretenimento" target="_blank" rel="noopener" aria-label="Instagram @dromentretenimento"><img class="logo" alt="DROM" src="ima2c04135ba.png"></a></div></main>
+</div>
+<script src="pnload.js"></script>
+</body>
+</html>

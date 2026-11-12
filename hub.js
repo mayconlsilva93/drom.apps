@@ -118,7 +118,7 @@ function hsel(){var A=ALL(),L=[];CFG.apps.forEach(a=>{var d=DATA[a.f];if(!d)retu
  else{for(var y=YF(lo);y<=YF(hi);y++)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o+'<option value="0">Todos</option>';$("hms").value=HY}
  document.querySelectorAll("#hbar .seg button").forEach(b=>b.classList.toggle("on",b.dataset.v===HV));document.querySelectorAll("#hpl button").forEach(b=>b.classList.toggle("on",b.dataset.f===HF))}
 HMQ.addEventListener&&HMQ.addEventListener("change",()=>{if(TAB!=="h")hsel()});
-function tab(t){if(t==="b"){if(window.HUBCFG){window.open("https://claude.ai/artifact/7XmTAPhYmz3Ezh434tke4Y","_blank","noopener");return}open({n:"Booker",f:"booker"});return}if(t==="p")return;TAB=t;document.querySelectorAll("#hnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));$("list").hidden=t!=="h";$("hv").hidden=t==="h";$("hbar").hidden=t==="h";$("hpl").hidden=t!=="a";
+function tab(t){if(t==="b"){if(window.HUBCFG){window.open("https://claude.ai/artifact/7XmTAPhYmz3Ezh434tke4Y","_blank","noopener");return}open({n:"Booker",f:"booker"});return}if(t==="p"){if(window.HUBCFG){window.open("https://claude.ai/artifact/TYWjWAjkE91sdxRcNTpDv6","_blank","noopener");return}open({n:"Painel",f:"painel"});return}TAB=t;document.querySelectorAll("#hnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));$("list").hidden=t!=="h";$("hv").hidden=t==="h";$("hbar").hidden=t==="h";$("hpl").hidden=t!=="a";
  if(HM===null){HM=curM();HY=YF(HM)}if(t!=="h"){hsel();hview()}window.scrollTo(0,0)}
 function grid(m,X,td){var y=YF(m),mo=(m-1)%12,F1=new Date(y,mo,1).getDay(),N=new Date(y,mo+1,0).getDate(),h="<h3>"+mLab(m)+'</h3><div class="cal hcal">'+["D","S","T","Q","Q","S","S"].map(x=>"<b>"+x+"</b>").join("")+"<span></span>".repeat(F1);
  for(var d=1;d<=N;d++){var c=X.filter(x=>x[0][19]===m&&x[0][0]===d).length;h+='<button type="button" data-m="'+m+'" data-d="'+d+'" class="'+(c?"hsd ":"")+(HSD&&HSD[0]===m&&HSD[1]===d?"on ":"")+(m===td[0]&&d===td[1]?"td":"")+'">'+d+(c?"<small>"+c+(c===1?" show":" shows")+"</small>":"")+"</button>"}
@@ -130,9 +130,9 @@ function hview(){var A=ALL(),X=(HV==="m"?A.filter(x=>x[0][19]===HM):A.filter(x=>
   h=HV==="m"?grid(HM,X,td):HY===0?'<p class="mu">Escolha um ano específico para ver o calendário.</p>':[...Array(12).keys()].map(i=>grid((HY-B)*12+i+1,X,td)).join("")}
  $("hvb").innerHTML=h;if(TAB==="c")$("hvb").querySelectorAll(".hcal button").forEach(b=>b.onclick=()=>{HSD=[+b.dataset.m,+b.dataset.d];hview()})}
 document.querySelectorAll("#hnav button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
-(function(){var b=document.querySelector('#hnav button[data-t="b"]');if(!b)return;var u=()=>window.HUBCFG?"https://claude.ai/artifact/7XmTAPhYmz3Ezh434tke4Y":"booker/";
+[["b","https://claude.ai/artifact/7XmTAPhYmz3Ezh434tke4Y","booker/"],["p","https://claude.ai/artifact/TYWjWAjkE91sdxRcNTpDv6","painel/"]].forEach(function(X){var b=document.querySelector('#hnav button[data-t="'+X[0]+'"]');if(!b)return;var u=()=>window.HUBCFG?X[1]:X[2];
  b.addEventListener("mousedown",e=>{if(e.button===1)e.preventDefault()});b.addEventListener("auxclick",e=>{if(e.button===1){e.preventDefault();window.open(u(),"_blank","noopener")}});
- b.addEventListener("click",e=>{if(e.ctrlKey||e.metaKey||e.shiftKey){e.preventDefault();e.stopImmediatePropagation();window.open(u(),"_blank","noopener")}},true)})();
+ b.addEventListener("click",e=>{if(e.ctrlKey||e.metaKey||e.shiftKey){e.preventDefault();e.stopImmediatePropagation();window.open(u(),"_blank","noopener")}},true)});
 document.querySelectorAll("#hbar .seg button").forEach(b=>b.onclick=()=>{HV=b.dataset.v;if(HV==="y")HY=YF(HM);HSD=null;hsel();hview()});
 document.querySelectorAll("#hpl button").forEach(b=>b.onclick=()=>{HF=b.dataset.f;hsel();hview()});
 $("hms").onchange=()=>{if(HV==="m")HM=+$("hms").value;else HY=+$("hms").value;HSD=null;hview()};

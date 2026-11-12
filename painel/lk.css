@@ -1,0 +1,18 @@
+[hidden]{display:none!important}body.locked #pnw{display:none}
+#lk{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg,#f4f4f2);z-index:100;padding:24px}
+#lkf{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%;max-width:300px;text-align:center}
+#lkf .lav{width:96px;height:96px;border-radius:50%;align-self:center;margin:0 0 -2px}
+#lkf input,#lkf button{-webkit-appearance:none;appearance:none;display:block;margin:0;width:100%;box-sizing:border-box;height:50px;padding:0;font:inherit;font-size:18px;border:1px solid #e4e4e0;border-radius:12px;text-align:center;letter-spacing:0}
+#lkf input{background:#fff;color:#1b1b1b}#lkf #usr{text-transform:lowercase}#lkf #pin{-webkit-text-security:disc}
+#lkf button{background:#0000FF;border-color:#0000FF;color:#fff;font-weight:600;cursor:pointer}
+#lkm{margin:0;color:#d93025;font-size:14px}#lkm:empty{display:none}#lkf small{margin:-4px 0 0;color:#6b6b6b;font-size:12px}
+#bkl{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#6b6b6b;font:15px system-ui,sans-serif}
+
+
+/*LOAD*/body.locked #pnw{display:block!important;visibility:hidden}body.locked #pnw .brand{visibility:visible}body.locked.ld #pnw .hd2,body.locked.ld #pnw .tabs{visibility:visible}
+.pnlom{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.pnlom>div{background:#f4f4f2;border-radius:16px;padding:20px;max-width:320px;width:100%;text-align:center;font:15px system-ui,sans-serif;color:#1b1b1b}.pnlom b{font-size:18px}.pnlom p{color:#6b6b6b;font-size:14px;margin:8px 0 16px}
+.pnlob{display:flex;gap:10px}.pnlob button{flex:1;font:inherit;font-weight:600;padding:11px;border-radius:12px;cursor:pointer;border:1px solid #e4e4e0;background:#fff;color:#1b1b1b}.pnlob .y{background:#d93025;border-color:#d93025;color:#fff}
+
+/*TABFIT*/@media (max-width:600px){.tabs{gap:min(5px,1.1vw)!important;flex-wrap:nowrap!important;justify-content:center!important;overflow:visible!important}.tabs button{font-size:min(13.5px,3.25vw)!important;padding:7px min(8px,1.7vw)!important;min-width:0!important;flex:0 1 auto}.tabs #eye,.tabs #lo{width:min(36px,8.4vw)!important;height:min(36px,8.4vw)!important;min-width:0!important;flex:none!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center}.tabs #eye svg,.tabs #lo svg{width:min(20px,4.8vw);height:min(20px,4.8vw)}}
+@media (max-width:600px){.tabs button:not(#eye):not(#lo){width:auto!important;white-space:nowrap;font-size:min(13.5px,3.05vw)!important;padding:7px min(9px,1.5vw)!important;letter-spacing:-.01em}}
