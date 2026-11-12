@@ -19,7 +19,13 @@ async function go(cfg){$("lk").remove();msg("Carregando…");
  await js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");await js("https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.umd.min.js");
  for(var f of ["data.js","b0.js","b1.js","b2.js","b3.js","b4.js","b5.js","b6.js","b7.js","b8.js","b9.js"])if(D[f]!==undefined)await js(null,D[f]);
  if(!window.claude)window.claude={use:async function(){return null}};/* busca com Claude só existe no artefato */
- await js("s2.js");await js(null,A["a1.js"]);await js("s3.js");var s4=document.createElement("script");s4.id="drom-home";s4.src="s4.js";document.body.appendChild(s4);await js("ui2.js")}
+ await js("s2.js");await js(null,A["a1.js"]);await js("s3.js");var s4=document.createElement("script");s4.id="drom-home";s4.src="s4.js";document.body.appendChild(s4);await js("ui2.js");sair()}
+function sair(){var b=document.createElement("button");b.type="button";b.className="bklo";b.title="Sair";b.setAttribute("aria-label","Sair");
+ b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>';
+ b.onclick=function(){var m=document.createElement("div");m.className="bklom";m.innerHTML='<div><b>Sair do Booker?</b><p>Sai do Booker e do Hub neste aparelho. Para entrar de novo será preciso digitar login e senha.</p><div class="bklob"><button type="button" class="c">Cancelar</button><button type="button" class="y">Sair</button></div></div>';
+  document.body.appendChild(m);m.querySelector(".c").onclick=()=>m.remove();m.onclick=e=>{if(e.target===m)m.remove()};
+  m.querySelector(".y").onclick=async()=>{await kdel("hub");try{if(window.top!==window){window.top.location.reload();return}}catch(e){}location.reload()}};
+ var hd=document.querySelector(".hd");(hd||document.body).appendChild(b)}
 async function start(){
  try{H=await (await fetch("../h.json",{cache:"no-store"})).json()}catch(e){msg("Sem conexão. Tente de novo.");return}
  var st=await kget("hub");

@@ -256,7 +256,14 @@ var _cepBusy=0;
 function autoCep(n,force){var r=cur_();if(!r||(!force&&r.ct_cep)||!r.ct_end||!r.ct_cid||_cepBusy)return;var a=cur.a,pn=cur.p.n,msg=$("cpmsg"),base=n?n+" campos preenchidos. Confira antes de baixar. ":"";
   var kc=cepLookup(r);if(kc){var o0=OV[key(a,pn)]||(OV[key(a,pn)]={});o0.ct_cep=kc;buildCForm();renderSum();renderAll();msg.textContent=base+"CEP "+kc+" encontrado na base do Booker.";return}
   _cepBusy=1;msg.textContent=base+"Buscando CEP…";
-  (async function(){try{var sm=await claude.use("sample");if(!sm){msg.textContent=base+"CEP não preenchido (busca indisponível).";return}
+  (async function(){try{var sm=await claude.use("sample");if(!sm){/* GitHub: busca nos Correios (ViaCEP) */
+      var cc=String(r.ct_cid||"").split(/\s*[\/\-]\s*/),cid=cc[0]||"",uf=(cc[1]||"").trim().toUpperCase(),rua=String(r.ct_end||"").split(",")[0].replace(/^\s+|\s+$/g,"").replace(/\s+n[ºo°.]?\s*\d.*$/i,"");
+      if(!cid||uf.length!==2||rua.length<3){msg.textContent=base+"CEP não preenchido (endereço incompleto para buscar nos Correios).";return}
+      var L=await (await fetch("https://viacep.com.br/ws/"+uf+"/"+encodeURIComponent(cid)+"/"+encodeURIComponent(rua)+"/json/")).json();
+      var nb=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(),bz=nb(r.ct_bairro),hit=Array.isArray(L)&&L.length?(bz&&L.find(x=>nb(x.bairro)===bz))||L[0]:null;
+      if(cur&&cur.a===a&&cur.p.n===pn){if(hit&&hit.cep){var o2=OV[key(a,pn)]||(OV[key(a,pn)]={});o2.ct_cep=hit.cep;buildCForm();renderSum();renderAll();msg.textContent=base+"CEP "+hit.cep+" encontrado nos Correios ("+hit.logradouro+(hit.bairro?", "+hit.bairro:"")+(L.length>1?"; "+L.length+" CEPs nessa rua — confira o número":"")+")."}
+        else msg.textContent=base+"Correios não encontraram o CEP dessa rua: use o link Buscar CEP."}
+      return}
     var q="Qual é o CEP deste endereço brasileiro? Endereço: "+[r.ct_end,r.ct_comp,r.ct_bairro,r.ct_cid].filter(Boolean).join(", ")+". Dê o CEP exato se souber; se não souber o do número, dê o CEP geral da rua; se a rua for desconhecida, o CEP mais provável do bairro. Responda somente com JSON no formato {\"cep\":\"00000-000\" ou null,\"confianca\":\"alta\"|\"media\"|\"baixa\"}. Use null apenas se não houver nenhuma estimativa razoável.";
     var res=await sm.json(q,{modelTier:"default",cache:false});var c=res&&String(res.cep||"").replace(/\D/g,"");
     if(cur&&cur.a===a&&cur.p.n===pn){if(c&&c.length===8){var o=OV[key(a,pn)]||(OV[key(a,pn)]={});o.ct_cep=c.slice(0,5)+"-"+c.slice(5);buildCForm();renderSum();renderAll();msg.textContent=base+"CEP "+o.ct_cep+" sugerido pelo Claude (confiança "+(res.confianca||"média")+"): confira antes de baixar."}
