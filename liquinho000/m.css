@@ -31,3 +31,5 @@ body.locked main,body.locked nav{display:none}
 /*ICN*/.top .bell{margin-right:-8px}.top #eye{margin-left:0}
 
 /*LK2*/#lkf input,#lkf button{box-sizing:border-box;width:100%}#lkf .llg{height:20px}#lkm:empty{display:none}#lkm{margin:-4px 0 0}#lkf small{margin-top:-4px}
+
+/*LK3*/#lkf .lav{margin:0}#lkf small{margin-top:0}#lkm{margin:0}#lkf #pin::placeholder{letter-spacing:0;font-size:18px}

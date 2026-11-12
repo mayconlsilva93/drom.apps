@@ -41,3 +41,5 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 
 /*LK2*/#lkf input,#lkf button{box-sizing:border-box;width:100%}#lkf .lav{margin-bottom:10px}#lkm:empty{display:none}#lkm{margin:-4px 0 0}#lkf small{margin-top:-4px}
 #lkf #usr{text-transform:lowercase}
+
+/*LK3*/#lkf .lav{margin:0}#lkf small{margin-top:0}#lkm{margin:0}
