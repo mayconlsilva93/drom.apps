@@ -113,8 +113,8 @@ function hcard(x){var s=x[0],a=x[1],c='<div class="cd hcd"><div class="hd"><div 
 setInterval(function(){if(TAB==="h")return;var n=Date.now(),rd=0;document.querySelectorAll(".hag.soon .agl[data-st]").forEach(x=>{var a=+x.dataset.st;if(a<=n)rd=1;else x.textContent=fal(a-n)});document.querySelectorAll(".hag.now .agl[data-en]").forEach(x=>{if(+x.dataset.en<=n)rd=1});if(rd)hview()},30000);
 var curM=()=>{var n=new Date(Date.now()-216e5);return(n.getFullYear()-B)*12+n.getMonth()+1},mLab=m=>MNS[(m-1)%12]+" "+(B+Math.floor((m-1)/12)),YF=m=>B+Math.floor((m-1)/12);
 function hsel(){var L=ALL().map(x=>x[0][19]),c=curM(),lo=Math.min(c,...L),hi=Math.max(c,...L),o="";
- if(HV==="m"){for(var m=hi;m>=lo;m--)o+='<option value="'+m+'">'+MNS[(m-1)%12].slice(0,3)+" "+YF(m)+"</option>";$("hms").innerHTML=o;$("hms").value=HM}
- else{for(var y=YF(hi);y>=YF(lo);y--)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o;$("hms").value=HY}
+ if(HV==="m"){for(var m=lo;m<=hi;m++)o+='<option value="'+m+'">'+MNS[(m-1)%12].slice(0,3)+" "+YF(m)+"</option>";$("hms").innerHTML=o;$("hms").value=HM}
+ else{for(var y=YF(lo);y<=YF(hi);y++)o+='<option value="'+y+'">'+y+"</option>";$("hms").innerHTML=o;$("hms").value=HY}
  document.querySelectorAll("#hbar .seg button").forEach(b=>b.classList.toggle("on",b.dataset.v===HV));document.querySelectorAll("#hpl button").forEach(b=>b.classList.toggle("on",b.dataset.f===HF))}
 function tab(t){if(t==="p"||t==="b")return;TAB=t;document.querySelectorAll("#hnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));$("list").hidden=t!=="h";$("hv").hidden=t==="h";$("hbar").hidden=t==="h";$("hpl").hidden=t!=="a";
  if(HM===null){HM=curM();HY=YF(HM)}if(t!=="h"){hsel();hview()}window.scrollTo(0,0)}
