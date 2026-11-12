@@ -49,3 +49,6 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 /*LK5*/#lkf input{text-align:center!important;letter-spacing:0!important;text-indent:0!important;padding:0!important;line-height:normal!important}#lkf input::placeholder{text-align:center;letter-spacing:0!important;font-size:18px;line-height:normal}#lkf input::-webkit-input-placeholder{text-align:center;letter-spacing:0}
 
 /*HOME*/#bk{display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0!important;border-radius:50%!important}#bk svg{display:block}
+
+/*HNAV*/.brand{bottom:calc(58px + env(safe-area-inset-bottom,0px))!important;padding-bottom:5px!important}main{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}body.locked #hnav{display:none}#fr~#hnav,#hnav{z-index:45}
+#hnav{grid-template-columns:repeat(5,1fr)!important}
