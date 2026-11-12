@@ -1,5 +1,6 @@
 /* DROM Booker (GitHub) · mesmo login do Hub; dados e modelos criptografados (chave dentro do h.json do Hub) */
 (function(){
+(function(){var d=document.createElement("div");d.className="dbrand";d.innerHTML='<a href="https://instagram.com/dromentretenimento" target="_blank" rel="noopener" aria-label="Instagram @dromentretenimento"><img alt="DROM" src="ima2c04135ba.png"></a>';document.body.appendChild(d);requestAnimationFrame(function(){document.body.classList.add("ld")})})();/* rodapé primeiro, depois cabeçalho, depois dados */
 var WEEK=7*864e5,$=id=>document.getElementById(id),H=null;
 var b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function db(){return new Promise((ok,er)=>{var r=indexedDB.open("drom",1);r.onupgradeneeded=()=>r.result.createObjectStore("k");r.onsuccess=()=>ok(r.result);r.onerror=()=>er(r.error)})}
@@ -15,11 +16,11 @@ async function go(cfg){$("lk").remove();msg("Carregando…");
  var K=await crypto.subtle.importKey("raw",b64(cfg.bk),"AES-GCM",false,["decrypt"]);
  var r=await Promise.all([fetch("bk.json",{cache:"no-store"}).then(x=>x.json()),fetch("a1.json").then(x=>x.json())]);
  var D=await dec(K,r[0].iv,r[0].ct),A=await dec(K,r[1].iv,r[1].ct);window.DROMUPD=r[0].up||"";
- document.body.classList.remove("locked");msg("");
+ msg("");
  await js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");await js("https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.umd.min.js");
  for(var f of ["data.js","b0.js","b1.js","b2.js","b3.js","b4.js","b5.js","b6.js","b7.js","b8.js","b9.js"])if(D[f]!==undefined)await js(null,D[f]);
  if(!window.claude)window.claude={use:async function(){return null}};/* busca com Claude só existe no artefato */
- await js("s2.js");await js(null,A["a1.js"]);await js("s3.js");var s4=document.createElement("script");s4.id="drom-home";s4.src="s4.js";document.body.appendChild(s4);await js("ui2.js");sair()}
+ await js("s2.js");await js(null,A["a1.js"]);await js("s3.js");var s4=document.createElement("script");s4.id="drom-home";s4.src="s4.js";document.body.appendChild(s4);await js("ui2.js");document.body.classList.remove("locked");sair()}
 function sair(){var b=document.createElement("button");b.type="button";b.className="bklo";b.title="Sair";b.setAttribute("aria-label","Sair");
  b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>';
  b.onclick=function(){var m=document.createElement("div");m.className="bklom";m.innerHTML='<div><b>Sair do Booker?</b><p>Sai do Booker e do Hub neste aparelho. Para entrar de novo será preciso digitar login e senha.</p><div class="bklob"><button type="button" class="c">Cancelar</button><button type="button" class="y">Sair</button></div></div>';

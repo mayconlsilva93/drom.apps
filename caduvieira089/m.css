@@ -39,3 +39,5 @@ body.locked main,body.locked nav{display:none}
 /*LK5*/#lkf input{text-align:center!important;letter-spacing:0!important;text-indent:0!important;padding:0!important;line-height:normal!important}#lkf input::placeholder{text-align:center;letter-spacing:0!important;font-size:18px;line-height:normal}#lkf input::-webkit-input-placeholder{text-align:center;letter-spacing:0}
 
 /*NB0*/.npn .ni b::before,.npn .ni.nu b::before,.npn .ni.nu>b::before{content:none!important}
+
+/*LOAD*/body.locked main{display:block!important;visibility:hidden}body.locked main .brand{visibility:visible}body.locked nav{display:grid!important}body.locked.ld main .stk,body.locked.ld main .top{visibility:visible}

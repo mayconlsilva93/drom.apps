@@ -77,3 +77,5 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 .hlg{height:22px!important;transform:translate(-50%,-50%)!important}
 #hbar .hctl{margin:10px 0 9px!important}.hctl .nv{font-size:0!important;padding:0!important;color:inherit!important;margin:0 -4px!important}.hctl{gap:6px!important}
 .hbn{align-items:center}
+
+/*LOAD*/body.locked main{display:block!important;visibility:hidden}body.locked main .brand{visibility:visible}body.locked #hnav{display:grid!important}body.locked.ld main .stk{visibility:visible}
