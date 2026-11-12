@@ -1,7 +1,7 @@
 name: lembrete 1 hora antes
 on:
   schedule:
-    - cron: "50 * * * *"
+    - cron: "20 * * * *"
   workflow_dispatch:
 permissions:
   contents: read

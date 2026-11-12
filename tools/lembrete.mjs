@@ -1,4 +1,4 @@
-// DROM · lembrete pontual "falta 1 hora" (GitHub Action, roda às :50 e cobre a hora cheia seguinte).
+// DROM · lembrete pontual "falta 1 hora" (GitHub Action, roda às :20 e cobre a hora cheia seguinte).
 // Uso: DROM_PIN=x node tools/lembrete.mjs maneira038
 import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";import {pull} from "./subpull.mjs";
 if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN");process.exit(1)}
@@ -9,7 +9,7 @@ const dec=(iv,ct)=>{ct=Buffer.from(ct,"base64");const d=crypto.createDecipheriv(
 const get=f=>fs.existsSync(P(f))?(x=>dec(x.iv,x.ct))(JSON.parse(fs.readFileSync(P(f)))):null;
 const S=dec(D.iv,D.ct).S,subs=get("subs.json")||[],vp=get("vp.json"),H=36e5;
 await pull(app,key,subs);
-const now=Date.now(),slot=Math.floor((now+15*60e3)/H)*H,end=slot+H; // hora cheia coberta por esta rodada
+const now=Date.now(),slot=Math.floor(now/H)*H+H,end=slot+H; // próxima hora cheia (cron :20; tolera atraso do GitHub até :59)
 const due=S.map(s=>({s,t:dromStart(s,2023)})).filter(x=>x.t&&x.t-H>=slot&&x.t-H<end).sort((a,b)=>a.t-b.t);
 console.log(due.length+" lembrete(s) entre "+new Date(slot).toISOString()+" e "+new Date(end).toISOString()+", "+subs.length+" inscrição(ões)");
 if(!due.length||!subs.length||!vp)process.exit(0);
