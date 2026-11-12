@@ -17,3 +17,5 @@
 @media (max-width:430px){.hd{padding-left:48px!important;padding-right:48px!important;gap:6px!important}.hd .hlogo{height:min(21px,5vw)!important}.hd .hic{height:min(19px,4.5vw)!important}.hd b{font-size:min(14px,3.4vw)!important;padding:3px 9px 3px 8px!important;gap:4px!important}}
 
 /*LOAD*/body.locked #bkw{display:block!important;visibility:hidden}body.locked.ld #bkw .hd{visibility:visible}#lk{z-index:100}
+
+/*HDF*/.hd{padding-left:50px!important;padding-right:50px!important;box-sizing:border-box;gap:min(12px,1.6vw)!important}.hd .hlogo{height:min(34px,4.7vw)!important;width:auto}.hd .hic{height:min(30px,4.4vw)!important}.hd b{font-size:min(22px,3.3vw)!important;padding:min(6px,.8vw) min(20px,2.6vw) min(6px,.8vw) min(17px,2.3vw)!important;gap:min(9px,1.2vw)!important}
