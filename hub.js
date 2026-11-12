@@ -14,7 +14,7 @@ async function derive(pin,salt){var k=await crypto.subtle.importKey("raw",new Te
 async function dec(key,iv,ct){var t=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(iv)},key,b64(ct));return JSON.parse(new TextDecoder().decode(t))}
 /* ---------- PIN ---------- */
 async function start(){
- if(window.HUBCFG){/* versão artefato do Claude: sem PIN; dados em data.js */$("lk").remove();$("lo").remove();var sb=document.querySelector(".sub");if(sb)sb.textContent="Totais de 2026 por artista; ex-artistas (cinza) mostram o histórico completo. Toque num artista para abrir o app dele.";return goArt()}
+ if(window.HUBCFG){/* versão artefato do Claude: sem PIN; dados em data.js */$("lk").remove();$("lo").remove();return goArt()}
  try{var r=await fetch("h.json",{cache:"no-store"});H=await r.json()}catch(e){$("lkm").textContent="Sem conexão. Tente de novo.";$("lk").hidden=false;return}
  var st=await kget("hub");
  if(st&&st.salt===H.salt&&Date.now()-st.ts<WEEK){try{await go(await dec(st.key,H.iv,H.ct));return}catch(e){}}
@@ -33,19 +33,31 @@ async function go(c){CFG=c;$("lk").remove();document.body.classList.remove("lock
  await Promise.all(c.apps.map(async a=>{try{var r=await fetch(a.f+"/d.json",{cache:"no-store"}),d=await r.json();DATA[a.f]={S:(await dec(AK,d.iv,d.ct)).S||[],up:d.up||""}}catch(e){DATA[a.f]={S:[],up:"",err:1}}}));
  notif();draw()}
 var HIDE=ls.g("hide")||false,fm=v=>Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
-function draw(){var L=$("list");L.innerHTML="";var ups=[];
- var so=0;L.insertAdjacentHTML("beforeend",'<div class="sh">Casting atual</div>');CFG.apps.forEach(a=>{var d=DATA[a.f],t;if(a.old&&!so){so=1;L.insertAdjacentHTML("beforeend",'<div class="sh">Ex-artistas</div>')}
-  if(d){var A=d.S.filter(s=>a.old||(s[19]>=37&&s[19]<=48)),v=A.reduce((x,s)=>x+(+s[15]||0),0);
-   t=(a.old?"ex-artista · "+A.length+" shows no histórico":A.length+" shows em 2026")+" · "+'<span style="white-space:nowrap">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>"+" em cachês";if(d.up)ups.push(d.up)}
-  else t="carregando…";
-  var nn=(LOG||[]).filter(x=>!x.r&&x.f===a.f).length;
-  var el=document.createElement("button");el.className="c"+(a.old?" gy":"");
-  el.innerHTML='<img alt="" src="'+a.img+'"><div><b>'+a.n+(nn?'<span class="nb">'+nn+'</span>':"")+'</b><span>'+t+'</span></div><i>Abrir ›</i>';
-  el.onclick=()=>open(a);L.appendChild(el)});
+var nm=a=>a.n.replace(/^DJ /,"");
+function st(a){var d=DATA[a.f];if(!d)return null;var now=Date.now(),y=a.old?null:2026,A=d.S.filter(s=>a.old||(s[19]>=37&&s[19]<=48)),v=A.reduce((x,s)=>x+(+s[15]||0),0),
+ rz=A.filter(s=>{var t=dromStart(s,B)||new Date(B,s[19]-1,s[0]+1,6).getTime();return t+(+s[5]||0)*6e4<now}).length,
+ pr=d.S.map(s=>[dromStart(s,B)||new Date(B,s[19]-1,s[0],23,59).getTime(),s]).filter(x=>x[0]>now).sort((p,q)=>p[0]-q[0])[0],
+ pc=A.filter(s=>(+s[15]||0)>0&&!s[18]&&(dromStart(s,B)||0)<now).length;
+ return{n:A.length,v:v,rz:rz,ar:A.length-rz,pr:pr&&pr[1],pc:pc,up:d.up}}
+function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
+ CFG.apps.forEach(a=>{if(!g||(a.old&&!so)){if(a.old){so=1;L.insertAdjacentHTML("beforeend",'<div class="sh">Ex-artistas</div>')}else L.insertAdjacentHTML("beforeend",'<div class="sh">Casting atual</div>');g=document.createElement("div");g.className="hg";L.appendChild(g)}
+  var d=DATA[a.f];if(d&&d.up)ups.push(d.up);var nn=(LOG||[]).filter(x=>!x.r&&x.f===a.f).length;
+  var el=document.createElement("div");el.className="hi"+(a.old?" gy":"");
+  el.innerHTML='<'+(a.url?'a href="'+a.url+'" target="_blank" rel="noopener"':'button type="button"')+' class="hph" title="Abrir app"><img alt="'+nm(a)+'" src="'+a.img+'">'+(nn?'<i class="nb">'+nn+'</i>':"")+'</'+(a.url?"a":"button")+'><button type="button" class="hnm">'+nm(a)+'</button>';
+  if(!a.url)el.querySelector(".hph").onclick=()=>open(a);el.querySelector(".hnm").onclick=()=>info(a);g.appendChild(el)});
  ups.sort((x,y)=>{var p=s=>s.replace(/(\d\d)\/(\d\d)\/(\d{4}) (.*)/,"$3$2$1 $4");return p(y)<p(x)?-1:1});
  $("upd").textContent=ups.length?"Dados atualizados em "+ups[0]:""}
+function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
+ m.innerHTML='<div class="hif"><img alt="" src="'+a.img+'"><b>'+nm(a)+'</b>'+(a.old?'<small>ex-artista</small>':"")+(s?'<dl>'+
+  '<dt>'+(a.old?"Shows no histórico":"Shows em 2026")+'</dt><dd>'+s.n+(a.old?"":" ("+s.rz+" realizados · "+s.ar+" a realizar)")+'</dd>'+
+  '<dt>'+(a.old?"Cachês no histórico":"Cachês em 2026")+'</dt><dd>'+R(s.v)+'</dd>'+
+  (s.pc?'<dt>Cachês pendentes</dt><dd>'+s.pc+(s.pc>1?" shows":" show")+'</dd>':"")+
+  (a.old?"":'<dt>Próximo show</dt><dd>'+(s.pr?dromLn(s.pr,B,{hora:1}):"nenhum agendado")+'</dd>')+
+  '</dl>':'<p>carregando…</p>')+'<div class="lob"><button class="loc">Fechar</button>'+(a.url?'<a class="loy hop" href="'+a.url+'" target="_blank" rel="noopener">Abrir app</a>':'<button class="loy hop">Abrir app</button>')+'</div></div>';
+ m.hidden=false;m.onclick=e=>{if(e.target===m)m.hidden=true};m.querySelector(".loc").onclick=()=>m.hidden=true;
+ var o=m.querySelector(".hop");o.onclick=()=>{m.hidden=true;if(!a.url)open(a)}}
 /* ---------- abrir app dentro do hub ---------- */
-function open(a){if(a.url){window.open(a.url,"_blank","noopener");return}$("frn").textContent=a.n;$("frx").href=a.f+"/";$("ifr").src=a.f+"/?h="+Date.now();$("fr").hidden=false;history.pushState({fr:1},"")}
+function open(a){$("frn").textContent=nm(a);$("frx").href=a.f+"/";$("ifr").src=a.f+"/?h="+Date.now();$("fr").hidden=false;history.pushState({fr:1},"")}
 function close(){$("fr").hidden=true;$("ifr").src="about:blank"}
 $("bk").onclick=()=>{close();if(history.state&&history.state.fr)history.back()};
 addEventListener("popstate",()=>{if(!$("fr").hidden)close()});
