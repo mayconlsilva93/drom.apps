@@ -1,5 +1,5 @@
 // DROM · notificações push (GitHub Action). Uso: DROM_PIN=x node tools/notify.mjs maneira
-import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";import {pull} from "./subpull.mjs";
+import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {createRequire} from "module";import {pull,hubSend,hubSubs} from "./subpull.mjs";
 if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN (Settings → Secrets and variables → Actions).");process.exit(1)}
 const require=createRequire(import.meta.url),app=process.argv[2],P=f=>path.join(app,f);
 const {dromDiff,dromStart}=require(path.resolve(app,"diff.js"));
@@ -20,10 +20,12 @@ const first=!st.S;st.S=S;
 for(const k of Object.keys(st.rem))if(!S.some(s=>k.startsWith(s[14])))delete st.rem[k];
 put("st.json",st);
 console.log((first?"estado inicial; ":"")+msgs.length+" mensagem(ns), "+subs.length+" inscrição(ões)");
-if(first||!msgs.length||!subs.length||!vp)process.exit(0);
+const hs=await hubSubs(key);
+if(first||!msgs.length||(!subs.length&&!hs.length)||!vp)process.exit(0);
 webpush.setVapidDetails("https://instagram.com/dromentretenimento",vp.publicKey,vp.privateKey);
 let alive=[];
 for(const s of subs){let ok=true;
   for(const m of msgs.slice(0,10)){try{await webpush.sendNotification(s,JSON.stringify(m),{TTL:86400})}catch(e){if(e.statusCode===404||e.statusCode===410){ok=false;break}console.log("erro",e.statusCode||e.message)}}
   if(ok)alive.push(s)}
 if(alive.length!==subs.length)put("subs.json",alive);
+for(const m of msgs.slice(0,10))await hubSend(webpush,app,key,m);

@@ -2,7 +2,7 @@
 // Uso: DROM_PIN=x node tools/agenda.mjs maneira038 hoje|semana
 //  hoje   → "Hoje tem show!" às 9h (todos os shows do dia)
 //  semana → "Shows da semana" quarta 21h (shows de quinta até a quarta seguinte)
-import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {pull} from "./subpull.mjs";import {createRequire} from "module";
+import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {pull,hubSend,hubSubs} from "./subpull.mjs";import {createRequire} from "module";
 if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN");process.exit(1)}
 const app=process.argv[2],modo=process.argv[3],P=f=>path.join(app,f);
 const D=JSON.parse(fs.readFileSync(P("d.json"))),key=crypto.pbkdf2Sync(process.env.DROM_PIN,Buffer.from(D.salt,"base64"),200000,32,"sha256");
@@ -22,8 +22,10 @@ else if(modo==="semana"){alvo=hoje+21*36e5-BR;const wd=new Date(hoje).getUTCDay(
   const L=S.filter(s=>dia(s)>=qui&&dia(s)<=dom).sort(ord);
   if(L.length)m={t:"Shows da semana",b:L.map(s=>dromLn(s,2023,{hora:1})).join("\n")}}
 console.log(modo,m?m.b.split("\n").length+" show(s)":"sem shows",subs.length+" inscrição(ões)");
-if(!m||!subs.length||!vp)process.exit(0);
+const hs=await hubSubs(key);
+if(!m||(!subs.length&&!hs.length)||!vp)process.exit(0);
 const w=alvo-Date.now();if(!process.env.FORCE){if(w>36e5||w<-3*36e5){console.log("fora do horário, nada enviado");process.exit(0)}if(w>0)await new Promise(r=>setTimeout(r,w))}
 webpush.setVapidDetails("https://instagram.com/dromentretenimento",vp.publicKey,vp.privateKey);
 for(const sb of subs){try{await webpush.sendNotification(sb,JSON.stringify(m),{TTL:6*3600})}catch(e){console.log("erro",e.statusCode||e.message)}}
+await hubSend(webpush,app,key,m,{TTL:6*3600});
 console.log("enviado",new Date().toISOString());

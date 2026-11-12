@@ -1,0 +1,15 @@
+[hidden]{display:none!important}
+/* Hub: usa hs1.css/hm.css dos apps de artista; aqui só o que é próprio do Hub */
+.sub{color:var(--mu);margin:12px 0 12px;font-size:13px}
+.c{display:flex;gap:12px;align-items:center;background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:8px;color:var(--tx);cursor:pointer;width:100%;font:inherit;text-align:left;box-sizing:border-box}
+.c img{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff;flex:none}.c div{flex:1;min-width:0}.c b{display:block}.c span{color:var(--mu);font-size:13px}.c i{font-style:normal;color:var(--ac);font-weight:600;font-size:13px}
+.c.gy b,.c.gy span{color:var(--mu)}.c.gy{opacity:.85}.c .nb{background:var(--rd,#d93025);color:#fff;border-radius:9px;font:700 11px/17px system-ui;padding:0 6px;margin-left:6px;display:inline-block}
+.sh{margin:16px 0 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.brand{bottom:0!important;padding-bottom:calc(5px + env(safe-area-inset-bottom,0px))!important}
+main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
+.top .bell.on i{display:block}
+#fr{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column}
+.frb{display:flex;align-items:center;gap:10px;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;background:#0000FF;color:#fff}
+.frb button{font:inherit;font-weight:600;border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:16px;padding:5px 12px;cursor:pointer}.frb b{flex:1;font-size:15px}.frb a{color:#fff;text-decoration:none;font-size:18px;padding:0 6px}
+#ifr{flex:1;border:0;width:100%}
+.ntoast{bottom:40px!important}
