@@ -33,3 +33,5 @@ body.locked main,body.locked nav{display:none}
 /*LK2*/#lkf input,#lkf button{box-sizing:border-box;width:100%}#lkf .llg{height:20px}#lkm:empty{display:none}#lkm{margin:-4px 0 0}#lkf small{margin-top:-4px}
 
 /*LK3*/#lkf .lav{margin:0}#lkf small{margin-top:0}#lkm{margin:0}#lkf #pin::placeholder{letter-spacing:0;font-size:18px}
+
+/*LK4*/#lkf{align-items:stretch!important;gap:8px!important}#lkf .lav{align-self:center;margin:0 0 -2px!important}#lkf input,#lkf button{-webkit-appearance:none;appearance:none;display:block;margin:0!important;width:100%!important;max-width:none!important;min-width:0;box-sizing:border-box!important;height:50px;padding:0 12px!important;font-size:18px!important;border:1px solid var(--bd)!important;border-radius:12px!important}#lkf button{border-color:var(--ac)!important}#lkf small{margin:-4px 0 0!important;text-align:center}#lkm:empty{display:none}
