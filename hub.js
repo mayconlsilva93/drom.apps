@@ -138,3 +138,5 @@ start();
 })();
 
 /*KB*/(function(){var v=window.visualViewport;function fit(){var l=document.getElementById("lk");if(!l||!v)return;l.style.position="fixed";l.style.top=v.offsetTop+"px";l.style.height=v.height+"px";l.style.bottom="auto";l.style.inset="auto 0 auto 0";l.style.top=v.offsetTop+"px"}if(v){v.addEventListener("resize",fit);v.addEventListener("scroll",fit);fit()}document.addEventListener("focusin",function(e){if(e.target&&e.target.closest&&e.target.closest("#lk"))setTimeout(function(){fit();window.scrollTo(0,0)},60)})})();
+
+/*SWU*/(function(){if(!("serviceWorker" in navigator))return;var had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",function(){if(had&&!sessionStorage.getItem("swr")){sessionStorage.setItem("swr","1");location.reload()}});navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update()}).catch(function(){});document.addEventListener("visibilitychange",function(){if(!document.hidden)navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update()}).catch(function(){})})})();
