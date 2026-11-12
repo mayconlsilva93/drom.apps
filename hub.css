@@ -56,3 +56,14 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 /*NB0*/.npn .ni b::before,.npn .ni.nu b::before,.npn .ni.nu>b::before{content:none!important}
 
 /*HNAV2*/html,body{scrollbar-gutter:auto!important}.brand{padding:7.3px 0!important;left:0!important;right:0!important;width:auto!important}#hnav{left:0!important;right:0!important}.ntoast{bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+
+/*HAG*/[hidden]{display:none!important}.hcd .hd{all:unset;box-sizing:border-box;display:flex;gap:10px;width:100%;padding:10px 12px;align-items:flex-start}
+.hcd .hav{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;background:#fff;border:1px solid var(--bd)}
+.hcd .in{flex:1;min-width:0}.hctl{display:flex;gap:6px;align-items:center;margin:4px 0 6px}.hctl select{flex:1}
+.hcal button{position:relative}.hcal button small{display:block;font-size:8.5px;line-height:1;color:var(--mu);font-weight:600;white-space:nowrap}.hcal button.on small{color:inherit}
+.hcal button.td{border-color:var(--ac);border-width:2px}
+.hctl #hpv,.hctl #hnx{border:0;background:none;color:var(--ac);font-size:16px;cursor:pointer;padding:4px}.hctl #hcu{font:inherit;font-weight:600;padding:7px 12px;border-radius:10px;border:1px solid var(--ac);background:var(--cd);color:var(--ac);cursor:pointer}
+.hcal{grid-template-columns:repeat(7,minmax(0,1fr))!important}.hcal button{min-width:0;overflow:hidden}.hcal button small{font-size:8px;letter-spacing:-.01em}
+.hcal button,.hcal button.sh{aspect-ratio:1/1!important;width:100%!important;height:auto!important;padding:0!important;border:1px solid var(--bd)!important;box-sizing:border-box}.hcal button.td{border:2px solid var(--ac)!important}
+.hcal button.hsd{background:var(--acs)}.hcal button.on{background:var(--ac)!important;color:var(--acx)!important}
+.hrw{display:flex;gap:8px;align-items:center;margin-bottom:8px}.hrw .hcd{flex:1;min-width:0;margin:0}.hrw .hav{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;background:#fff;border:1px solid var(--bd)}

@@ -23,7 +23,7 @@ $("lkf").onsubmit=async e=>{e.preventDefault();var us=$("usr").value.trim().toLo
  try{var key=await derive(pin,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";$("usr").value="";await go(c)}
  catch(er){$("lkm").textContent="Login ou senha incorretos.";$("pin").value="";$("pin").focus()}};
 async function goArt(){CFG=window.HUBCFG;document.body.classList.remove("locked");var A=(window.DROMDATA||{}).A||{};
- CFG.apps.forEach(a=>{DATA[a.f]={S:A[a.k]||[],up:""}});icons();notif();draw()}
+ CFG.apps.forEach(a=>{DATA[a.f]={S:A[a.k]||[],up:""}});icons();notif();draw();if(TAB!=="h")hview()}
 /* ---------- depois de entrar ---------- */
 async function go(c){CFG=c;$("lk").remove();document.body.classList.remove("locked");
  AK=await crypto.subtle.importKey("raw",b64(c.ak),"AES-GCM",false,["decrypt","encrypt"]);
@@ -31,7 +31,7 @@ async function go(c){CFG=c;$("lk").remove();document.body.classList.remove("lock
  for(var a of c.apps)await kput(a.idb,{key:AK,salt:c.as,ts:Date.now(),v:2});
  draw();icons();
  await Promise.all(c.apps.map(async a=>{try{var r=await fetch(a.f+"/d.json",{cache:"no-store"}),d=await r.json();DATA[a.f]={S:(await dec(AK,d.iv,d.ct)).S||[],up:d.up||""}}catch(e){DATA[a.f]={S:[],up:"",err:1}}}));
- notif();draw()}
+ notif();draw();if(TAB!=="h")hview()}
 var HIDE=ls.g("hide")||false,fm=v=>Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
 var nm=a=>a.n.replace(/^DJ /,"");
 function st(a){var d=DATA[a.f];if(!d)return null;var now=Date.now(),y=a.old?null:2026,A=d.S.filter(s=>a.old||(s[19]>=37&&s[19]<=48)),v=A.reduce((x,s)=>x+(+s[15]||0),0),
@@ -99,6 +99,27 @@ async function sub(){var nf=pn.querySelector(".nf");try{
  ls.s("subok",s.endpoint);setTimeout(()=>reg.showNotification("Notificações ativadas!",{body:"Você vai receber aqui os avisos de todos os artistas.",icon:"icon-192.png",badge:"badge.png"}),1500);
  nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em até 1 hora.</p>'}
  catch(e){nf.insertAdjacentHTML("beforeend",'<p class="ne">Não foi possível ativar: '+(e.message||e)+"</p>")}}
+
+/* ---------- menu inferior: Início, Agenda, Calendário (Painel e Booker ainda não habilitados) ---------- */
+var TAB="h",HM=null,HSD=null,MNS=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],WD=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+function ALL(){var r=[];CFG.apps.forEach(a=>{var d=DATA[a.f];if(d)d.S.forEach(s=>r.push([s,a]))});return r}
+function ini(s){return dromStart(s,B)||new Date(B,s[19]-1,s[0],23,59).getTime()}
+var p2=n=>String(n).padStart(2,"0"),hmF=s=>{var i=s[4];if(!i||i==="a definir")return"horário a definir";if(!s[5])return i;var t=+i.slice(0,2)*60+ +i.slice(3)+s[5];return i+" – "+p2(Math.floor(t/60)%24)+":"+p2(t%60)};
+function hcard(x){var s=x[0],a=x[1];return'<div class="hrw"><img class="hav" alt="'+nm(a)+'" title="'+nm(a)+'" src="'+a.img+'"><div class="cd hcd"><div class="hd"><div class="dt"><small>'+WD[new Date(B,s[19]-1,s[0]).getDay()]+"</small><b>"+s[0]+'</b></div><div class="in"><b>'+esc(s[1]||s[2]||"")+"</b><span>"+esc((s[1]?s[2]+" · ":"")+(s[3]||""))+"</span><span>"+hmF(s)+"</span></div></div></div></div>"}
+var curM=()=>{var n=new Date(Date.now()-216e5);return(n.getFullYear()-B)*12+n.getMonth()+1},mLab=m=>MNS[(m-1)%12]+" "+(B+Math.floor((m-1)/12));
+function hms(){var L=ALL().map(x=>x[0][19]),c=curM(),lo=Math.min(c,...L),hi=Math.max(c,...L),o="";for(var m=hi;m>=lo;m--)o+='<option value="'+m+'">'+mLab(m)+"</option>";$("hms").innerHTML=o;$("hms").value=HM}
+function tab(t){if(t==="p"||t==="b")return;TAB=t;document.querySelectorAll("#hnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));$("list").hidden=t!=="h";$("hv").hidden=t==="h";if(HM===null)HM=curM();if(t!=="h"){hms();hview()}window.scrollTo(0,0)}
+function hview(){var X=ALL().filter(x=>x[0][19]===HM).sort((p,q)=>ini(p[0])-ini(q[0])),h="";
+ if(TAB==="a"){h="<h3>"+mLab(HM)+" · "+X.length+(X.length===1?" show":" shows")+"</h3>"+(X.length?X.map(hcard).join(""):'<p class="mu">Sem shows nesse mês.</p>')}
+ else{var y=B+Math.floor((HM-1)/12),mo=(HM-1)%12,F1=new Date(y,mo,1).getDay(),N=new Date(y,mo+1,0).getDate(),n0=new Date(Date.now()-216e5),td=n0.getFullYear()===y&&n0.getMonth()===mo?n0.getDate():0;
+  if(!HSD||HSD[0]!==HM)HSD=[HM,td||0];
+  h="<h3>"+mLab(HM)+'</h3><div class="cal hcal">'+["D","S","T","Q","Q","S","S"].map(x=>"<b>"+x+"</b>").join("")+"<span></span>".repeat(F1);
+  for(var d=1;d<=N;d++){var c=X.filter(x=>x[0][0]===d).length;h+='<button type="button" data-d="'+d+'" class="'+(c?"hsd ":"")+(HSD[1]===d?"on ":"")+(d===td?"td":"")+'">'+d+(c?"<small>"+c+(c===1?" show":" shows")+"</small>":"")+"</button>"}
+  h+="</div>";if(HSD[1]){var sd=X.filter(x=>x[0][0]===HSD[1]);h+="<h3>"+WD[new Date(y,mo,HSD[1]).getDay()]+" "+p2(HSD[1])+"/"+p2(mo+1)+"</h3>"+(sd.length?sd.map(hcard).join(""):'<p class="mu">Sem shows neste dia.</p>')}}
+ $("hvb").innerHTML=h;if(TAB==="c")$("hvb").querySelectorAll(".hcal button").forEach(b=>b.onclick=()=>{HSD=[HM,+b.dataset.d];hview()})}
+document.querySelectorAll("#hnav button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
+$("hms").onchange=()=>{HM=+$("hms").value;hview()};$("hpv").onclick=()=>{var o=$("hms").options;if(+$("hms").value>+o[o.length-1].value){HM--;$("hms").value=HM;hview()}};
+$("hnx").onclick=()=>{if(+$("hms").value<+$("hms").options[0].value){HM++;$("hms").value=HM;hview()}};$("hcu").onclick=()=>{HM=curM();HSD=null;$("hms").value=HM;hview()};
 if(!window.HUBCFG&&"serviceWorker" in navigator)navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{});
 start();
 })();
