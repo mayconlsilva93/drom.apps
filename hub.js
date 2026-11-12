@@ -18,10 +18,10 @@ async function start(){
  try{var r=await fetch("h.json",{cache:"no-store"});H=await r.json()}catch(e){$("lkm").textContent="Sem conexão. Tente de novo.";$("lk").hidden=false;return}
  var st=await kget("hub");
  if(st&&st.salt===H.salt&&Date.now()-st.ts<WEEK){try{await go(await dec(st.key,H.iv,H.ct));return}catch(e){}}
- if(st)await kdel(["hub"]);$("lk").hidden=false;$("pin").focus()}
-$("lkf").onsubmit=async e=>{e.preventDefault();var pin=$("pin").value.trim();if(!pin)return;$("lkm").textContent="Verificando…";
- try{var key=await derive(pin,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";await go(c)}
- catch(er){$("lkm").textContent="PIN incorreto.";$("pin").value="";$("pin").focus()}};
+ if(st)await kdel(["hub"]);$("lk").hidden=false;$("usr").focus()}
+$("lkf").onsubmit=async e=>{e.preventDefault();var us=$("usr").value.trim().toLowerCase(),pw=$("pin").value;if(!us||!pw)return;var pin=us+"\n"+pw;$("lkm").textContent="Verificando…";
+ try{var key=await derive(pin,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";$("usr").value="";await go(c)}
+ catch(er){$("lkm").textContent="Login ou senha incorretos.";$("pin").value="";$("pin").focus()}};
 async function goArt(){CFG=window.HUBCFG;document.body.classList.remove("locked");var A=(window.DROMDATA||{}).A||{};
  CFG.apps.forEach(a=>{DATA[a.f]={S:A[a.k]||[],up:""}});icons();notif();draw()}
 /* ---------- depois de entrar ---------- */
@@ -37,8 +37,9 @@ var nm=a=>a.n.replace(/^DJ /,"");
 function st(a){var d=DATA[a.f];if(!d)return null;var now=Date.now(),y=a.old?null:2026,A=d.S.filter(s=>a.old||(s[19]>=37&&s[19]<=48)),v=A.reduce((x,s)=>x+(+s[15]||0),0),
  rz=A.filter(s=>{var t=dromStart(s,B)||new Date(B,s[19]-1,s[0]+1,6).getTime();return t+(+s[5]||0)*6e4<now}).length,
  pr=d.S.map(s=>[dromStart(s,B)||new Date(B,s[19]-1,s[0],23,59).getTime(),s]).filter(x=>x[0]>now).sort((p,q)=>p[0]-q[0])[0],
- pc=A.filter(s=>(+s[15]||0)>0&&!s[18]&&(dromStart(s,B)||0)<now).length;
- return{n:A.length,v:v,rz:rz,ar:A.length-rz,pr:pr&&pr[1],pc:pc,up:d.up}}
+ fin=s=>(dromStart(s,B)||new Date(B,s[19]-1,s[0]+1,6).getTime())+(+s[5]||0)*6e4<now,vr=A.filter(fin).reduce((x,s)=>x+(+s[15]||0),0),
+ nx=d.S.map(s=>[dromStart(s,B)||new Date(B,s[19]-1,s[0],23,59).getTime(),s]).filter(x=>x[0]>now&&x[0]<=now+7*864e5).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+ return{n:A.length,v:v,vr:vr,va:v-vr,rz:rz,ar:A.length-rz,nx:nx,up:d.up}}
 function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
  CFG.apps.forEach(a=>{if(!g||(a.old&&!so)){if(a.old){so=1;L.insertAdjacentHTML("beforeend",'<div class="sh">Ex-artistas</div>')}else L.insertAdjacentHTML("beforeend",'<div class="sh">Casting atual</div>');g=document.createElement("div");g.className="hg";L.appendChild(g)}
   var d=DATA[a.f];if(d&&d.up)ups.push(d.up);var nn=(LOG||[]).filter(x=>!x.r&&x.f===a.f).length;
@@ -50,9 +51,8 @@ function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
 function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
  m.innerHTML='<div class="hif"><img alt="" src="'+a.img+'"><b>'+nm(a)+'</b>'+(a.old?'<small>ex-artista</small>':"")+(s?'<dl>'+
   '<dt>'+(a.old?"Shows no histórico":"Shows em 2026")+'</dt><dd>'+s.n+(a.old?"":" ("+s.rz+" realizados · "+s.ar+" a realizar)")+'</dd>'+
-  '<dt>'+(a.old?"Cachês no histórico":"Cachês em 2026")+'</dt><dd>'+R(s.v)+'</dd>'+
-  (s.pc?'<dt>Cachês pendentes</dt><dd>'+s.pc+(s.pc>1?" shows":" show")+'</dd>':"")+
-  (a.old?"":'<dt>Próximo show</dt><dd>'+(s.pr?dromLn(s.pr,B,{hora:1}):"nenhum agendado")+'</dd>')+
+  '<dt>'+(a.old?"Cachês no histórico":"Cachês em 2026")+'</dt><dd>'+R(s.v)+(a.old||!s.va?"":'<br><small class="hsm">realizados '+R(s.vr)+' · a realizar '+R(s.va)+'</small>')+'</dd>'+
+  (a.old?"":'<dt>Próximos shows (7 dias)</dt><dd>'+(s.nx.length?s.nx.map(x=>dromLn(x,B,{hora:1})).join("<br>"):"nenhum nos próximos 7 dias")+'</dd>')+
   '</dl>':'<p>carregando…</p>')+'<div class="lob"><button class="loc">Fechar</button>'+(a.url?'<a class="loy hop" href="'+a.url+'" target="_blank" rel="noopener">Abrir app</a>':'<button class="loy hop">Abrir app</button>')+'</div></div>';
  m.hidden=false;m.onclick=e=>{if(e.target===m)m.hidden=true};m.querySelector(".loc").onclick=()=>m.hidden=true;
  var o=m.querySelector(".hop");o.onclick=()=>{m.hidden=true;if(!a.url)open(a)}}
