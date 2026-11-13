@@ -1,0 +1,7 @@
+/* aba Propostas e rodapé fixo (carrega antes de tudo) */
+nav{grid-template-columns:repeat(5,1fr)!important}
+nav button svg path,nav button[data-t=p] svg circle{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+nav button.on svg *{stroke-width:2.25!important}
+html{overflow:hidden!important;height:100%}
+body{position:fixed!important;top:0;left:0;right:0;bottom:var(--fh,calc(85.6px + env(safe-area-inset-bottom,0px)));margin:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+main{padding-bottom:14px!important}
