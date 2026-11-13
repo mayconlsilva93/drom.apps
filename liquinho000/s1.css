@@ -74,3 +74,5 @@ nav button{font-size:14px}.cal{margin-bottom:4px}
 /*CPP*/.cpp2{display:block;font-size:12px;font-weight:600}.cpg2{color:var(--ok)}.cpe2{color:var(--rd)}.ch .b4{fill:color-mix(in srgb,#FF5B1F 40%,var(--bg,#fff))}
 
 /*GUT*/html,body{scrollbar-gutter:auto!important}
+
+/*DTC*/.hd>.dt{align-self:center}

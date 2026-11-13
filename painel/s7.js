@@ -10,5 +10,5 @@ function mk(id,skip,pl,nl){var s=document.getElementById(id);if(!s||s.dataset.nv
  function go(d){var l=L(),i=l.indexOf(s.value),j=i<0?(d<0?l.length-1:0):i+d;if(j<0||j>=l.length)return;s.value=l[j];s.dispatchEvent(new Event("change",{bubbles:true}));upd()}
  p.onclick=function(){go(-1)};n.onclick=function(){go(1)};
  s.addEventListener("change",upd);document.addEventListener("click",function(){setTimeout(upd,0)});upd();return upd}
-mk("yy","0","Ano anterior","Próximo ano");mk("fm","","Mês anterior","Próximo mês");mk("ra","0","Ano anterior","Próximo ano");mk("rm","","Mês anterior","Próximo mês");
+mk("yy","0","Ano anterior","Próximo ano");mk("fm","","Mês anterior","Próximo mês");mk("ra","0","Ano anterior","Próximo ano");mk("rm","","Mês anterior","Próximo mês");(function(){var a=document.getElementById("ra"),m=document.getElementById("rm");if(!a||!m)return;var A=a.parentNode,M=m.parentNode,g=document.createElement("span");g.className="ymg";A.parentNode.insertBefore(g,A);g.appendChild(A);g.appendChild(M)})();
 })();/*/NV*/
