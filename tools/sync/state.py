@@ -7,9 +7,13 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 H=os.path.dirname(os.path.abspath(__file__));ENC=H+'/state.enc';SHA=H+'/state.sha'
 F=['lean.py','relay.py','drom_data.py','convert.py','sheets_load.py','lib_apps.py','addr.json','dk.json','urls.json',
    'contracts.json','blocks.json','state.json','extras.json','log.json']+['m%02d.txt'%i for i in range(1,11)]
-K=hashlib.sha256(('drom-state:'+os.environ['DROM_BKK']).encode()).digest()
+BK=os.environ.get('DROM_BKK','').strip()
+if not BK: sys.exit('falta o segredo DROM_BKK')
+K=hashlib.sha256(('drom-state:'+BK).encode()).digest()
 def unpack(d):
-    os.makedirs(d,exist_ok=True);b=open(ENC,'rb').read();X=json.loads(gzip.decompress(AESGCM(K).decrypt(b[:12],b[12:],None)))
+    os.makedirs(d,exist_ok=True);b=open(ENC,'rb').read()
+    try: X=json.loads(gzip.decompress(AESGCM(K).decrypt(b[:12],b[12:],None)))
+    except Exception: sys.exit('DROM_BKK incorreto (tamanho %d, começa com %s)'%(len(BK),BK[:4]))
     for k,v in X.items(): open(os.path.join(d,k),'w',encoding='utf8').write(v)
     print('unpack',len(X))
 def pack(d):
