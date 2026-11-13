@@ -286,8 +286,10 @@ function PJbase(ai){if(PJ.c["b"+ai])return PJ.c["b"+ai];var T=PJT(),Td=PJday(T),
 function PJgs(){if(PJ.c.gs)return PJ.c.gs;var cm=(NOW.getFullYear()-B)*12+NOW.getMonth()+1,C={},g=[];ALL.forEach(s=>{if(s[14]<cm)C[s[14]]=(C[s[14]]||0)+1});var ks=Object.keys(C).map(Number),gm=ks.reduce((a,k)=>a+C[k],0)/ks.length;for(var mo=1;mo<=12;mo++){var h=ks.filter(k=>(k-1)%12+1===mo).map(k=>C[k]);g[mo]=h.length?Math.max(.4,Math.min(1.8,h.reduce((a,b)=>a+b,0)/h.length/gm)):1}PJ.c.gs=g;return g}
 function PJval(b,y){var yrs=Math.max(0,y-NOW.getFullYear()),g=Math.pow(b.gc,yrs),ca=0,cu=0,co=0;b.segs.forEach(s=>{var c=s.ca*g;ca+=s.w*c;cu+=s.w*(1-s.pz)*c*s.cr;co+=s.w*(1-s.pz)*s.pm*c*(1-s.cr)});return{ca:ca,cu:cu,co:co}}
 /* shows extras projetados para o artista ai no mês absoluto mk (só dias depois de hoje) */
+/*PJA*/ /* só projeta artista com show realizado nos últimos 3 meses ou show confirmado (aprovado) nos últimos 3 meses */
+function PJact(ai){if(!PJ.a)PJ.a={};if(ai in PJ.a)return PJ.a[ai];var T=PJT(),t0=new Date(T.getFullYear(),T.getMonth()-3,T.getDate()),a0=Math.round((t0-new Date(2023,0,1))/864e5);return PJ.a[ai]=ALL.some(s=>s[1]===ai&&((PJD(s)>=t0&&PJD(s)<=T)||(s[26]>=a0)))}
 function PJmon(ai,mk){var key=ai+"|"+mk;if(key in PJ.c)return PJ.c[key];var T=PJT(),y=YF(mk),mo=(mk-1)%12+1,nd=new Date(y,mo,0).getDate(),d0=new Date(y,mo-1,1),r={n:0,fat:0,com:0,cu:0,tp:0,e:0,conf:0,bk:0,pl:0};
- if(new Date(y,mo-1,nd)<=T){PJ.c[key]=r;return r}var b=PJbase(ai);if(!b.n12){PJ.c[key]=r;return r}
+ if(new Date(y,mo-1,nd)<=T){PJ.c[key]=r;return r}var b=PJbase(ai);if(!b.n12||!PJact(ai)){PJ.c[key]=r;return r}
  var st=T>=d0?T.getDate()+1:1,rem=nd-st+1,ahead=(mk-((NOW.getFullYear()-B)*12+NOW.getMonth()+1))/12,e=b.lvl*b.se[mo]*Math.pow(b.tr,Math.max(0,ahead))*rem/nd,
  nl=0;for(var dd=st;dd<=nd;dd++){var ld=Math.round((new Date(y,mo-1,dd)-T)/864e5),c=0;for(var i=0;i<b.L.length&&b.L[i]<ld;i++)c++;nl+=b.L.length?c/b.L.length:1}nl/=rem;
  var conf=ALL.filter(s=>s[1]===ai&&s[14]===mk&&PJD(s)>T).length,all_=ALL.filter(s=>s[1]===ai&&s[14]===mk).length,bk=1-nl,ec=bk>.15?conf/bk:null,ef=ec==null?e:bk*ec+(1-bk)*e,
