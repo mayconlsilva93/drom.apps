@@ -23,3 +23,6 @@ if E.get('DRY')=='1': sys.exit(0)
 if gh: sh(['python3','tools/ghpush.py',W+'/gh.json'])
 sh(['python3','-I','lean.py','fin','-'],cwd=W,stdout=subprocess.DEVNULL)
 sh(['python3','tools/sync/state.py','pack',W])
+
+import datetime as _D
+json.dump({'t':(_D.datetime.now(_D.timezone.utc)-_D.timedelta(hours=3)).strftime('%d/%m/%Y %H:%M')},open('chk.json','w'))   # hora da última conferência (público, sem dados)

@@ -28,7 +28,7 @@ jobs:
         if: ${{ github.event.inputs.dry != '1' }}
         run: |
           git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
-          git add -A tools/sync */d.json painel/pd.json booker/bk.json 2>/dev/null || true
+          git add -A tools/sync chk.json */d.json painel/pd.json booker/bk.json 2>/dev/null || true
           if git diff --cached --quiet; then echo "nada a gravar"; echo "CH=0" >> $GITHUB_ENV; else git commit -qm "dados (planilha)" && (git push -q || (git pull -q --rebase && git push -q)); echo "CH=1" >> $GITHUB_ENV; fi
       # push feito pelo próprio workflow não dispara notify.yml: envia as notificações aqui
       - uses: actions/setup-node@v4
