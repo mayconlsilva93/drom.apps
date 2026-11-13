@@ -5,5 +5,4 @@ nav button.on svg *{stroke-width:2.25!important}
 html{overflow:hidden!important;height:100%}
 body{position:fixed!important;top:0;left:0;right:0;bottom:var(--fh,calc(85.6px + env(safe-area-inset-bottom,0px)));margin:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 main{padding-bottom:14px!important}
-/*RF*/.top .tl{display:flex;align-items:center;gap:4px;flex:none}.top .tl .bell{margin:0!important}
 @media (max-width:420px){.top{gap:8px!important}.top b{font-size:16px!important;white-space:nowrap}.top .av,.top img.av{width:46px!important;height:46px!important}.top .bell,.top .eye{width:38px!important;height:38px!important}}

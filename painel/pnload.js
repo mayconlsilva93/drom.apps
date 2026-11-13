@@ -26,9 +26,7 @@ function sair(){var e=document.getElementById("eye");if(!e||document.getElementB
  if(L){L.appendChild(b);var r=document.createElement("button");r.id="rf";r.type="button";r.className=e.className.replace(/\beyt\b/,"");r.title="Atualizar";r.setAttribute("aria-label","Atualizar");r.onclick=function(){location.reload()};
   r.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4v4.5H16"/></svg>';L.appendChild(r);
   e.classList.remove("eyt");hd.appendChild(e)}else e.parentNode.insertBefore(b,e);
- HDH()}
-function HDH(){var h=document.querySelector(".hd2");if(h)document.documentElement.style.setProperty("--hdh",Math.floor(h.getBoundingClientRect().height)+"px")}
-addEventListener("resize",function(){try{HDH()}catch(e){}});
+ }
 async function start(){
  try{H=await (await fetch("../h.json",{cache:"no-store"})).json()}catch(e){msg("Sem conexão. Tente de novo.");return}
  var st=await kget("hub");
