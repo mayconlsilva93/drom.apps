@@ -47,8 +47,8 @@ function draw(){var L=$("list");L.innerHTML="";var ups=[],so=0,g=null;
   el.innerHTML='<a href="'+(a.url||a.f+"/")+'" target="_blank" rel="noopener" class="hph" title="Abrir app"><img alt="'+nm(a)+'" src="'+a.img+'">'+(nn?'<i class="nb">'+nn+'</i>':"")+'</a><button type="button" class="hnm">'+nm(a)+'</button>';
   if(!a.url)el.querySelector(".hph").onclick=e=>{if(e.button||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();open(a)};el.querySelector(".hnm").onclick=()=>info(a);g.appendChild(el)});
  ups.sort((x,y)=>{var p=s=>s.replace(/(\d\d)\/(\d\d)\/(\d{4}) (.*)/,"$3$2$1 $4");return p(y)<p(x)?-1:1});
- var U=ups.length?ups[0]:window.DROMUPD||"";$("upd").textContent=U?"Dados atualizados em "+U+CK(U,window.DROMCHK):""}
-function CK(u,c){if(!c)return"";var d=c.slice(0,10),h=c.slice(11,16);return" · conferidos "+(u&&u.slice(0,10)===d?"às "+h:"em "+c.slice(0,5)+" "+h)}
+ var U=ups.length?ups[0]:window.DROMUPD||"";$("upd").textContent=U?"Dados atualizados em "+CK(U,window.DROMCHK):""}
+function CK(u,c){var k=function(s){return(s||"").replace(/(\d\d)\/(\d\d)\/(\d{4}) (.*)/,"$3$2$1 $4")};return c&&k(c)>k(u)?c:u}
 try{fetch("chk.json?t="+Date.now()).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.t){window.DROMCHK=j.t;if(typeof draw==="function"&&CFG)draw()}}).catch(function(){})}catch(e){}
 function info(a){var s=st(a),m=$("inf"),R=v=>'<span class="nw">'+(HIDE?"R$ ••••••":"R$ "+fm(v))+"</span>";
  m.innerHTML='<div class="hif"><img alt="" src="'+a.img+'"><b>'+nm(a)+'</b>'+(a.old?'<small>ex-artista</small>':"")+(s?'<dl>'+
