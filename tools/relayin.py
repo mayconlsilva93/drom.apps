@@ -4,7 +4,8 @@ import os,sys,json,hashlib,hmac,re,urllib.request
 url=open('tools/suburl.txt').read().strip();PIN=os.environ['DROM_PIN'].encode()
 K=hashlib.sha256(b'drom-relay:'+PIN).digest()
 L=json.loads(urllib.request.urlopen(url+'?gh=1',timeout=120).read()).get('b',[])
-ok=re.compile(r'^tools/sync/inbox/upd\.json$')   # 13/11: só a caixa de entrada (contratos/cadastros, criptografada com DROM_BKK); dados dos apps vêm da Action sheet.yml;mx='';n=0
+ok=re.compile(r'^tools/sync/inbox/upd\.json$')   # 13/11: só a caixa de entrada (contratos/cadastros, criptografada com DROM_BKK); dados dos apps vêm da Action sheet.yml
+mx='';n=0
 for x in sorted(L,key=lambda x:int(x['ts'])):
     if not hmac.compare_digest(hmac.new(K,(x['ts']+x['f']).encode(),'sha256').hexdigest(),x.get('sig','')):print('assinatura inválida',x['ts']);continue
     for p,c in json.loads(x['f']).items():
