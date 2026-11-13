@@ -20,8 +20,8 @@ addEventListener("resize",function(){try{FIT()}catch(e){}});
 /* botão no menu, entre Calendário e Financeiro */
 var nav=document.querySelector("nav"),f=nav&&nav.querySelector('button[data-t="f"]');
 if(f&&!nav.querySelector('button[data-t="p"]')){var b=document.createElement("button");b.dataset.t="p";b.title="Propostas";b.setAttribute("aria-label","Propostas");
- b.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12.5H7z"/><path d="M14 3.5V8h4.5M9.8 12h6M9.8 15.5h6"/></svg>';nav.insertBefore(b,f)}
-var st=document.createElement("style");st.textContent='nav{grid-template-columns:repeat(5,1fr)!important}nav button svg path{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}'+
+ b.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M13 20.5H6a1.5 1.5 0 0 1-1.5-1.5V5A1.5 1.5 0 0 1 6 3.5h7l4 4v2.5"/><path d="M13 3.5v4h4M7.5 9.5h5M7.5 13h3"/><circle cx="17" cy="16.5" r="4.5"/><path d="M17 14.3v2.4l1.6 1"/></svg>';nav.insertBefore(b,f)}
+var st=document.createElement("style");st.textContent='nav{grid-template-columns:repeat(5,1fr)!important}nav button svg path,nav button[data-t=p] svg circle{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}'+
  '.prh{text-align:center;font-size:13.5px;color:#0000FF;margin:10px 0 6px;letter-spacing:.03em}.prc{background:var(--cd);border:1px solid var(--bd);border-radius:14px;overflow:hidden}'+
  '.prl{display:flex;align-items:center;gap:9px;padding:6px 10px;border-top:1px solid var(--bd)}.prl:first-child{border-top:0}.prd{flex:none;width:40px;font-size:11.5px;font-weight:700;text-align:center;line-height:1.25}.prd span{display:block}.prd span:first-child{font-size:11px;text-transform:uppercase;letter-spacing:.03em}.prc{overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}'+
  '.pri{flex:1;min-width:0}.pri b{display:block;font-size:12.5px;line-height:1.25;font-weight:600;overflow-wrap:anywhere}.pri span{display:block;font-size:11px;color:var(--mu)}'+
