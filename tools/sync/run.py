@@ -14,7 +14,7 @@ json.dump(rows,open(W+'/rows.json','w',encoding='utf8'),ensure_ascii=False);prin
 b2=X.get('b2') or '-'
 if not re.match(r'^\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}$',b2): b2='-'
 sh(['python3','-I','lean.py','mark'],cwd=W)
-sh(['python3','-I','lean.py','apply',b2,'rows.json'],cwd=W,env=dict(E,DROM_NODEFER='1'),stdout=subprocess.DEVNULL)
+sh(['python3','-I','lean.py','apply',b2,'rows.json'],cwd=W,env=dict(E,DROM_NODEFER='1',DROM_DIFF='1' if E.get('DRY')=='1' else '0'),stdout=subprocess.DEVNULL)
 gh=json.load(open(W+'/gh.json'));print('mudaram:',', '.join(sorted(gh)) or 'nada')
 rep=open(W+'/report.txt',encoding='utf8').read();print(rep)
 if E.get('GITHUB_STEP_SUMMARY'): open(E['GITHUB_STEP_SUMMARY'],'a').write('```\n'+rep+'\nGitHub: '+(', '.join(sorted(gh)) or 'nada')+'\n```\n')
