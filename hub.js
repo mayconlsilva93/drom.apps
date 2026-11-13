@@ -31,7 +31,7 @@ async function go(c){CFG=c;$("lk").remove();document.body.classList.remove("lock
  for(var a of c.apps)await kput(a.idb,{key:AK,salt:c.as,ts:Date.now(),v:2});
  draw();icons();
  await Promise.all(c.apps.map(async a=>{try{var r=await fetch(a.f+"/d.json",{cache:"no-store"}),d=await r.json();var dd=await dec(AK,d.iv,d.ct);DATA[a.f]={S:dd.S||[],OT:dd.OT||[],BK:dd.BK||[],up:d.up||""}}catch(e){DATA[a.f]={S:[],up:"",err:1}}}));
- notif();draw();if(TAB!=="h")hview()}
+ notif();draw();if(TAB!=="h")hview();setTimeout(keepSub,1500)}
 var HIDE=ls.g("hide")||false,fm=v=>Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
 var nm=a=>a.n.replace(/^DJ /,"");
 function st(a){var d=DATA[a.f];if(!d)return null;var now=Date.now(),y=a.old?null:2026,A=d.S.filter(s=>a.old||(s[19]>=37&&s[19]<=48)),v=A.reduce((x,s)=>x+(+s[15]||0),0),
@@ -96,9 +96,16 @@ async function sub(){var nf=pn.querySelector(".nf");try{
  var reg=await navigator.serviceWorker.ready,s=await reg.pushManager.getSubscription()||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
  var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},AK,new TextEncoder().encode(JSON.stringify(s))));
  await fetch(SURL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({app:"hub",iv:b6(iv),ct:b6(ct)})});
- ls.s("subok",s.endpoint);setTimeout(()=>reg.showNotification("Notificações ativadas!",{body:"Você vai receber aqui os avisos de todos os artistas.",icon:"icon-192.png",badge:"badge.png"}),1500);
+ ls.s("subok",s.endpoint);ls.s("subt",Date.now());setTimeout(()=>reg.showNotification("Notificações ativadas!",{body:"Você vai receber aqui os avisos de todos os artistas.",icon:"icon-192.png",badge:"badge.png"}),1500);
  nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em até 1 hora.</p>'}
  catch(e){nf.insertAdjacentHTML("beforeend",'<p class="ne">Não foi possível ativar: '+(e.message||e)+"</p>")}}
+
+/*KEEP*/ async function keepSub(){try{if(window.HUBCFG||!pushOk()||Notification.permission!=="granted"||typeof AK==="undefined"||!AK)return;
+ var reg=await navigator.serviceWorker.ready,s=await reg.pushManager.getSubscription();if(!s)s=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
+ if(s.endpoint===ls.g("subok")&&Date.now()-(ls.g("subt")||0)<6048e5)return;
+ var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},AK,new TextEncoder().encode(JSON.stringify(s))));
+ await fetch(SURL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({app:"hub",iv:b6(iv),ct:b6(ct)})});
+ ls.s("subok",s.endpoint);ls.s("subt",Date.now())}catch(e){}}
 
 /* ---------- menu inferior: Início, Agenda, Calendário (Painel e Booker ainda não habilitados) ---------- */
 var TAB="h",HV="m",HM=null,HY=null,HF="P",HSD=null,MNS=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],WD=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];

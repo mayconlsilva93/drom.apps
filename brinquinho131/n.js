@@ -34,11 +34,19 @@ async function sub(){var nf=pn.querySelector(".nf");try{
  var K=window.DROMKEY;if(!K)throw new Error("saia do app e entre de novo com o PIN");
  var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},K,new TextEncoder().encode(JSON.stringify(s)))),b6=u=>btoa(String.fromCharCode.apply(null,u));
  await fetch("https://script.google.com/macros/s/AKfycbzk5iksIZVvdK27taLTcpQbdPebxGjP7ilwNxiQDYwUuTSaMz80Hifmgr-5aazWhI0R/exec",{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({app:location.pathname.split("/").filter(Boolean).pop(),iv:b6(iv),ct:b6(ct)})});
- ls.s("subok",s.endpoint);try{var w0=new Date(),qa=new Date(w0.getFullYear(),w0.getMonth(),w0.getDate()+((3-w0.getDay()+7)%7||7),23,59).getTime(),nx=S.map(x=>[dromStart(x,B)||new Date(B,x[19]-1,x[0],23,59).getTime(),x]).filter(y=>y[0]>Date.now()&&y[0]<=qa+6*36e5).sort((p,q)=>p[0]-q[0]).map(y=>dromLn(y[1],B,{hora:1}));
+ ls.s("subok",s.endpoint);ls.s("subt",Date.now());try{var w0=new Date(),qa=new Date(w0.getFullYear(),w0.getMonth(),w0.getDate()+((3-w0.getDay()+7)%7||7),23,59).getTime(),nx=S.map(x=>[dromStart(x,B)||new Date(B,x[19]-1,x[0],23,59).getTime(),x]).filter(y=>y[0]>Date.now()&&y[0]<=qa+6*36e5).sort((p,q)=>p[0]-q[0]).map(y=>dromLn(y[1],B,{hora:1}));
  setTimeout(()=>reg.showNotification("Notificações ativadas!",{body:nx.length?"Próximos shows:\n"+nx.join("\n"):"Nenhum show até a próxima quarta.",icon:"icon-192.png",badge:"badge.png"}),1500)}catch(e){}nf.innerHTML='<p class="ne">✓ Notificações ativadas neste aparelho. Os avisos começam a chegar em até 1 hora.</p>';
  }catch(e){nf.insertAdjacentHTML("beforeend",'<p class="ne">Não foi possível ativar: '+(e.message||e)+"</p>")}}
-var NV=10;function cls(){pn.hidden=true;log.forEach(x=>delete x.h);ls.s("log",log)}bell.onclick=()=>{if(pn.hidden){NV=10;log.forEach(x=>{x.h=!x.r;x.r=1});ls.s("log",log);draw();pn.hidden=false;badge()}else cls()};
+var SURL="https://script.google.com/macros/s/AKfycbzk5iksIZVvdK27taLTcpQbdPebxGjP7ilwNxiQDYwUuTSaMz80Hifmgr-5aazWhI0R/exec";var NV=10;function cls(){pn.hidden=true;log.forEach(x=>delete x.h);ls.s("log",log)}bell.onclick=()=>{if(pn.hidden){NV=10;log.forEach(x=>{x.h=!x.r;x.r=1});ls.s("log",log);draw();pn.hidden=false;badge()}else cls()};
 var nv=document.querySelector("nav");if(nv)nv.addEventListener("click",()=>{if(!pn.hidden)cls()});
 badge();
 if(log.some(x=>!x.r&&x.ts===now)){var t=document.createElement("div");t.className="ntoast";var q=log.filter(x=>!x.r&&x.ts===now).length;t.textContent=(q===1?"1 novidade":q+" novidades")+" — toque no sino";document.body.appendChild(t);setTimeout(()=>t.remove(),5000)}
+
+/*KEEP*/ /* mantém a inscrição viva: ao abrir, se a permissão já foi dada, recria a inscrição se sumiu (ex.: após atualização do app) e reenvia ao servidor se mudou ou a cada 7 dias */
+(async function(){try{if(!pushOk()||Notification.permission!=="granted"||!window.DROMKEY)return;
+ var reg=await navigator.serviceWorker.ready,s=await reg.pushManager.getSubscription();if(!s)s=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
+ if(s.endpoint===ls.g("subok")&&Date.now()-(ls.g("subt")||0)<6048e5)return;
+ var iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},window.DROMKEY,new TextEncoder().encode(JSON.stringify(s)))),b6=u=>btoa(String.fromCharCode.apply(null,u));
+ await fetch(SURL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({app:location.pathname.split("/").filter(Boolean).pop(),iv:b6(iv),ct:b6(ct)})});
+ ls.s("subok",s.endpoint);ls.s("subt",Date.now())}catch(e){}})();
 })();
