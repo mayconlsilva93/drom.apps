@@ -12,6 +12,8 @@ concurrency: agenda
 jobs:
   agenda:
     runs-on: ubuntu-latest
+    env:
+      TZ: America/Sao_Paulo
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4

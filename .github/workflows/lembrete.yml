@@ -11,6 +11,8 @@ concurrency:
 jobs:
   lembrete:
     runs-on: ubuntu-latest
+    env:
+      TZ: America/Sao_Paulo
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
