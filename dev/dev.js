@@ -11,7 +11,7 @@ function view(){
  var hoje=new Date(Date.now()-216e5);hoje=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate());
  var ult=PR.filter(p=>p[6]).sort((a,b)=>a[6]<b[6]?1:a[6]>b[6]?-1:(+b[7])-(+a[7])).slice(0,10);
  var and=PR.filter(p=>!FECH[p[2]]&&new Date(BB,p[0]-1,p[1])>=hoje).sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
- return'<h3 class="prh">ÚLTIMAS PROPOSTAS NEGOCIADAS</h3><div class="prc">'+(ult.length?ult.map(p=>ln(p,FECH[p[2]]?"ok":RUIM[p[2]]?"no":"")).join(""):'<p class="mu">Nenhuma proposta.</p>')+"</div>"+
+ return'<h3 class="prh">ÚLTIMAS ATUALIZAÇÕES</h3><div class="prc">'+(ult.length?ult.map(p=>ln(p,FECH[p[2]]?"ok":RUIM[p[2]]?"no":"")).join(""):'<p class="mu">Nenhuma proposta.</p>')+"</div>"+
   '<h3 class="prh">PROPOSTAS EM ANDAMENTO</h3><div class="prc">'+(and.length?and.map(p=>ln(p,RUIM[p[2]]?"no":"")).join(""):'<p class="mu">Nenhuma proposta em andamento.</p>')+"</div>"}
 function FIT(){if(tab!=="p")return;var ap=document.getElementById("app"),cs=document.querySelectorAll(".prc");if(!ap||cs.length<2)return;
  var bot=innerHeight;["nav",".brand"].forEach(function(q){var e=document.querySelector(q);if(e){var t=e.getBoundingClientRect().top;if(t>0&&t<bot)bot=t}});
