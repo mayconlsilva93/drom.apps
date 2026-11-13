@@ -6,6 +6,7 @@ import os,sys,json,subprocess,urllib.request,urllib.parse,re
 R=os.getcwd();W='/tmp/w';E=dict(os.environ)
 def sh(*a,**k): print('$',' '.join(a[0]) if isinstance(a[0],list) else a[0]);return subprocess.run(*a,check=True,**k)
 sh(['python3','tools/sync/state.py','unpack',W])
+if E.get('DRY')!='1': sh(['python3','tools/sync/state.py','merge',W])
 u=E['SHEET_URL']+('&' if '?' in E['SHEET_URL'] else '?')+urllib.parse.urlencode({'k':E['SHEET_KEY']})
 X=json.load(urllib.request.urlopen(u,timeout=300))
 if X.get('err'): sys.exit('web app: '+X['err'])
