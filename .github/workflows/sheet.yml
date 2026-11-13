@@ -1,0 +1,45 @@
+name: planilha → apps
+on:
+  workflow_dispatch:
+    inputs:
+      dry: {description: "1 = só mostrar o que mudaria", required: false, default: "0"}
+permissions:
+  contents: write
+concurrency: {group: sheet, cancel-in-progress: false}
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: America/Sao_Paulo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q cryptography openpyxl
+      - run: python3 tools/sync/run.py
+        env:
+          DROM_BKK: ${{ secrets.DROM_BKK }}
+          DROM_PIN: ${{ secrets.DROM_PIN }}
+          SHEET_URL: ${{ secrets.SHEET_URL }}
+          SHEET_KEY: ${{ secrets.SHEET_KEY }}
+          DRY: ${{ github.event.inputs.dry }}
+      - name: gravar
+        if: ${{ github.event.inputs.dry != '1' }}
+        run: |
+          git config user.name "drom-bot"; git config user.email "drom-bot@users.noreply.github.com"
+          git add */d.json painel/pd.json booker/bk.json tools/sync/state.enc tools/sync/state.sha 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nada a gravar"; echo "CH=0" >> $GITHUB_ENV; else git commit -qm "dados (planilha)" && (git push -q || (git pull -q --rebase && git push -q)); echo "CH=1" >> $GITHUB_ENV; fi
+      # push feito pelo próprio workflow não dispara notify.yml: envia as notificações aqui
+      - uses: actions/setup-node@v4
+        if: ${{ env.CH == '1' }}
+        with: { node-version: 20 }
+      - name: notificações
+        if: ${{ env.CH == '1' }}
+        run: |
+          npm install --prefix tools --no-audit --no-fund
+          for a in */d.json; do NODE_PATH=tools/node_modules node tools/notify.mjs "${a%/d.json}" || true; done
+          for f in */st.json */subs.json; do [ -f "$f" ] && git add "$f"; done
+          git diff --cached --quiet || (git commit -qm "estado das notificações" && (git push -q || (git pull -q --rebase && git push -q)))
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}
