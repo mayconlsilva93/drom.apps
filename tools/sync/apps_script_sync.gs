@@ -1,9 +1,9 @@
-/* DROM Sync — planilha BASECLAUDE → GitHub (apps), a cada 10 min.
+/* DROM Sync — planilha BASECLAUDE → GitHub (apps), a cada 5 min.
    Projeto Apps Script SEPARADO do "DROM Notificações".
    Propriedades do script (Configurações do projeto → Propriedades do script):
      GH_TOKEN  = token do GitHub (fine-grained, só o repositório "sistema", permissão Actions: Read and write)
      SHEET_KEY = a mesma chave cadastrada no segredo SHEET_KEY do GitHub
-   Depois de colar: rode a função "instalar" uma vez (autoriza e cria o gatilho de 10 min) e publique como app da web. */
+   Depois de colar: rode a função "instalar" uma vez (autoriza e cria o gatilho de 5 min) e publique como app da web. */
 var SID = '1mVTNZVm44XGn5j7zB8EY6JorD5TpDRn4BvuOFwi2cq8';
 var TABS = ['01-RAMONSTRO','02-BRINQUINHO','03-CARLOTO','04-SENA','05-CENOURA','06-LIQUINHO','07-MANEIRA','08-AMARO','09-JOSU','10-CADU VIEIRA'];
 var WF = 'https://api.github.com/repos/mayconlsilva93/sistema/actions/workflows/sheet.yml/dispatches';
@@ -22,7 +22,7 @@ function doGet(e) {
 }
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
-/* a cada 10 min: se a planilha mudou desde a última vez, chama o GitHub */
+/* a cada 5 min: se a planilha mudou desde a última vez, chama o GitHub */
 function verificar() {
   var u = String(DriveApp.getFileById(SID).getLastUpdated().getTime()), pr = PropertiesService.getScriptProperties();
   if (pr.getProperty('ULT') === u) return;
@@ -35,7 +35,7 @@ function verificar() {
 /* rodar uma vez */
 function instalar() {
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'verificar') ScriptApp.deleteTrigger(t); });
-  ScriptApp.newTrigger('verificar').timeBased().everyMinutes(10).create();
+  ScriptApp.newTrigger('verificar').timeBased().everyMinutes(5).create();
   SpreadsheetApp.openById(SID).getName(); DriveApp.getFileById(SID).getName();
   verificar();
 }
