@@ -1,0 +1,18 @@
+name: notificação de teste
+on:
+  workflow_dispatch:
+    inputs:
+      alvo: {description: "hub ou pasta do app (ex.: maneira038)", required: true, default: "hub"}
+permissions:
+  contents: read
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --prefix tools --no-audit --no-fund
+      - run: NODE_PATH=tools/node_modules node tools/teste.mjs "${{ github.event.inputs.alvo }}"
+        env:
+          DROM_PIN: ${{ secrets.DROM_PIN }}
