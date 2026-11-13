@@ -16,3 +16,10 @@
 
 /*TABFIT*/@media (max-width:600px){.tabs{gap:min(5px,1.1vw)!important;flex-wrap:nowrap!important;justify-content:center!important;overflow:visible!important}.tabs button{font-size:min(13.5px,3.25vw)!important;padding:7px min(8px,1.7vw)!important;min-width:0!important;flex:0 1 auto}.tabs #eye,.tabs #lo{width:min(36px,8.4vw)!important;height:min(36px,8.4vw)!important;min-width:0!important;flex:none!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center}.tabs #eye svg,.tabs #lo svg{width:min(20px,4.8vw);height:min(20px,4.8vw)}}
 @media (max-width:600px){.tabs button:not(#eye):not(#lo){width:auto!important;white-space:nowrap;font-size:min(13.5px,3.05vw)!important;padding:7px min(9px,1.5vw)!important;letter-spacing:-.01em}}
+
+/*HDR*/.hd2{position:sticky!important;top:0;z-index:40;background:var(--bg);padding:6px 0;box-shadow:-24px 0 0 var(--bg),24px 0 0 var(--bg)}
+.hd2 .hdl{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;gap:6px}
+.hd2 #lo,.hd2 #rf{position:static!important;transform:none!important;margin:0!important}
+.tabs{top:var(--hdh,56px)!important}
+.fb{top:calc(var(--hdh,56px) + var(--tbh,0px) + env(safe-area-inset-top,0px))!important}
+@media (max-width:600px){.hd2{padding:6px 96px!important}.hd2 .hlogo{max-width:100%!important;height:auto!important;max-height:36px}}

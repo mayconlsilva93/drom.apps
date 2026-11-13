@@ -39,3 +39,5 @@ function ICO(){document.querySelectorAll(".dtl .ac a:not([data-ic])").forEach(fu
 var d0=window.draw;window.draw=function(){d0.apply(this,arguments);try{ICO()}catch(e){}document.body.classList.toggle("tp",tab==="p");document.documentElement.classList.toggle("tp",tab==="p");if(tab==="p"){document.getElementById("app").innerHTML=view();setTimeout(FIT,0);setTimeout(FIT,300);FIT();var a=document.getElementById("app");if(window.MutationObserver){}}};
 try{draw()}catch(e){}
 })();
+
+/*RFL*/(function(){function mv(){var t=document.querySelector(".top .tl"),l=document.querySelector(".top .lo"),r=document.getElementById("rf");if(t&&l&&r&&l.parentNode!==t)t.insertBefore(l,r)}mv();setTimeout(mv,500)})();

@@ -81,3 +81,5 @@ main{padding-bottom:calc(50px + env(safe-area-inset-bottom,0px))!important}
 /*LOAD*/body.locked main{display:block!important;visibility:hidden}body.locked main .brand{visibility:visible}body.locked #hnav{display:grid!important}body.locked.ld main .stk{visibility:visible}
 
 /*AVC*/.hrw .hag{margin:0}.hrw .hag .agl{line-height:16px;height:22px;box-sizing:border-box}.hrw:has(>.hag) .hav{margin-top:22px}
+
+/*RF*/.hsl{display:flex;align-items:center;gap:4px}.hsl .rf{margin:0}

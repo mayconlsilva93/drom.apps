@@ -22,7 +22,13 @@ function sair(){var e=document.getElementById("eye");if(!e||document.getElementB
  b.onclick=function(){var m=document.createElement("div");m.className="pnlom";m.innerHTML='<div><b>Sair do Painel?</b><p>Sai do Painel e do Hub neste aparelho. Para entrar de novo será preciso digitar login e senha.</p><div class="pnlob"><button type="button" class="c">Cancelar</button><button type="button" class="y">Sair</button></div></div>';
   document.body.appendChild(m);m.querySelector(".c").onclick=()=>m.remove();m.onclick=ev=>{if(ev.target===m)m.remove()};
   m.querySelector(".y").onclick=async()=>{await kdel("hub");try{if(window.top!==window){window.top.location.reload();return}}catch(x){}location.reload()}};
- e.parentNode.insertBefore(b,e)}
+ var hd=document.querySelector(".hd2"),L=hd&&hd.querySelector(".hdl");if(hd&&!L){L=document.createElement("span");L.className="hdl";hd.insertBefore(L,hd.firstChild)}
+ if(L){L.appendChild(b);var r=document.createElement("button");r.id="rf";r.type="button";r.className=e.className.replace(/\beyt\b/,"");r.title="Atualizar";r.setAttribute("aria-label","Atualizar");r.onclick=function(){location.reload()};
+  r.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4v4.5H16"/></svg>';L.appendChild(r);
+  e.classList.remove("eyt");hd.appendChild(e)}else e.parentNode.insertBefore(b,e);
+ HDH()}
+function HDH(){var h=document.querySelector(".hd2");if(h)document.documentElement.style.setProperty("--hdh",Math.floor(h.getBoundingClientRect().height)+"px")}
+addEventListener("resize",function(){try{HDH()}catch(e){}});
 async function start(){
  try{H=await (await fetch("../h.json",{cache:"no-store"})).json()}catch(e){msg("Sem conexão. Tente de novo.");return}
  var st=await kget("hub");
