@@ -9,7 +9,7 @@ sh(['python3','tools/sync/state.py','unpack',W])
 u=E['SHEET_URL']+('&' if '?' in E['SHEET_URL'] else '?')+urllib.parse.urlencode({'k':E['SHEET_KEY']})
 X=json.load(urllib.request.urlopen(u,timeout=300))
 if X.get('err'): sys.exit('web app: '+X['err'])
-rows=[{'tab':t,'v':v} for t,L in X['tabs'].items() for v in L if v and re.match(r'^\s*\d+\s*$',str(v[0]))]
+rows=[{'tab':t,'v':[str(c).replace('\r\n','\n').replace('\r','\n') for c in v]} for t,L in X['tabs'].items() for v in L if v and re.match(r'^\s*\d+\s*$',str(v[0]))]
 json.dump(rows,open(W+'/rows.json','w',encoding='utf8'),ensure_ascii=False);print(len(rows),'linhas')
 b2=X.get('b2') or '-'
 if not re.match(r'^\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}$',b2): b2='-'
