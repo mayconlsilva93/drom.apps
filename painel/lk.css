@@ -45,3 +45,6 @@
 /*CTW*/ /* Contatos: selects longos não alargam a página (rodapé fixo ficava torto) */
 .fb select,#tc select{max-width:100%;min-width:0;text-overflow:ellipsis}
 html,body{overflow-x:clip}
+
+/*CTS*/ /* Contatos: tabela cabe entre os filtros e o rodapé; a página rola primeiro e as fotos somem como nas outras abas */
+#clist .tw{max-height:calc(100vh - var(--hdh) - var(--fbh,60px) - 120px)!important}
