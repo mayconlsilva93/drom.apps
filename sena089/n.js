@@ -28,7 +28,7 @@ function draw(){pn.innerHTML='<div class="nh"><b>Notificações</b><button class
  (window.DROMUPD?'<p class="ne">Dados atualizados em '+window.DROMUPD+"</p>":"")+"</div>";
  pn.querySelector(".nx").onclick=cls;var nm=pn.querySelector(".nm");if(nm)nm.onclick=()=>{NV=log.length;draw()};var np=pn.querySelector(".np:not(.nm)");if(np)np.onclick=sub}
 function u8(b){var p="=".repeat((4-b.length%4)%4),r=atob((b+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(r,c=>c.charCodeAt(0))}
-async function sub(){var nf=pn.querySelector(".nf");try{
+async function sub(){var nf=pn.querySelector(".nf");try{var hr=(await navigator.serviceWorker.getRegistrations()).find(r=>/\/sistema\/$/.test(r.scope));if(hr&&await hr.pushManager.getSubscription()){nf.insertAdjacentHTML("beforeend",'<p class="ne">Este aparelho já recebe as notificações pelo DROM Hub, com o nome do artista entre [ ]. Para não chegar duplicado, elas não são ativadas aqui.</p>');return}
  if(await Notification.requestPermission()!=="granted"){nf.insertAdjacentHTML("beforeend",'<p class="ne">Permissão negada. Libere as notificações nas configurações do navegador.</p>');return}
  var reg=await navigator.serviceWorker.ready,s=await reg.pushManager.getSubscription()||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
  var K=window.DROMKEY;if(!K)throw new Error("saia do app e entre de novo com o PIN");
