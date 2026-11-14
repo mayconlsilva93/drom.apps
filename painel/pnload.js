@@ -1,3 +1,4 @@
+function FW(t){var d=new Date(t);for(var i=0;i<3;i++){var w=new Date(d.getFullYear(),d.getMonth()+i,1);w.setDate(1+(3-w.getDay()+7)%7);if(w.getTime()>t)return w.getTime()}return t}/* login vale até a 1ª quarta-feira do mês seguinte */
 /* DROM Painel (GitHub) · mesmo login do Hub; dados criptografados com a chave do Booker (dentro do h.json do Hub) */
 (function(){
 try{history.scrollRestoration="manual"}catch(e){}scrollTo(0,0);/* recarregar abre no topo, sem encolher */
@@ -31,7 +32,7 @@ function sair(){var e=document.getElementById("eye");if(!e||document.getElementB
 async function start(){
  try{H=await (await fetch("../h.json",{cache:"no-store"})).json()}catch(e){msg("Sem conexão. Tente de novo.");return}
  var st=await kget("hub");
- if(st&&st.salt===H.salt&&Date.now()-st.ts<WEEK){try{var c=await dec(st.key,H.iv,H.ct);if(c.bk){await go(c);return}}catch(e){}}
+ if(st&&st.salt===H.salt&&Date.now()<FW(st.ts)){try{var c=await dec(st.key,H.iv,H.ct);if(c.bk){await go(c);return}}catch(e){}}
  if(st)await kdel("hub");$("lk").hidden=false;$("usr").focus()}
 $("lkf").onsubmit=async e=>{e.preventDefault();var us=$("usr").value.trim().toLowerCase(),pw=$("pin").value;if(!us||!pw)return;$("lkm").textContent="Verificando…";
  try{var key=await derive(us+"\n"+pw,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";$("usr").value="";$("lkm").textContent="";await go(c)}

@@ -1,5 +1,5 @@
 /* DROM · DJ Carloto — cache offline + notificações push */
-var C="drom-carloto453-v20";
+var C="drom-carloto453-v21";
 self.addEventListener("install",e=>self.skipWaiting());
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;

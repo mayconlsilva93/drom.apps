@@ -1,3 +1,4 @@
+function FW(t){var d=new Date(t);for(var i=0;i<3;i++){var w=new Date(d.getFullYear(),d.getMonth()+i,1);w.setDate(1+(3-w.getDay()+7)%7);if(w.getTime()>t)return w.getTime()}return t}/* login vale até a 1ª quarta-feira do mês seguinte */
 /* DROM Hub · PIN próprio, lista dos apps, abre cada app aqui dentro, junta as notificações de todos */
 (function(){
 var WEEK=7*864e5,B=2023,$=id=>document.getElementById(id),H=null,CFG=null,AK=null,DATA={};
@@ -17,7 +18,7 @@ async function start(){
  if(window.HUBCFG){/* versão artefato do Claude: sem PIN; dados em data.js */$("lk").remove();$("lo").remove();return goArt()}
  try{var r=await fetch("h.json",{cache:"no-store"});H=await r.json()}catch(e){$("lkm").textContent="Sem conexão. Tente de novo.";$("lk").hidden=false;return}
  var st=await kget("hub");
- if(st&&st.salt===H.salt&&Date.now()-st.ts<WEEK){try{await go(await dec(st.key,H.iv,H.ct));return}catch(e){}}
+ if(st&&st.salt===H.salt&&Date.now()<FW(st.ts)){try{await go(await dec(st.key,H.iv,H.ct));return}catch(e){}}
  if(st)await kdel(["hub"]);$("lk").hidden=false;$("usr").focus()}
 $("lkf").onsubmit=async e=>{e.preventDefault();var us=$("usr").value.trim().toLowerCase(),pw=$("pin").value;if(!us||!pw)return;var pin=us+"\n"+pw;$("lkm").textContent="Verificando…";
  try{var key=await derive(pin,H.salt),c=await dec(key,H.iv,H.ct);await kput("hub",{key:key,salt:H.salt,ts:Date.now()});$("pin").value="";$("usr").value="";await go(c)}
