@@ -109,3 +109,5 @@ table.lvr{min-width:0!important}table.lvr td{white-space:normal}
 .ppr{font-style:normal;font-size:10.5px;border:1px solid #bdbdbd;border-radius:20px;padding:1px 7px;margin-left:2px;white-space:nowrap;color:#555}
 .ppr.em{background:#FF7A45;border-color:#FF7A45;color:#fff}.ppr.ng{background:#D6E6FF;border-color:#a9c8f5;color:#0b3d91}.ppr.rs{background:#FFF602;border-color:#d9cf00;color:#111}
 .ppr.rm,.ppr.in{background:#e9e9e9;border-color:#d6d6d6;color:#555}.ppr.no{color:#c5221f;border-color:#c5221f;background:none}.ppr.ca{background:#c5221f;border-color:#c5221f;color:#fff}
+
+/*VPR2*/.lvr th .vpl{user-select:none;-webkit-user-select:none}.lvr th .vpl::after{content:'ver propostas'}

@@ -29,4 +29,8 @@
 .fb{top:calc(var(--hdh) + var(--tbh,0px))!important}
 .tabs button:not(#eye):not(#lo){padding-left:20px!important;padding-right:20px!important}
 @media (max-width:600px){.tabs button:not(#eye):not(#lo){padding-left:min(12px,2.6vw)!important;padding-right:min(12px,2.6vw)!important}}
-/*PPB2*/.ppb{background:#f3f3f3;border-color:#bdbdbd!important}.ppb>div,.ppb>div b{color:#8a8a8a}
+/*PPB2*/.ppb{background:#f8f8f8;border-color:#c4c4c4!important}.ppb>div,.ppb>div b{color:#6f6f6f}
+/*STK2*/ /* abas e filtros colados, fundo de ponta a ponta (sem vazamento) */
+.tabs{margin-bottom:0!important;box-shadow:0 0 0 100vmax var(--bg)!important;clip-path:inset(0 -100vmax)}
+.fb{margin-top:0!important;box-shadow:0 0 0 100vmax var(--bg)!important;clip-path:inset(0 -100vmax)}
+.hd2{box-shadow:none!important}
