@@ -38,3 +38,6 @@
 /*HDR3*/ /* PC: ícones do topo nas margens do conteúdo (1000px), igual ao mobile */
 .hd2 .hdl{left:max(14px,calc(50% - 500px))!important}
 .hd2 #eye{right:max(14px,calc(50% - 500px))!important}
+/*TABS3*/ /* abas no rodapé (ícones), filtros colados no topo, menos espaço entre logo e fotos */
+.fb{top:var(--hdh)!important}
+#pnw main{padding-top:calc(var(--hdh) - 6px)!important;padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
