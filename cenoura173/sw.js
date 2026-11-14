@@ -1,5 +1,5 @@
 /* DROM · DJ Cenoura — cache offline + notificações push */
-var C="drom-cenoura173-v13";
+var C="drom-cenoura173-v14";
 self.addEventListener("install",e=>self.skipWaiting());
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;

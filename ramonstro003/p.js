@@ -40,3 +40,4 @@ var d0=window.draw;window.draw=function(){d0.apply(this,arguments);try{ICO()}cat
  if(tab==="p"){document.getElementById("app").innerHTML=view();setTimeout(FIT,0);setTimeout(FIT,300);FIT();var a=document.getElementById("app");if(window.MutationObserver){}}};
 try{draw()}catch(e){}
 })();
+/*NPN*/document.addEventListener("click",function(e){if(e.target.closest("nav")){var n=document.querySelector(".npn");if(n)n.hidden=true}},true);
