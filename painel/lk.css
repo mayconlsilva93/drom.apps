@@ -34,3 +34,7 @@
 .tabs{margin-bottom:0!important;box-shadow:0 0 0 100vmax var(--bg)!important;clip-path:inset(0 -100vmax)}
 .fb{margin-top:0!important;box-shadow:0 0 0 100vmax var(--bg)!important;clip-path:inset(0 -100vmax)}
 .hd2{box-shadow:none!important}
+
+/*HDR3*/ /* PC: ícones do topo nas margens do conteúdo (1000px), igual ao mobile */
+.hd2 .hdl{left:max(14px,calc(50% - 500px))!important}
+.hd2 #eye{right:max(14px,calc(50% - 500px))!important}
