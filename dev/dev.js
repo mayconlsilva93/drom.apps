@@ -67,11 +67,11 @@ function lst(a){a=uq(a);return a.length>1?a.slice(0,-1).join(", ")+" e "+a[a.len
 function bal(t){if(t.length<=24)return t;var m=t.length/2,b=-1;for(var i=0;i<t.length;i++)if(t[i]===" "&&(b<0||Math.abs(i-m)<Math.abs(b-m)))b=i;return b<0?t:t.slice(0,b)+"<br>"+t.slice(b+1)}
 function frac(L){var x=L[L.length-1][2];return x&&/^\d+\/\d+$/.test(x)?x:""}
 var b0=window.sgb,f0=window.sgf,p0=window.pgr;
-window.sgb=function(s,r){var L=PP(s);if(!s[18]&&L.length){var fr=frac(L),n=fr?+fr.split("/")[0]:L.length;return'<em class="bg ok sg">✓ '+(fr?(n>1?"pagos ":"pago ")+fr+" parcelas":n>1?n+" pagamentos":"pagamento parcial")+"</em>"}return b0(s,r)};
-window.sgf=function(s){var L=PP(s),hv=L.some(function(x){return x[1]});
+window.sgb=function(s,r){var L=s[21]?[]:PP(s);if(!s[18]&&L.length){var fr=frac(L),n=fr?+fr.split("/")[0]:L.length;return'<em class="bg ok sg">✓ '+(fr?(n>1?"pagos ":"pago ")+fr+" parcelas":n>1?n+" pagamentos":"pagamento parcial")+"</em>"}return b0(s,r)};
+window.sgf=function(s){var L=s[21]?[]:PP(s),hv=L.some(function(x){return x[1]});
  if(L.length&&(hv||!s[18])){var t=tot(s),fl=s[15]-t,ln=hv?L.map(function(x){return(x[1]?f(x[1])+" ":"")+"em "+x[0]}):[lst(L.map(function(x){return x[0]}))];
   return'<em class="bg ok sg sgm">'+(L.length===1?bal("✓ "+ln[0]):ln.map(function(x){return"✓ "+x}).join("<br>"))+"</em>"+(!s[18]&&fl>=1?"<span>"+(fl>=2?"faltam ":"falta ")+f(fl)+"</span>":"")}
  if(s[18]&&s[18]!=="pago"&&/ e |, /.test(s[18]))return'<em class="bg ok sg sgm">'+bal("✓ cachê pago em "+s[18])+"</em>";return f0(s)};
-window.pgr=function(s){var L=PP(s);if(!L.length||(s[18]&&!L.some(function(x){return x[1]})))return p0(s);var t=tot(s),fl=s[15]-t;
+window.pgr=function(s){var L=s[21]?[]:PP(s);if(!L.length||(s[18]&&!L.some(function(x){return x[1]})))return p0(s);var t=tot(s),fl=s[15]-t;
  return"<dt>Pagamento</dt><dd>"+L.map(function(x){return'<span class="pcl">✓ '+(x[1]?f(x[1])+" ":"")+"em "+x[0]+(x[2]?" <small>(parcela "+x[2]+")</small>":"")+"</span>"}).join("")+(!s[18]&&t&&fl>=1?'<span class="pcl"><small>'+(fl>=2?"faltam ":"falta ")+f(fl)+"</small></span>":"")+"</dd>"};
 try{draw()}catch(e){}})();
