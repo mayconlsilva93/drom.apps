@@ -24,7 +24,7 @@ function sair(){var e=document.getElementById("eye");if(!e||document.getElementB
   m.querySelector(".y").onclick=async()=>{await kdel("hub");try{if(window.top!==window){window.top.location.reload();return}}catch(x){}location.reload()}};
  var hd=document.querySelector(".hd2"),L=hd&&hd.querySelector(".hdl");if(hd&&!L){L=document.createElement("span");L.className="hdl";hd.insertBefore(L,hd.firstChild)}
  if(L){L.appendChild(b);var r=document.createElement("button");r.id="rf";r.type="button";r.className=e.className.replace(/\beyt\b/,"");r.title="Atualizar";r.setAttribute("aria-label","Atualizar");r.onclick=function(){location.reload()};
-  r.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4v4.5H16"/></svg>';L.appendChild(r);
+  r.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-14.2 5M4 12a8 8 0 0 1 14.2-5"/><path d="M18.5 3v4.2h-4.2M5.5 21v-4.2h4.2"/></svg>';L.appendChild(r);
   e.classList.remove("eyt");hd.appendChild(e)}else e.parentNode.insertBefore(b,e);
  }
 async function start(){
