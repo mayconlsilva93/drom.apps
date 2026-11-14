@@ -6,6 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       modo: {description: "hoje ou semana", required: true, default: "hoje"}
+      so: {description: "só este app (pasta), vazio = todos", required: false, default: ""}
+      hubonly: {description: "1 = envia só para o Hub (teste)", required: false, default: ""}
 permissions:
   contents: read
 concurrency: agenda
@@ -23,7 +25,8 @@ jobs:
       - run: |
           M="${{ github.event.inputs.modo }}"
           if [ -z "$M" ]; then if [ "${{ github.event.schedule }}" = "50 21 * * 2" ]; then M=semana; else M=hoje; fi; fi
-          for a in */d.json; do NODE_PATH=tools/node_modules node tools/agenda.mjs "${a%/d.json}" "$M" & done; wait
+          for a in */d.json; do S="${{ github.event.inputs.so }}"; [ -n "$S" ] && [ "${a%/d.json}" != "$S" ] && continue; NODE_PATH=tools/node_modules node tools/agenda.mjs "${a%/d.json}" "$M" & done; wait
         env:
           DROM_PIN: ${{ secrets.DROM_PIN }}
           FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+          HUBONLY: ${{ github.event.inputs.hubonly }}

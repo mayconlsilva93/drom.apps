@@ -26,6 +26,6 @@ const hs=await hubSubs(key);
 if(!m||(!subs.length&&!hs.length)||!vp)process.exit(0);
 const w=alvo-Date.now();if(!process.env.FORCE){if(w>36e5||w<-3*36e5){console.log("fora do horário, nada enviado");process.exit(0)}if(w>0)await new Promise(r=>setTimeout(r,w))}
 webpush.setVapidDetails("https://instagram.com/dromentretenimento",vp.publicKey,vp.privateKey);
-for(const sb of subs){try{await webpush.sendNotification(sb,JSON.stringify(m),{TTL:6*3600})}catch(e){console.log("erro",e.statusCode||e.message)}}
+for(const sb of (process.env.HUBONLY?[]:subs)){try{await webpush.sendNotification(sb,JSON.stringify(m),{TTL:6*3600})}catch(e){console.log("erro",e.statusCode||e.message)}}
 await hubSend(webpush,app,key,m,{TTL:6*3600});
 console.log("enviado",new Date().toISOString());
