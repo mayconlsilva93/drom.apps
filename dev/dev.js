@@ -69,9 +69,10 @@ function frac(L){var x=L[L.length-1][2];return x&&/^\d+\/\d+$/.test(x)?x:""}
 var b0=window.sgb,f0=window.sgf,p0=window.pgr;
 window.sgb=function(s,r){var L=s[21]?[]:PP(s);if(!s[18]&&L.length){var fr=frac(L),n=fr?+fr.split("/")[0]:L.length;return'<em class="bg ok sg">✓ '+(fr?(n>1?"pagos ":"pago ")+fr+" parcelas":n>1?n+" pagamentos":"pagamento parcial")+"</em>"}return b0(s,r)};
 window.sgf=function(s){var L=s[21]?[]:PP(s),hv=L.some(function(x){return x[1]});
- if(L.length&&(hv||!s[18])){var t=tot(s),fl=s[15]-t,ln=hv?L.map(function(x){return(x[1]?f(x[1])+" ":"")+"em "+x[0]}):[lst(L.map(function(x){return x[0]}))];
-  return'<em class="bg ok sg sgm">'+(L.length===1?bal("✓ "+ln[0]):ln.map(function(x){return"✓ "+x}).join("<br>"))+"</em>"+(!s[18]&&fl>=1?"<span>"+(fl>=2?"faltam ":"falta ")+f(fl)+"</span>":"")}
+ if(L.length&&(hv||!s[18]||uq(L.map(function(x){return x[0]})).length>1)){var t=tot(s),fl=s[15]-t,ln=hv?L.map(function(x){return(x[1]?f(x[1])+" ":"")+"em "+x[0]}):(s[18]?uq(L.map(function(x){return x[0]})).map(function(d){return"pago em "+d}):[lst(L.map(function(x){return x[0]}))]);ln=ln.map(function(x){return x.replace(/R\$ /g,"R$\u00a0")});
+  return'<em class="bg ok sg sgm">'+(L.length===1?bal("✓ "+ln[0]):ln.map(function(x){return"✓ "+x}).join("<br>"))+"</em>"+(!s[18]&&fl>=1?"<span>"+(fl>=2?"faltam ":"falta ")+f(fl).replace("R$ ","R$\u00a0")+"</span>":"")}
  if(s[18]&&s[18]!=="pago"&&/ e |, /.test(s[18]))return'<em class="bg ok sg sgm">'+bal("✓ cachê pago em "+s[18])+"</em>";return f0(s)};
 window.pgr=function(s){var L=s[21]?[]:PP(s);if(!L.length||(s[18]&&!L.some(function(x){return x[1]})))return p0(s);var t=tot(s),fl=s[15]-t;
  return"<dt>Pagamento</dt><dd>"+L.map(function(x){return'<span class="pcl">✓ '+(x[1]?f(x[1])+" ":"")+"em "+x[0]+(x[2]?" <small>(parcela "+x[2]+")</small>":"")+"</span>"}).join("")+(!s[18]&&t&&fl>=1?'<span class="pcl"><small>'+(fl>=2?"faltam ":"falta ")+f(fl)+"</small></span>":"")+"</dd>"};
 try{draw()}catch(e){}})();
+/*NBSP*/(function(){/* R$ nunca separado do valor na quebra de linha */["f","fr"].forEach(function(k){var o=window[k];if(typeof o==="function")window[k]=function(){var r=o.apply(this,arguments);return typeof r==="string"?r.replace(/R\$ /g,"R$ "):r}});try{draw()}catch(e){}})();
