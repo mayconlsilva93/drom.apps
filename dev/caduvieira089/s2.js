@@ -1,0 +1,1 @@
+var DD=window.DROMDATA;if(!DD){document.body.insertAdjacentHTML("afterbegin","<p style=\"padding:24px\">Não foi possível carregar os dados. Recarregue a página.</p>");throw new Error("sem dados")}
