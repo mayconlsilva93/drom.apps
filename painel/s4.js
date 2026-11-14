@@ -1,3 +1,4 @@
+function VP(s){return s[28]?'<span style="color:#c5221f;font-weight:700">valor pendente</span>':f(s[6]||0)}/* cachê em branco na base */
 
 var AR=["Ramonstro","Carloto","Sena","Cenoura","Maneira","Amaro","Josu","Cadu Vieira","Brinquinho","Liquinho"],
 MN=(()=>{var M0=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],o=[];for(var y=2023;y<2029;y++)M0.forEach(n=>o.push(y===2026?n:n+" "+y));return o})(),
@@ -44,7 +45,7 @@ function KP(S,R,C,pend,best,pr,cur){var n=C.length,B=sm(S,6),Br=sm(R,6),Bc=sm(C,
 var RXU=/^(pr[eé][- ]?evento|pr[eé][- ]internato)\s*[-–]?\s*(medicina|odonto)|meio m[eé]dico|100 dias medicina|noite de gala medicina|after ufsc\s*[-–]\s*m[eé]todo medicina|^hh dos bonitinho|^agostinhhos/i,NRU=0;
 ALL.forEach(function(s){if("PCAWNB".includes(s[16])&&RXU.test(s[21]||s[2])){s[16]="U";NRU++}});
 function TTA(a,rv){var e=x=>String(x).replace(/[&<>"]/g,c=>"&#"+c.charCodeAt(0)+";"),L=a.slice().sort((x,y)=>(x[14]-y[14]||x[0]-y[0]||key(x)-key(y))*(rv?-1:1)),n=L.length,M=25;
- return e((n>1?"<b>"+n+" shows</b><br>":"")+L.slice(0,M).map(s=>pad(s[0])+"/"+pad((s[14]-1)%12+1)+"/"+String(YF(s[14])).slice(2)+" · "+AR[s[1]]+" · "+s[2]+" ("+(s[3]==="Cidade não informada"?s[3]:cu(s[3]))+") · "+f(s[6])+(isR(s)?"":" · a realizar")).map(e).join("<br>")+(n>M?"<br>+ "+(n-M)+" shows":""))}
+ return e((n>1?"<b>"+n+" shows</b><br>":"")+L.slice(0,M).map(s=>pad(s[0])+"/"+pad((s[14]-1)%12+1)+"/"+String(YF(s[14])).slice(2)+" · "+AR[s[1]]+" · "+s[2]+" ("+(s[3]==="Cidade não informada"?s[3]:cu(s[3]))+") · "+(s[28]?"valor pendente":f(s[6]))+(isR(s)?"":" · a realizar")).map(e).join("<br>")+(n>M?"<br>+ "+(n-M)+" shows":""))}
 /*HOL*/function HOLS(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=(h+l-7*m+114)%31+1,E=new Date(y,mo-1,da),R={},
  o=n=>{var t=new Date(E);t.setDate(t.getDate()+n);return t},put=(t,n)=>{R[t.getFullYear()+"-"+(t.getMonth()+1)+"-"+t.getDate()]=n};
  [[1,1,"Confraternização Universal"],[4,21,"Tiradentes"],[5,1,"Dia do Trabalho"],[9,7,"Independência"],[10,12,"N. Sra. Aparecida"],[11,2,"Finados"],[11,15,"Proclamação da República"],[12,25,"Natal"]].forEach(x=>put(new Date(y,x[0]-1,x[1]),x[2]));
@@ -105,7 +106,7 @@ function PG(s){var td=new Date();td.setHours(0,0,0,0);if(s[10])return["pago","mu
  if(s[24]){var d=new Date(s[24]+"T00:00:00"),t=pad(d.getDate())+"/"+pad(d.getMonth()+1);return d<td?["sinal vencido ("+t+")","wr"]:["sinal até "+t,""]}
  return s[6]>0?["a receber",""]:["sem cachê","mu"]}
 var AGY={k:0,d:1};
-function AGT(S,KS,at,DF){return"<table"+(at!=="data-ag"?" class='nsx'":"")+">"+th(["Data","Horário","Artista","Show","Cachê","Status","Contrato","Pagamento"],KS,at)+agSort(S,KS).map(s=>"<tr><td>"+DF(s)+"</td><td>"+HIF(s)+(/^0[0-5]/.test(s[4])?'<span class="tg">madrugada</span>':"")+"</td><td><b>"+AR[s[1]]+"</b></td><td>"+s[2]+" ("+(s[3]==="Cidade não informada"?s[3]:cu(s[3]))+")</td><td>"+f(s[6])+"</td><td class='"+(isR(s)?"mu":"ok")+"'>"+(isR(s)?"realizado":"a realizar")+"</td><td"+(s[9]==="P"?" class='wr'":"")+">"+({S:"sim",N:"não",P:"pendente"})[s[9]]+"</td><td class='"+PG(s)[1]+"'>"+PG(s)[0]+"</td></tr>").join("")+"</table>"}
+function AGT(S,KS,at,DF){return"<table"+(at!=="data-ag"?" class='nsx'":"")+">"+th(["Data","Horário","Artista","Show","Cachê","Status","Contrato","Pagamento"],KS,at)+agSort(S,KS).map(s=>"<tr><td>"+DF(s)+"</td><td>"+HIF(s)+(/^0[0-5]/.test(s[4])?'<span class="tg">madrugada</span>':"")+"</td><td><b>"+AR[s[1]]+"</b></td><td>"+s[2]+" ("+(s[3]==="Cidade não informada"?s[3]:cu(s[3]))+")</td><td>"+VP(s)+"</td><td class='"+(isR(s)?"mu":"ok")+"'>"+(isR(s)?"realizado":"a realizar")+"</td><td"+(s[9]==="P"?" class='wr'":"")+">"+({S:"sim",N:"não",P:"pendente"})[s[9]]+"</td><td class='"+PG(s)[1]+"'>"+PG(s)[0]+"</td></tr>").join("")+"</table>"}
 function agSort(S,KS){KS=KS||AGK;var k=KS.k,d=KS.d,C=[(x,y)=>x[14]-y[14]||srt(x,y),(x,y)=>key(x)-key(y),(x,y)=>AR[x[1]].localeCompare(AR[y[1]]),(x,y)=>String(x[2]).localeCompare(String(y[2])),(x,y)=>x[6]-y[6],(x,y)=>(isR(x)?1:0)-(isR(y)?1:0),(x,y)=>"SPN".indexOf(x[9])-"SPN".indexOf(y[9]),(x,y)=>PG(x)[0].localeCompare(PG(y)[0],"pt")][k];return S.slice().sort((x,y)=>(C(x,y)*d)||x[14]-y[14]||srt(x,y))}
 function ATT(F){var td=new Date();td.setHours(0,0,0,0);var L=[],yr=NOW.getFullYear(),ds=function(s){var y=YF(s[14]);return pad(s[0])+"/"+pad((s[14]-1)%12+1)+(y!==yr?"/"+String(y).slice(2):"")},
  nm=function(n){return n.length>1?n.slice(0,-1).join(", ")+" e "+n[n.length-1]:n[0]},
@@ -248,7 +249,7 @@ var CL=[];
 function cpop(c){var D=s=>pad(s[0])+"/"+pad((s[14]-1)%12+1)+"/"+YF(s[14]),ev=s=>{var e=(s[21]||"").trim(),l=(s[17]||"").trim();return e&&l&&e!==l?e+" ("+l+")":e||l||"—"},
  r=c.rows.slice().sort((x,y)=>(y[14]*100+y[0])-(x[14]*100+x[0])),o=$("cpop");
  if(!o){o=document.createElement("div");o.id="cpop";document.body.appendChild(o);o.onclick=e=>{if(e.target===o||e.target.closest(".cpx"))o.remove()}}
- o.innerHTML="<div class='cpb' role='dialog' aria-label='Contratações'><button class='cpx' aria-label='Fechar'>✕</button><h3>"+c.name+"</h3><p class='mu'>"+(c.phone||"sem telefone")+" · "+pl(r.length)+"</p><div class='cpl'>"+r.map(s=>"<div><b>"+D(s)+"</b> <span class='cpa'>"+AR[s[1]]+"</span> · "+ev(s)+" - "+cu(s[3]||"")+" <b>"+f(s[6]||0)+"</b>"+(isR(s)?"":" <small class='mu'>a realizar</small>")+"</div>").join("")+"</div></div>"}
+ o.innerHTML="<div class='cpb' role='dialog' aria-label='Contratações'><button class='cpx' aria-label='Fechar'>✕</button><h3>"+c.name+"</h3><p class='mu'>"+(c.phone||"sem telefone")+" · "+pl(r.length)+"</p><div class='cpl'>"+r.map(s=>"<div><b>"+D(s)+"</b> <span class='cpa'>"+AR[s[1]]+"</span> · "+ev(s)+" - "+cu(s[3]||"")+" <b>"+VP(s)+"</b>"+(isR(s)?"":" <small class='mu'>a realizar</small>")+"</div>").join("")+"</div></div>"}
 document.addEventListener("click",e=>{var a=e.target.closest(".cnm");if(a){e.preventDefault();cpop(CL[+a.dataset.ci])}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("cpop"))$("cpop").remove()});
 
