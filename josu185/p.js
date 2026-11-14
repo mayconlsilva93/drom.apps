@@ -1,7 +1,7 @@
 /* DROM · aba Propostas, detalhes do show (fonte, ícones Maps/WhatsApp) e rolagem acima do rodapé */
 (function(){
 var PR=(window.DROMDATA&&DROMDATA.PR)||[],BB=2023,DW=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],P2=n=>String(n).padStart(2,"0");
-var LB={"Proposta emitida":"emitida","Em negociação":"em negociação","Data reservada":"reservada","Remarcar":"remarcar","Data indisponível":"indisponível","Proposta descartada":"descartada","Show cancelado":"cancelado","Show confirmado":"fechada","Show realizado":"realizada"};
+var LB={"Proposta emitida":"emitida","Em negociação":"em negociação","Data reservada":"reservada","Remarcar":"remarcar","Data indisponível":"indisponível","Proposta descartada":"descartada","Show cancelado":"cancelado","Show confirmado":"fechada","Show realizado":"show realizado"};
 var FECH={"Show confirmado":1,"Show realizado":1},RUIM={"Proposta descartada":1,"Show cancelado":1},FORA={"Show confirmado":1,"Show realizado":1,"Proposta descartada":1,"Show cancelado":1};
 var es=t=>String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 function dt(p){var d=new Date(BB,p[0]-1,p[1]),y=d.getFullYear(),a=new Date(Date.now()-216e5).getFullYear();return"<span>"+DW[d.getDay()]+"</span><span>"+P2(p[1])+"/"+P2(d.getMonth()+1)+(y!==a?"/"+String(y).slice(2):"")+"</span>"}
