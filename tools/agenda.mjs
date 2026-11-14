@@ -1,7 +1,7 @@
 // DROM · avisos de agenda em horário fixo (GitHub Action)
 // Uso: DROM_PIN=x node tools/agenda.mjs maneira038 hoje|semana
 //  hoje   → "Hoje tem show!" às 9h (todos os shows do dia)
-//  semana → "Shows da semana" quarta 21h (shows de quinta até a quarta seguinte)
+//  semana → "Shows da semana" terça 19h (shows de quarta até a terça seguinte)
 import fs from "fs";import path from "path";import crypto from "crypto";import webpush from "web-push";import {pull,hubSend,hubSubs} from "./subpull.mjs";import {createRequire} from "module";
 if(!process.env.DROM_PIN){console.error("Falta o segredo DROM_PIN");process.exit(1)}
 const app=process.argv[2],modo=process.argv[3],P=f=>path.join(app,f);
@@ -17,8 +17,8 @@ const hr=s=>s[4]&&s[4]!=="a definir"?s[4]:"horário a definir";
 const ord=(a,b)=>dia(a)-dia(b)||String(a[4]).localeCompare(String(b[4]));
 let alvo,m;
 if(modo==="hoje"){alvo=hoje+9*36e5-BR;const L=S.filter(s=>dia(s)===hoje).sort(ord);
-  if(L.length)m={t:"Hoje tem show!",b:L.map(s=>dromLn(s,2023,{faixa:1})).join("\n")}}
-else if(modo==="semana"){alvo=hoje+21*36e5-BR;const wd=new Date(hoje).getUTCDay(),qui=hoje+((4-wd+7)%7||7)*864e5,dom=qui+6*864e5;
+  if(L.length)m={t:"Hoje tem show!",b:L.map(s=>dromLn(s,2023,{faixa:1})).join("\n"),tag:"hoje-"+new Date(hoje).toISOString().slice(0,10)}}
+else if(modo==="semana"){alvo=hoje+19*36e5-BR;const wd=new Date(hoje).getUTCDay(),qui=hoje+((3-wd+7)%7||7)*864e5,dom=qui+6*864e5; /* terça 19h: shows de quarta até a terça seguinte */
   const L=S.filter(s=>dia(s)>=qui&&dia(s)<=dom).sort(ord);
   if(L.length)m={t:"Shows da semana",b:L.map(s=>dromLn(s,2023,{hora:1})).join("\n")}}
 console.log(modo,m?m.b.split("\n").length+" show(s)":"sem shows",subs.length+" inscrição(ões)");

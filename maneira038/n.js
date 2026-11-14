@@ -6,8 +6,8 @@ var log=ls.g("log")||[],prev=ls.g("snap"),now=Date.now();
 if(prev)dromDiff(prev,S,B).forEach(x=>log.unshift({t:x.t,b:x.b,ts:now,r:0}));
 ls.s("snap",S);
 /* lembrete: show começando nas próximas 24 h (uma vez por show) */
-var rm=ls.g("rem")||{};S.forEach(s=>{var t=dromStart(s,B);if(t&&t>now&&t-now<864e5&&!rm[s[14]]){rm[s[14]]=1;log.unshift({t:"Em breve",b:dromLn(s,B),ts:now,r:0})}});
-ls.s("rem",rm);log=log.slice(0,50);ls.s("log",log);
+var rm=ls.g("rem")||{};/* "Em breve" removido (13/11) */
+ls.s("rem",rm);log=log.filter(x=>x.t!=="Em breve").slice(0,50);ls.s("log",log);
 var top=document.querySelector(".top"),bell=document.createElement("button");bell.className="bell";bell.title="Notificações";
 bell.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><i></i>';
 top.insertBefore(bell,document.getElementById("eye"));

@@ -2,7 +2,7 @@ name: avisos de agenda
 on:
   schedule:
     - cron: "50 11 * * *"   # 8:50 BRT → espera e envia "Hoje tem show!" às 9h
-    - cron: "50 23 * * 3"   # quarta 20:50 BRT → espera e envia "Shows da semana" às 21h
+    - cron: "50 21 * * 2"   # terça 18:50 BRT → espera e envia "Shows da semana" às 19h
   workflow_dispatch:
     inputs:
       modo: {description: "hoje ou semana", required: true, default: "hoje"}
@@ -22,7 +22,7 @@ jobs:
       - run: npm install --prefix tools --no-audit --no-fund
       - run: |
           M="${{ github.event.inputs.modo }}"
-          if [ -z "$M" ]; then if [ "${{ github.event.schedule }}" = "50 23 * * 3" ]; then M=semana; else M=hoje; fi; fi
+          if [ -z "$M" ]; then if [ "${{ github.event.schedule }}" = "50 21 * * 2" ]; then M=semana; else M=hoje; fi; fi
           for a in */d.json; do NODE_PATH=tools/node_modules node tools/agenda.mjs "${a%/d.json}" "$M" & done; wait
         env:
           DROM_PIN: ${{ secrets.DROM_PIN }}

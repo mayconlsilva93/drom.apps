@@ -79,7 +79,7 @@ var LOG=null,NV=10,pn=$("npn");
 function notif(){var now=Date.now(),snap=ls.g("snap")||{},rm=ls.g("rem")||{};LOG=ls.g("log")||[];
  CFG.apps.forEach(a=>{var d=DATA[a.f];if(!d||d.err)return;var S=d.S;
   if(snap[a.f])dromDiff(snap[a.f],S,B).forEach(x=>LOG.unshift({f:a.f,t:"["+nm(a)+"] "+x.t,b:x.b,ts:now,r:0}));snap[a.f]=S;
-  S.forEach(s=>{var t=dromStart(s,B),k=a.f+s[14];if(t&&t>now&&t-now<864e5&&!rm[k]){rm[k]=1;LOG.unshift({f:a.f,t:"["+nm(a)+"] Em breve",b:dromLn(s,B),ts:now,r:0})}})});
+  0});
  LOG=LOG.slice(0,50);ls.s("snap",snap);ls.s("rem",rm);ls.s("log",LOG);badge();
  var q=LOG.filter(x=>!x.r&&x.ts===now).length;if(q){var t=document.createElement("div");t.className="ntoast";t.textContent=(q===1?"1 novidade":q+" novidades")+" — toque no sino";document.body.appendChild(t);setTimeout(()=>t.remove(),5000)}}
 function badge(){var n=(LOG||[]).filter(x=>!x.r).length,b=$("bell");b.querySelector("i").textContent=n?n>9?"9+":n:"";b.classList.toggle("on",n>0)}

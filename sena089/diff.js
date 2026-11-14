@@ -10,7 +10,7 @@ function dromBRL(v){return"R$ "+Number(v||0).toFixed(2).replace(".",",").replace
 function dromDiff(A,Bn,B){
   var M=a=>{var m={};(a||[]).forEach(s=>{m[s[14]]=s});return m};
   var a=M(A),b=M(Bn),out=[];
-  var F=[[4,"horário"],[5,"duração"],[2,"local"],[3,"cidade"],[1,"evento"],[6,"equipamento"],[7,"rider"],[8,"hospitalidade"],[9,"produção"],[12,"observações"]];
+  var F=[[4,"horário"],[5,"duração"],[2,"local"],[3,"cidade"]];
   var du=m=>!m?"a definir":m<60?m+" min":Math.floor(m/60)+"h"+(m%60?DP(m%60):"");
   var v=(i,x)=>i===5?du(x):(x===null||x===undefined||x==="")?"—":String(x);
   Object.keys(b).forEach(k=>{var s=b[k],o=a[k],L=dromLn(s,B);
