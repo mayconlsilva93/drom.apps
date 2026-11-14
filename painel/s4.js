@@ -545,7 +545,7 @@ function HIF(s){var m=/^(\d\d):(\d\d)/.exec(s[4]||"");if(!m||!s[15])return s[4];
  addEventListener("scroll",rq,{passive:true});addEventListener("resize",rq);document.addEventListener("click",function(){setTimeout(up,80)});document.addEventListener("change",function(){setTimeout(up,80)});
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",up);else up()})();
 
-/*EYT*/(function(){var e=document.getElementById("eye"),t=document.querySelector(".tabs");if(e&&t){t.appendChild(e);e.classList.add("eyt")}})();
+/*EYT removido: olho fica no topo*/
 
 /*RAS*/var RAS;
 function RSU(){if(!RAS)RAS=new Set(AR.map((n,i)=>i).filter(i=>OLD.indexOf(AR[i])<0));var tr=$("tr");if(!tr)return;var b=$("rsel");if(!b){b=document.createElement("div");b.id="rsel";var fb=tr.querySelector(".fb");fb.appendChild(b);
