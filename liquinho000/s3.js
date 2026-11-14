@@ -1,3 +1,4 @@
+function dromSeg(s){var o=String(s[12]||""),k=o.search(/hor[áa]rios?\s*:/i);if(k<0)return null;var R=/(\d{1,2})(?:[:h](\d{2}))?\s*(?:às|as|à|até|a|-|–)\s*(\d{1,2})(?:[:h](\d{2}))?/gi,m,L=[],p=-1,t=o.slice(k);while(m=R.exec(t)){var a=+m[1]*60+(+m[2]||0),b=+m[3]*60+(+m[4]||0);if(a>=1440||b>1440)continue;if(p>=0)while(a<p)a+=1440;while(b<=a)b+=1440;L.push([a,b]);p=b}if(L.length<2)return null;var f=x=>{x%=1440;return String(Math.floor(x/60)).padStart(2,"0")+":"+String(x%60).padStart(2,"0")};return{L:L,txt:L.map(x=>f(x[0])+" – "+f(x[1])).join(" · "),ini:f(L[0][0]),fim:f(L[L.length-1][1]),perm:L[L.length-1][1]-L[0][0],set:L.reduce((t,x)=>t+x[1]-x[0],0)}}
 try{history.scrollRestoration="manual"}catch(e){}
 
 var NAME="Liquinho",AD={},
@@ -10,7 +11,7 @@ fn=n=>HIDE?"••••••":n.toLocaleString("pt-BR",{minimumFractionDigits:
 fr=n=>"R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}),
 f=n=>"R$ "+fn(n),pad=n=>String(n).padStart(2,"0"),pl=n=>n+(n===1?" show":" shows"),
 B=2023,NOW=new Date(Date.now()-216e5),CUR=(NOW.getFullYear()-B)*12+NOW.getMonth()+1,YF=m=>B+Math.floor((m-1)/12),
-ok=s=>{var m=/^(\d\d):(\d\d)/.exec(s[4]),e;if(m){var h=+m[1];e=new Date(B,s[19]-1,s[0]+(h<6?1:0),h,+m[2]+(s[5]||0))}else e=new Date(B,s[19]-1,s[0]+1,6,0);return Date.now()>=e.getTime()},isR=s=>ok(s)||(s[18]!==null&&new Date(B,s[19]-1,s[0]).getTime()<=Date.now()),pend=s=>!s[18],sum=(a,i)=>a.reduce((t,x)=>t+(x[i]||0),0),
+ok=s=>{var m=/^(\d\d):(\d\d)/.exec(s[4]),e;if(m){var h=+m[1];e=new Date(B,s[19]-1,s[0]+(h<6?1:0),h,+m[2]+((dromSeg(s)||{}).perm||s[5]||0))}else e=new Date(B,s[19]-1,s[0]+1,6,0);return Date.now()>=e.getTime()},isR=s=>ok(s)||(s[18]!==null&&new Date(B,s[19]-1,s[0]).getTime()<=Date.now()),pend=s=>!s[18],sum=(a,i)=>a.reduce((t,x)=>t+(x[i]||0),0),
 key=s=>{var m=/^(\d\d):(\d\d)/.exec(s[4]);return m?(+m[1]<6?+m[1]+24:+m[1])*60+ +m[2]:9999},
 DSx=(m,d)=>{var t=new Date(B,m-1,d);return W[t.getDay()]+" "+pad(t.getDate())+"/"+pad(t.getMonth()+1)+(YF(m)!==2026?"/"+YF(m):"")},
 hm=(i,d)=>{if(i==="a definir")return"horário a definir";if(!d)return i;var t=+i.slice(0,2)*60+ +i.slice(3)+d;return i+" – "+pad(Math.floor(t/60)%24)+":"+pad(t%60)},
@@ -25,7 +26,7 @@ S.sort((a,b)=>a[19]-b[19]||a[0]-b[0]||key(a)-key(b));
 var M0=MN;MN=[];for(var yy=B;yy<B+6;yy++)M0.forEach(n=>MN.push(n+" "+yy));var view="m",MO=S.some(s=>s[19]===CUR)?CUR:S[S.length-1][19],YR=YF(MO),tab="a",flt="T",selD=null;
 function calLink(s){var m=s[19],d=s[0],i=s[4],dates,fm=t=>{var x=new Date(t);return""+x.getUTCFullYear()+pad(x.getUTCMonth()+1)+pad(x.getUTCDate())+"T"+pad(x.getUTCHours())+pad(x.getUTCMinutes())+"00"},ym=(mm,n)=>fm(Date.UTC(B,mm-1,n)).slice(0,8);
  if(i==="a definir")dates=ym(m,d)+"/"+ym(m,d+1);
- else{var h=+i.slice(0,2),st=Date.UTC(B,m-1,d,h,+i.slice(3));if(h<6)st+=864e5;var en=st+s[5]*6e4;if(st%864e5===0)st-=6e4;if(en%864e5===0)en-=6e4;dates=fm(st)+"/"+fm(en)}
+ else{var h=+i.slice(0,2),st=Date.UTC(B,m-1,d,h,+i.slice(3));if(h<6)st+=864e5;var en=st+((dromSeg(s)||{}).perm||s[5])*6e4;if(st%864e5===0)st-=6e4;if(en%864e5===0)en-=6e4;dates=fm(st)+"/"+fm(en)}
  var det=["Cachê: "+fr(s[15]),"Custos: "+cst(s,fr),"Comissão: "+cmr(s),"Duração: "+du(s[5]),"Rider Hospitalidade: "+(s[7]||"-"),"Equipamento: "+(s[6]||"-"),"Hospedagem: "+hp(s),"Produção: "+(s[9]?s[9]+" pessoas":"não acordado"),"Pagamento: PÓS SHOW","Contratante: "+(s[10]||"-"),"Contato: "+(s[11]||"-"),"Contrato: "+({S:"Sim",N:"Não",P:"Pendente"})[s[13]],"Número da proposta: "+s[14]+"/"+YF(s[19]),"Obs.: "+(s[12]||"-")].join("\n");
  return"https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(tit(s))+"&dates="+dates+"&ctz=America%2FSao_Paulo&location="+encodeURIComponent(loc(s))+"&details="+encodeURIComponent(det)}
 /*CL*/var CL=DD.CL;/*/CL*/
@@ -42,7 +43,7 @@ function pgr(s){var v=s[15],pc=s[21],dt=s[22],vc=s[23],ye=new Date().getFullYear
  return""}
 function hp(s){var h=s[8]||"";if(!h)return"-";if(/^contratante$/i.test(h)&&+s[9]>0)return"Contratante ("+(+s[9]+1)+" pessoas)";return h}
 function stT(s){var m=/^(\d\d):(\d\d)/.exec(s[4]);if(!m)return null;var h=+m[1];return new Date(B,s[19]-1,s[0]+(h<6?1:0),h,+m[2])}
-function enT(s){var m=/^(\d\d):(\d\d)/.exec(s[4]);if(m){var h=+m[1];return new Date(B,s[19]-1,s[0]+(h<6?1:0),h,+m[2]+(s[5]||0))}return new Date(B,s[19]-1,s[0]+1,6,0)}
+function enT(s){var m=/^(\d\d):(\d\d)/.exec(s[4]);if(m){var h=+m[1];return new Date(B,s[19]-1,s[0]+(h<6?1:0),h,+m[2]+((dromSeg(s)||{}).perm||s[5]||0))}return new Date(B,s[19]-1,s[0]+1,6,0)}
 function fal(ms){var m=Math.max(1,Math.ceil(ms/60000)),h=Math.floor(m/60);m=m%60;return((h||m)===1?"Falta ":"Faltam ")+(h?h+"h"+(m?" "+m+"min":""):m+"min")}
 function cardA(s){var st=stT(s),n=Date.now(),c=card(s);if(!st)return c;var a=st.getTime(),e=enT(s).getTime();
  if(n>=a&&n<e)return'<div class="ag now"><div class="agl" data-en="'+e+'">Agora</div>'+c+"</div>";
@@ -50,8 +51,8 @@ function cardA(s){var st=stT(s),n=Date.now(),c=card(s);if(!st)return c;var a=st.
 setInterval(function(){var n=Date.now(),rd=0;document.querySelectorAll(".ag.soon .agl[data-st]").forEach(function(x){var a=+x.dataset.st;if(a<=n)rd=1;else x.textContent=fal(a-n)});document.querySelectorAll(".ag.now .agl[data-en]").forEach(function(x){if(+x.dataset.en<=n)rd=1});if(rd&&typeof draw==="function")draw()},30000);
 function card(s){var r=isR(s),mad=/^0[0-5]/.test(s[4]),ct=CT[s[13]],c=s[17],row=(k,v)=>v?"<dt>"+k+"</dt><dd>"+v+"</dd>":"";
  var sit=s[24]&&!s[18]?"Cachê: valor pendente.":s[15]===0&&!s[18]?"Sem cachê.":s[18]===null&&!r?"Cachê a receber após o show.":s[18]===null||s[18]===""?"Show realizado. Cachê ainda não recebido. Repasse previsto: "+f(s[15]-s[16]-c)+".":"Cachê recebido"+(s[18]==="pago"?"":" em "+s[18])+(c?(s[20]===0?". Comissão de "+f(c)+" a repassar à DROM.":". Comissão acertada."):".");
- return'<div class="cd"><button class="hd"><div class="dt"><small>'+W[new Date(B,s[19]-1,s[0]).getDay()]+"</small><b>"+s[0]+'</b></div><div class="in"><b>'+(s[1]||s[2])+"</b><span>"+[s[1]?s[2]:"",s[3]].filter(Boolean).join(" · ")+"</span><span>"+hm(s[4],s[5])+'</span><em class="bg '+(r?"mu":"")+'">'+(ok(s)?"realizado":"a realizar")+'</em><em class="bg '+ct[1]+'">'+ct[0]+"</em>"+(mad?'<em class="bg wr">madrugada</em>':"")+sgb(s,r)+'</div></button><div class="dtl"><dl>'
- +row("Data",DSx(s[19],s[0])+(mad?" · madrugada":""))+row("Horário",hm(s[4],s[5]))+row("Duração",du(s[5]))+row("Equipamento",s[6])+row("Rider",s[7])+row("Hospedagem",hp(s)==="-"?"":hp(s))+row("Produção",s[9]?+s[9]+(+s[9]===1?" pessoa":" pessoas"):"")
+ return'<div class="cd"><button class="hd"><div class="dt"><small>'+W[new Date(B,s[19]-1,s[0]).getDay()]+"</small><b>"+s[0]+'</b></div><div class="in"><b>'+(s[1]||s[2])+"</b><span>"+[s[1]?s[2]:"",s[3]].filter(Boolean).join(" · ")+"</span><span>"+(dromSeg(s)?dromSeg(s).txt:hm(s[4],s[5]))+'</span><em class="bg '+(r?"mu":"")+'">'+(ok(s)?"realizado":"a realizar")+'</em><em class="bg '+ct[1]+'">'+ct[0]+"</em>"+(mad?'<em class="bg wr">madrugada</em>':"")+sgb(s,r)+'</div></button><div class="dtl"><dl>'
+ +row("Data",DSx(s[19],s[0])+(mad?" · madrugada":""))+row("Horário",dromSeg(s)?dromSeg(s).txt:(dromSeg(s)?dromSeg(s).txt:hm(s[4],s[5])))+(dromSeg(s)?row("Permanência",dromSeg(s).ini+" – "+dromSeg(s).fim+" ("+du(dromSeg(s).perm)+")"):"")+row("Duração",du(s[5]))+row("Equipamento",s[6])+row("Rider",s[7])+row("Hospedagem",hp(s)==="-"?"":hp(s))+row("Produção",s[9]?+s[9]+(+s[9]===1?" pessoa":" pessoas"):"")
  +row("Contratante",(s[10]||"—")+(s[11]?" · "+s[11]:""))+row("Observações",s[12])+row("Proposta","nº "+s[14]+"/"+YF(s[19]))+row("Cachê",s[24]?"valor pendente":f(s[15]))+row("Custos",s[16]===null?(s[17]?"Pendentes":""):f(s[16]||0))+row("Comissão",cm(s))+row("Líquido",f(s[15]-s[16]-c))
  +pgr(s)+row("Situação",sit)+'</dl><div class="ac"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(loc(s))+'">Abrir no Maps</a>'+(s[11]?'<a target="_blank" rel="noopener" href="https://wa.me/55'+s[11].replace(/\D/g,"")+'">WhatsApp do contratante</a>':"")+(CL[s[14]]?'<a target="_blank" rel="noopener" href="https://drive.google.com/file/d/'+CL[s[14]]+'/view">Contrato</a>':"")+'</div></div></div>'}
 function K(t,v,s){return'<div class="k"><span>'+t+"</span><b>"+v+"</b><span>"+s+"</span></div>"}

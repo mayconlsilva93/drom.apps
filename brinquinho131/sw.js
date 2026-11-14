@@ -1,5 +1,5 @@
 /* DROM · DJ Brinquinho — cache offline + notificações push */
-var C="drom-brinquinho131-v17";
+var C="drom-brinquinho131-v18";
 self.addEventListener("install",e=>self.skipWaiting());
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;
