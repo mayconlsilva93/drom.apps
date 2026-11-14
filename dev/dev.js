@@ -59,3 +59,14 @@ function fix(p){var h=p.querySelector(".nh");if(h&&!h.querySelector(".nmk")&&p.q
   var bx=document.createElement("div");bx.className="nbx";var tt=document.createElement("div");tt.className="ntt";tt.appendChild(t);var em=document.createElement("em");em.textContent=fx(e?e.textContent:"");if(n.classList.contains("nu"))em.appendChild(document.createElement("i"));tt.appendChild(em);bx.appendChild(tt);bx.appendChild(s);if(e)e.remove();n.appendChild(ic);n.appendChild(bx)})}
 function go(){var p=document.querySelector(".npn");if(!p)return setTimeout(go,300);fix(p);new MutationObserver(function(){fix(p)}).observe(p,{childList:true})}go()})();
 /*SPLR*/window.DROMREADY=1;
+/*PARC*/(function(){/* DEV: vários pagamentos / parcelas (campo 25) */
+var st=document.createElement("style");st.textContent=".bg.sg{white-space:normal!important;text-wrap:balance;display:inline-block;max-width:100%;line-height:1.3;text-align:left}.pcl{display:block;line-height:1.5}.pcl small{color:var(--mu)}";document.head.appendChild(st);
+function PP(s){return s[25]||[]}function tot(s){return PP(s).reduce(function(t,x){return t+(x[1]||0)},0)}
+function lst(a){return a.length>1?a.slice(0,-1).join(", ")+" e "+a[a.length-1]:a[0]||""}
+var b0=window.sgb,f0=window.sgf,p0=window.pgr;
+window.sgb=function(s,r){var L=PP(s);if(!s[18]&&L.length){var fr=L[L.length-1][2];return'<em class="bg ok sg">✓ '+(fr?"parcela "+fr+" paga":L.length>1?L.length+" parcelas pagas":"parcela paga")+"</em>"}return b0(s,r)};
+window.sgf=function(s){var L=PP(s);if(!s[18]&&L.length){var t=tot(s),fr=L[L.length-1][2],fl=s[15]-t;return'<em class="bg ok sg">✓ '+(t?f(t)+" pago":"pagamento parcial")+(fr?" · parcela "+fr:"")+" em "+lst(L.map(function(x){return x[0]}))+"</em>"+(fl>=1?"<span>"+(fl>=2?"faltam ":"falta ")+f(fl)+"</span>":"")}
+ if(s[18]&&L.length>1)return'<em class="bg ok sg">✓ cachê pago em '+lst(L.map(function(x){return x[0]}))+"</em>";return f0(s)};
+window.pgr=function(s){var L=PP(s);if(!L.length)return p0(s);var t=tot(s),fl=s[15]-t;
+ return"<dt>Pagamento</dt><dd>"+L.map(function(x){return'<span class="pcl">✓ '+(x[1]?f(x[1])+" ":"")+"em "+x[0]+(x[2]?" <small>(parcela "+x[2]+")</small>":"")+"</span>"}).join("")+(!s[18]&&t&&fl>=1?'<span class="pcl"><small>'+(fl>=2?"faltam ":"falta ")+f(fl)+"</small></span>":"")+"</dd>"};
+try{draw()}catch(e){}})();
