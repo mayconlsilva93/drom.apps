@@ -1,5 +1,6 @@
 /* DROM · PIN semanal + dados criptografados (AES-GCM, chave PBKDF2 do PIN) */
 (function(){
+function FW(t){var d=new Date(t);for(var i=0;i<3;i++){var w=new Date(d.getFullYear(),d.getMonth()+i,1);w.setDate(1+(3-w.getDay()+7)%7);if(w.getTime()>t)return w.getTime()}return t}/* PIN vale até a 1ª quarta-feira do mês seguinte */
 var WEEK=7*864e5,lk=document.getElementById("lk"),inp=document.getElementById("pin"),msg=document.getElementById("lkm"),D=null;
 var b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function db(){return new Promise((ok,er)=>{var r=indexedDB.open("drom",1);r.onupgradeneeded=()=>r.result.createObjectStore("k");r.onsuccess=()=>ok(r.result);r.onerror=()=>er(r.error)})}
@@ -15,7 +16,7 @@ function go(data){window.DROMDATA=data;window.DROMUPD=D.up||"";lk.remove();docum
 async function start(){
  try{await load()}catch(e){msg.textContent="Sem conexão. Tente de novo.";return}
  var st=await kget();
- if(st&&st.v===2&&st.salt===D.salt&&Date.now()-st.ts<WEEK){try{var dd=await dec(st.key);window.DROMKEY=st.key;go(dd);return}catch(e){}}
+ if(st&&st.v===2&&st.salt===D.salt&&Date.now()<FW(st.ts)){try{var dd=await dec(st.key);window.DROMKEY=st.key;go(dd);return}catch(e){}}
  if(st)await kdel();
  lk.hidden=false;inp.focus();
 }
