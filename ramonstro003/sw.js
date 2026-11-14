@@ -1,5 +1,5 @@
 /* DROM · DJ Ramonstro — cache offline + notificações push */
-var C="drom-ramonstro003-v23";
+var C="drom-ramonstro003-v24";
 self.addEventListener("install",e=>self.skipWaiting());
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;
