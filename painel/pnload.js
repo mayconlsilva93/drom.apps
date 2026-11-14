@@ -17,7 +17,7 @@ async function go(cfg){$("lk").remove();msg("Carregando…");
  var K=await crypto.subtle.importKey("raw",b64(cfg.bk),"AES-GCM",false,["decrypt"]);
  var r=await (await fetch("pd.json",{cache:"no-store"})).json(),D=await dec(K,r.iv,r.ct);window.DROMUPD=r.up||"";msg("");
  await js(null,D["data.js"]);for(var f of ["s3.js","s4.js","s5.js","s6.js","s7.js"])await js(f);var s8=document.createElement("script");s8.id="drom-home";s8.src="s8.js";document.body.appendChild(s8);
- document.body.classList.remove("locked");scrollTo(0,0);sair();setTimeout(sair,400);setTimeout(sair,1500)}
+ document.body.classList.remove("locked");scrollTo(0,0);window.DROMREADY=1;sair();setTimeout(sair,400);setTimeout(sair,1500)}
 function sair(){var e=document.getElementById("eye");if(!e||document.getElementById("lo"))return;var b=e.cloneNode(false);b.id="lo";b.removeAttribute("aria-pressed");b.title="Sair";b.setAttribute("aria-label","Sair");
  b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>';
  b.onclick=function(){var m=document.createElement("div");m.className="pnlom";m.innerHTML='<div><b>Sair do Painel?</b><p>Sai do Painel e do Hub neste aparelho. Para entrar de novo será preciso digitar login e senha.</p><div class="pnlob"><button type="button" class="c">Cancelar</button><button type="button" class="y">Sair</button></div></div>';

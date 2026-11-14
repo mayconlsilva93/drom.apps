@@ -58,3 +58,4 @@ function fix(p){var h=p.querySelector(".nh");if(h&&!h.querySelector(".nmk")&&p.q
   var ic=document.createElement("div");ic.className="nic";ic.style.cssText="background:"+k[1]+"1a;color:"+k[1];ic.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+k[2]+"</svg>";
   var bx=document.createElement("div");bx.className="nbx";var tt=document.createElement("div");tt.className="ntt";tt.appendChild(t);var em=document.createElement("em");em.textContent=fx(e?e.textContent:"");if(n.classList.contains("nu"))em.appendChild(document.createElement("i"));tt.appendChild(em);bx.appendChild(tt);bx.appendChild(s);if(e)e.remove();n.appendChild(ic);n.appendChild(bx)})}
 function go(){var p=document.querySelector(".npn");if(!p)return setTimeout(go,300);fix(p);new MutationObserver(function(){fix(p)}).observe(p,{childList:true})}go()})();
+/*SPLR*/window.DROMREADY=1;
