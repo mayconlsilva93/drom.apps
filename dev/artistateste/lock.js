@@ -4,13 +4,13 @@ function FW(t){var d=new Date(t);for(var i=0;i<3;i++){var w=new Date(d.getFullYe
 var WEEK=7*864e5,lk=document.getElementById("lk"),inp=document.getElementById("pin"),msg=document.getElementById("lkm"),D=null;
 var b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function db(){return new Promise((ok,er)=>{var r=indexedDB.open("drom",1);r.onupgradeneeded=()=>r.result.createObjectStore("k");r.onsuccess=()=>ok(r.result);r.onerror=()=>er(r.error)})}
-async function kget(){try{var d=await db();return await new Promise(ok=>{var q=d.transaction("k").objectStore("k").get("ramonstro003");q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
-async function kput(v){try{var d=await db();d.transaction("k","readwrite").objectStore("k").put(v,"ramonstro003")}catch(e){}}
-async function kdel(){try{var d=await db();d.transaction("k","readwrite").objectStore("k").delete("ramonstro003")}catch(e){}}
+async function kget(){try{var d=await db();return await new Promise(ok=>{var q=d.transaction("k").objectStore("k").get("cenoura173");q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function kput(v){try{var d=await db();d.transaction("k","readwrite").objectStore("k").put(v,"cenoura173")}catch(e){}}
+async function kdel(){try{var d=await db();d.transaction("k","readwrite").objectStore("k").delete("cenoura173")}catch(e){}}
 async function derive(pin,salt){var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveKey"]);
  return crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(salt),iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["decrypt","encrypt"])}
 async function dec(key){var t=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(D.iv)},key,b64(D.ct));return JSON.parse(new TextDecoder().decode(t))}
-async function load(){var r=await fetch("../../ramonstro003/d.json",{cache:"no-store"});if(!r.ok)throw new Error("d.json");D=await r.json()}
+async function load(){var r=await fetch("d.json",{cache:"no-store"});if(!r.ok)throw new Error("d.json");D=await r.json()}
 function go(data){window.DROMDATA=data;window.DROMUPD=D.up||"";lk.remove();document.body.classList.remove("locked");
  ["s2.js","s3.js","s4.js","diff.js","../dev.js?v="+Date.now()].reduce((p,f)=>p.then(()=>new Promise(ok=>{var s=document.createElement("script");s.src=f;s.onload=s.onerror=ok;document.body.appendChild(s)})),Promise.resolve())}
 async function start(){

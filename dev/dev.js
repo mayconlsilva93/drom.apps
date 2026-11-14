@@ -85,7 +85,7 @@ var st=document.createElement("style");st.textContent=".ac .pb{height:40px;paddi
 +"#emd .okm{text-align:center;padding:6px 0 0}#emd .okm i{display:block;width:56px;height:56px;border-radius:50%;background:#0a8a07;color:#fff;font-weight:400;font-size:30px;line-height:56px;font-style:normal;margin:0 auto 12px}";document.head.appendChild(st);
 var BY={};function idx(){BY={};S.forEach(function(s){BY[s[14]]=s})}
 function lk(s){return s[20]===1}function hasC(s){return s[16]!==null&&s[16]!==undefined&&s[16]>0}
-function LS(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var MEM={};function LS(k,v){if(v===undefined)return MEM[k]===undefined?null:JSON.parse(MEM[k]);MEM[k]=JSON.stringify(v)}/* teste: nada é salvo; recarregar apaga */
 var c0=window.card;window.card=function(s){var h=c0(s),i=h.lastIndexOf('<div class="ac">');if(i<0)return h;var j=h.indexOf("</div>",i);var L=lk(s);
  return h.slice(0,j)+'<button type="button" class="pb '+(L?"lk":"pc")+'" data-ek="'+s[14]+'" data-ea="c">'+(L?"✓ ":"")+'Cachê</button><button type="button" class="pb '+(L?"lk":"pu")+'" data-ek="'+s[14]+'" data-ea="u">'+(L?"✓ ":"")+"Custos</button>"+h.slice(j)};
 function nm(v){return Number(v||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".")}
