@@ -46,8 +46,6 @@
 .fb select,#tc select{max-width:100%;min-width:0;text-overflow:ellipsis}
 html,body{overflow-x:clip}
 
-/*CTS*/ /* Contatos: tabela cabe entre os filtros e o rodapé; a página rola primeiro e as fotos somem como nas outras abas */
-#clist .tw{max-height:calc(100vh - var(--hdh) - var(--fbh,60px) - 120px)!important}
 /*CTM2*/ /* Contatos no celular: filtros compactos e fixos; Limpar ao lado da busca; tabela como antes */
 @media (max-width:700px){
 #tc .fb{display:grid!important;grid-template-columns:repeat(6,1fr);gap:6px!important;padding:8px 0!important}
@@ -55,3 +53,7 @@ html,body{overflow-x:clip}
 #tc .fb input{grid-column:1/span 4;grid-row:1}
 #tc .fb button{grid-column:5/span 2;grid-row:1;padding:0 6px!important;font-size:13px!important;white-space:nowrap}
 }
+/*CTS2*/ /* Contatos: quadro da tabela gruda abaixo dos filtros e vai até o rodapé; títulos fixos dentro dele */
+#tc #clist{position:sticky;top:calc(var(--hdh) + var(--fbc,120px) + 6px);height:calc(100vh - var(--hdh) - var(--fbc,120px) - 160px - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;box-sizing:border-box;margin-bottom:0}
+@supports (height:100dvh){#tc #clist{height:calc(100dvh - var(--hdh) - var(--fbc,120px) - 160px - env(safe-area-inset-bottom,0px))}}
+#tc #clist .tw{flex:1;min-height:0;max-height:none!important;overflow:auto!important}

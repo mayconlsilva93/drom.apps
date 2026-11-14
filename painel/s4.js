@@ -565,3 +565,5 @@ function CSY(ya){if(!ya)return new Set(AR.map((n,i)=>i));if(ya<NOW.getFullYear()
 function RDEF(){var ya=+$("ra").value;if(!ya){RAS=new Set(AR.map((n,i)=>i));return}if(ya<NOW.getFullYear()){var c={};ALL.forEach(s=>{if(YF(s[14])===ya)c[s[1]]=(c[s[1]]||0)+1});RAS=new Set(AR.map((n,i)=>i).filter(i=>(c[i]||0)>10))}else RAS=new Set(AR.map((n,i)=>i).filter(i=>OLD.indexOf(AR[i])<0))}
 
 /*VPR*/document.addEventListener("change",function(e){if(e.target&&e.target.id==="vpr"){window.VPR=e.target.checked;try{renderM()}catch(x){}}});
+
+/*FBC*/(function(){var f=document.querySelector("#tc .fb");if(!f||!window.ResizeObserver)return;new ResizeObserver(function(){if(f.offsetHeight)document.documentElement.style.setProperty("--fbc",f.offsetHeight+"px")}).observe(f)})();
