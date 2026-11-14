@@ -12,7 +12,7 @@ async function derive(pin,salt){var k=await crypto.subtle.importKey("raw",new Te
 async function dec(key){var t=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(D.iv)},key,b64(D.ct));return JSON.parse(new TextDecoder().decode(t))}
 async function load(){var r=await fetch("../../maneira038/d.json",{cache:"no-store"});if(!r.ok)throw new Error("d.json");D=await r.json()}
 function go(data){window.DROMDATA=data;window.DROMUPD=D.up||"";lk.remove();document.body.classList.remove("locked");
- ["s2.js","s3.js","s4.js","diff.js","../dev.js"].reduce((p,f)=>p.then(()=>new Promise(ok=>{var s=document.createElement("script");s.src=f;s.onload=s.onerror=ok;document.body.appendChild(s)})),Promise.resolve())}
+ ["s2.js","s3.js","s4.js","diff.js","../dev.js?v="+Date.now()].reduce((p,f)=>p.then(()=>new Promise(ok=>{var s=document.createElement("script");s.src=f;s.onload=s.onerror=ok;document.body.appendChild(s)})),Promise.resolve())}
 async function start(){
  try{await load()}catch(e){msg.textContent="Sem conexão. Tente de novo.";return}
  var st=await kget();
